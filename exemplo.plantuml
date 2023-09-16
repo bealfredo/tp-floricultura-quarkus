@@ -1,76 +1,115 @@
-@startuml Trabalho03
+@startuml TrabalhoTopicos
 skinparam classAttributeIconSize 0
-
-class Aluno {
-  - numeroMatricula : String
-  - nome : String
-  - dataNascimento : LocalDate
-  - email : String
-  - telefone : String
-}
-
-class Orientador {
-  - nome : String
-  - dataNascimento : LocalDate
-  - email : String
-  - telefome : String
-}
 
 class Usuario {
   - id : Integer
   - nome : String
+  - sobrenome : String
+  - datanascimento : LocalDate
   - email : String
-  - privilegio : String
   - senha : String
-  + cadastrarUsuario() : Usuario
-  + print() : void
-  - selecionarPlano() : Plano
-  + listarTodos() : void
+  - privilegio: String
 }
 
-class Plano {
+
+
+
+class Endereco {
+  - id : Integer
+  - codigo : String
+  - cidade : Integer
+  - rua : String
+  - bairro : String
+  - numerolote : String
+  - complemento : string
+}
+
+class Estado {
+  id : Integer
+  nome : String
+  sigla : String
+}
+
+class Cidade {
+  id : Integer
+  nome : String
+}
+
+
+class CategoriaProduto {
   - id : Integer
   - nome : String
   - descricao : String
-  - valor : Double
-  - dataLancamento : LocalDate
-
-  + print() : void
-  + printShort() : void
-  + printArrPlanos() : void
-  + printArrPlanosShort() : void
-  + listarTodosDoTipo() : void
 }
 
-class Carro {
-  - marca : String
-  - modelo : String
+class TipoProduto {
+  - id : Integer
+  ' - categoriaproduto : Integer
+  - nome : String
+  - descricao : String
+}
+
+class Produto {
+  - id : Integer
+  - nome : String
+  ' - tipo : Integer
   - preco : Double
-  - velocidade : Double
-  - kmPercorridos : Double
-  - estaLigado : Boolean
-
-  + ligar() : void
-  + desligar() : void
-  + acelerar() : void
-  + frear() : void
+  - quantidadedisponivel : Integer
+  - descricao : String
+  - datadisponivel : LocalDate
 }
 
-class Roda {
-  - modelo : String
-  - tipo : String
-  - situacao : String
-  - dataColocada : LocalDateTime
+class Avaliacao {
+  - id : Integer
+  - data : LocalDate
+  - estrelas : Integer
+  - descricao : String
 }
 
-Aluno " * " --> " 1 " Orientador : "          "
-Usuario " * " o--> " 1 " Plano : "          "
-Carro " 1 " *--> " * " Roda : "          "
+' class Carrinho {
+'   - id : String
+' }
 
+class ProdutoCarrinho {
+  - id : Integer
+  ' - produto : Integer
+  ' - usuario : Integer
+  - quantidade : Integer
+}
 
-' conta e plano
-' usuario e plano
-' casa e garagem
-' estado e pais
+class Compra {
+  - id : Integer
+  - data : LocalDate
+  ' - enderecoentrega : String
+  - valortotal : Double
+}
+
+class ProdutoCompra {
+  - id : Integer
+  ' - produto : Integer
+  ' - compra : Integer
+  - quantidade : Integer
+}
+
+Avaliacao " * " --> " 1 " Produto
+Avaliacao " * " --> " 1 " Usuario
+Cidade " * " o--> " 1 " Estado
+Endereco " * " o--> " 1 " Cidade
+Usuario " 1 " --> " * " Endereco
+
+Usuario " 1 " --> " * " ProdutoCarrinho
+ProdutoCarrinho " * " -->  " 1 " Produto
+
+Compra " * " --> " 1 " Usuario
+Compra " 1 " --> " * " ProdutoCompra
+Compra " 1 " --> " * " Endereco
+ProdutoCompra " 1 " --> " 1 " Produto
+
+Produto " * " o--> " 1 " TipoProduto
+TipoProduto " * " o--> " 1 " CategoriaProduto
+
+' Aluno " * " --> " 1 " Orientador : "          "
+' Usuario " * " o--> " 1 " Plano : "          "
+' Carro " 1 " *--> " * " Roda : "          "
 
 @enduml
