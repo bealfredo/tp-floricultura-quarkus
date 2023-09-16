@@ -1,0 +1,76 @@
+@startuml Trabalho03
+skinparam classAttributeIconSize 0
+
+class Aluno {
+  - numeroMatricula : String
+  - nome : String
+  - dataNascimento : LocalDate
+  - email : String
+  - telefone : String
+}
+
+class Orientador {
+  - nome : String
+  - dataNascimento : LocalDate
+  - email : String
+  - telefome : String
+}
+
+class Usuario {
+  - id : Integer
+  - nome : String
+  - email : String
+  - privilegio : String
+  - senha : String
+  + cadastrarUsuario() : Usuario
+  + print() : void
+  - selecionarPlano() : Plano
+  + listarTodos() : void
+}
+
+class Plano {
+  - id : Integer
+  - nome : String
+  - descricao : String
+  - valor : Double
+  - dataLancamento : LocalDate
+
+  + print() : void
+  + printShort() : void
+  + printArrPlanos() : void
+  + printArrPlanosShort() : void
+  + listarTodosDoTipo() : void
+}
+
+class Carro {
+  - marca : String
+  - modelo : String
+  - preco : Double
+  - velocidade : Double
+  - kmPercorridos : Double
+  - estaLigado : Boolean
+
+  + ligar() : void
+  + desligar() : void
+  + acelerar() : void
+  + frear() : void
+}
+
+class Roda {
+  - modelo : String
+  - tipo : String
+  - situacao : String
+  - dataColocada : LocalDateTime
+}
+
+Aluno " * " --> " 1 " Orientador : "          "
+Usuario " * " o--> " 1 " Plano : "          "
+Carro " 1 " *--> " * " Roda : "          "
+
+
+' conta e plano
+' usuario e plano
+' casa e garagem
+' estado e pais
+
+@enduml
