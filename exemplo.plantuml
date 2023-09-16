@@ -2,62 +2,65 @@
 skinparam classAttributeIconSize 0
 
 class Usuario {
-  - id : Integer
   - nome : String
   - sobrenome : String
-  - datanascimento : LocalDate
   - email : String
   - senha : String
-  - privilegio: String
 }
 
+class Cliente {
+  - datanascimento : LocalDate
+}
 
+class Admin {
+  - cnpj : String
+}
 
+Usuario <|--  Cliente
+Usuario <|--  Admin
+Usuario " 1 " --> " * " Endereco
 
 class Endereco {
-  - id : Integer
   - codigo : String
-  - cidade : Integer
   - rua : String
   - bairro : String
-  - numerolote : String
+  - numeroLote : String
   - complemento : string
 }
 
+Endereco " * " --> " 1 " Cidade
+Cidade " * " --> " 1 " Estado
+
 class Estado {
-  id : Integer
-  nome : String
-  sigla : String
+  - nome : String
+  - sigla : String
 }
 
 class Cidade {
-  id : Integer
-  nome : String
+  - nome : String
 }
 
 
 class CategoriaProduto {
-  - id : Integer
   - nome : String
   - descricao : String
 }
 
 class TipoProduto {
-  - id : Integer
-  ' - categoriaproduto : Integer
   - nome : String
   - descricao : String
 }
 
 class Produto {
-  - id : Integer
   - nome : String
-  ' - tipo : Integer
   - preco : Double
   - quantidadedisponivel : Integer
   - descricao : String
   - datadisponivel : LocalDate
 }
+
+Produto " * " --> " * " TipoProduto
+TipoProduto " * " --> " 1 " CategoriaProduto
 
 class Avaliacao {
   - id : Integer
@@ -91,25 +94,22 @@ class ProdutoCompra {
   - quantidade : Integer
 }
 
-Avaliacao " * " --> " 1 " Produto
-Avaliacao " * " --> " 1 " Usuario
-Cidade " * " o--> " 1 " Estado
-Endereco " * " o--> " 1 " Cidade
-Usuario " 1 " --> " * " Endereco
+' Avaliacao " * " --> " 1 " Produto
+' Avaliacao " * " --> " 1 " Usuario
+' Cidade " * " o--> " 1 " Estado
+' Endereco " * " o--> " 1 " Cidade
+' Usuario " 1 " --> " * " Endereco
 
-Usuario " 1 " --> " * " ProdutoCarrinho
-ProdutoCarrinho " * " -->  " 1 " Produto
+' Usuario " 1 " --> " * " ProdutoCarrinho
+' ProdutoCarrinho " * " -->  " 1 " Produto
 
-Compra " * " --> " 1 " Usuario
-Compra " 1 " --> " * " ProdutoCompra
-Compra " 1 " --> " * " Endereco
-ProdutoCompra " 1 " --> " 1 " Produto
+' Compra " * " --> " 1 " Usuario
+' Compra " 1 " --> " * " ProdutoCompra
+' Compra " 1 " --> " * " Endereco
+' ProdutoCompra " 1 " --> " 1 " Produto
 
-Produto " * " o--> " 1 " TipoProduto
-TipoProduto " * " o--> " 1 " CategoriaProduto
+' Produto " * " o--> " 1 " TipoProduto
+' TipoProduto " * " o--> " 1 " CategoriaProduto
 
-' Aluno " * " --> " 1 " Orientador : "          "
-' Usuario " * " o--> " 1 " Plano : "          "
-' Carro " 1 " *--> " * " Roda : "          "
 
 @enduml
