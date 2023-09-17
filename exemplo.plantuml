@@ -1,5 +1,5 @@
 @startuml TrabalhoTopicos
-skinparam classAttributeIconSize 0
+' skinparam classAttributeIconSize 0
 
 class Usuario {
   - nome : String
@@ -18,7 +18,7 @@ class Admin {
 
 Usuario <|--  Cliente
 Usuario <|--  Admin
-Usuario " 1 " --> " * " Endereco
+Cliente " 1 " --> " * " Endereco
 
 class Endereco {
   - codigo : String
@@ -29,7 +29,7 @@ class Endereco {
 }
 
 Endereco " * " --> " 1 " Cidade
-Cidade " * " --> " 1 " Estado
+Cidade " * " *--> " 1 " Estado
 
 class Estado {
   - nome : String
@@ -54,45 +54,74 @@ class TipoProduto {
 class Produto {
   - nome : String
   - preco : Double
-  - quantidadedisponivel : Integer
+  - desconto : Double
+  - quantidadeDisponivel : Integer
   - descricao : String
-  - datadisponivel : LocalDate
+  - dataDisponivel : LocalDateTime
 }
+
+class ItemVenda {
+  - preco : Double
+  - quantidade : Integer
+}
+
+class Venda {
+  - data : LocalDateTime
+}
+
+class HistoricoStatus {
+  - data: LocalDateTime
+}
+
+enum StatusPedido {
+  + AGUARDANDO_PAGAMENTO
+  + PAGAMENTO_CONFIRMADO
+  + EM_PROCESSAMENTO
+  + ENVIADO
+  + ENTREGUE
+  + CANCELADO
+}
+
+
+Venda " * " --> " 1 " Cliente
+Venda " 1 " --> " * " ItemVenda
+ItemVenda " * " *--> " 1 " Produto
+HistoricoStatus " * " *--> " 1 " Venda
+HistoricoStatus " * " --> " 1 " StatusPedido
+
 
 Produto " * " --> " * " TipoProduto
 TipoProduto " * " --> " 1 " CategoriaProduto
 
 class Avaliacao {
-  - id : Integer
   - data : LocalDate
   - estrelas : Integer
   - descricao : String
 }
 
+enum QuantidadeEstrelas  {
+  + UMA : int
+  + DUAS : int
+  + TRES : int
+  + QUATRO : int
+  + CINCO : int
+}
+
+Avaliacao " * " --> " 1 " QuantidadeEstrelas
+Avaliacao " * " --> " 1 " Produto
+
 ' class Carrinho {
 '   - id : String
 ' }
 
-class ProdutoCarrinho {
-  - id : Integer
-  ' - produto : Integer
-  ' - usuario : Integer
-  - quantidade : Integer
-}
+' class ProdutoCarrinho {
+'   - id : Integer
+'   ' - produto : Integer
+'   ' - usuario : Integer
+'   - quantidade : Integer
+' }
 
-class Compra {
-  - id : Integer
-  - data : LocalDate
-  ' - enderecoentrega : String
-  - valortotal : Double
-}
 
-class ProdutoCompra {
-  - id : Integer
-  ' - produto : Integer
-  ' - compra : Integer
-  - quantidade : Integer
-}
 
 ' Avaliacao " * " --> " 1 " Produto
 ' Avaliacao " * " --> " 1 " Usuario
