@@ -1,5 +1,4 @@
 @startuml TrabalhoTopicos
-' skinparam classAttributeIconSize 0
 
 class Usuario {
   - nome : String
@@ -16,10 +15,6 @@ class Admin {
   - cnpj : String
 }
 
-Usuario <|--  Cliente
-Usuario <|--  Admin
-Cliente " 1 " --> " * " Endereco
-
 class Endereco {
   - codigo : String
   - rua : String
@@ -27,9 +22,6 @@ class Endereco {
   - numeroLote : String
   - complemento : string
 }
-
-Endereco " * " --> " 1 " Cidade
-Cidade " * " *--> " 1 " Estado
 
 class Estado {
   - nome : String
@@ -39,7 +31,6 @@ class Estado {
 class Cidade {
   - nome : String
 }
-
 
 class CategoriaProduto {
   - nome : String
@@ -58,6 +49,8 @@ class Produto {
   - quantidadeDisponivel : Integer
   - descricao : String
   - dataDisponivel : LocalDateTime
+  - codigo : String
+  - imagem : String
 }
 
 class ItemVenda {
@@ -67,31 +60,21 @@ class ItemVenda {
 
 class Venda {
   - data : LocalDateTime
+  - codigo : String
 }
 
 class HistoricoStatus {
   - data: LocalDateTime
 }
 
-enum StatusPedido {
+enum StatusVenda {
   + AGUARDANDO_PAGAMENTO
   + PAGAMENTO_CONFIRMADO
-  + EM_PROCESSAMENTO
+  + PREPARANDO_ENVIO
   + ENVIADO
   + ENTREGUE
   + CANCELADO
 }
-
-
-Venda " * " --> " 1 " Cliente
-Venda " 1 " --> " * " ItemVenda
-ItemVenda " * " *--> " 1 " Produto
-HistoricoStatus " * " *--> " 1 " Venda
-HistoricoStatus " * " --> " 1 " StatusPedido
-
-
-Produto " * " --> " * " TipoProduto
-TipoProduto " * " --> " 1 " CategoriaProduto
 
 class Avaliacao {
   - data : LocalDate
@@ -107,38 +90,22 @@ enum QuantidadeEstrelas  {
   + CINCO : int
 }
 
+Usuario <|--  Cliente
+Usuario <|--  Admin
+Cliente " 1 " --> " * " Endereco
+Endereco " * " *--> " 1 " Cidade
+Cidade " * " *--> " 1 " Estado
+
+Venda " * " --> " 1 " Cliente
+Venda " 1 " --> " * " ItemVenda
+ItemVenda " * " *--> " 1 " Produto
+HistoricoStatus " * " *--> " 1 " Venda
+HistoricoStatus " * " --> " 1 " StatusVenda
+
+Produto " * " --> " * " TipoProduto
+TipoProduto " * " *--> " 1 " CategoriaProduto
+
 Avaliacao " * " --> " 1 " QuantidadeEstrelas
 Avaliacao " * " --> " 1 " Produto
-
-' class Carrinho {
-'   - id : String
-' }
-
-' class ProdutoCarrinho {
-'   - id : Integer
-'   ' - produto : Integer
-'   ' - usuario : Integer
-'   - quantidade : Integer
-' }
-
-
-
-' Avaliacao " * " --> " 1 " Produto
-' Avaliacao " * " --> " 1 " Usuario
-' Cidade " * " o--> " 1 " Estado
-' Endereco " * " o--> " 1 " Cidade
-' Usuario " 1 " --> " * " Endereco
-
-' Usuario " 1 " --> " * " ProdutoCarrinho
-' ProdutoCarrinho " * " -->  " 1 " Produto
-
-' Compra " * " --> " 1 " Usuario
-' Compra " 1 " --> " * " ProdutoCompra
-' Compra " 1 " --> " * " Endereco
-' ProdutoCompra " 1 " --> " 1 " Produto
-
-' Produto " * " o--> " 1 " TipoProduto
-' TipoProduto " * " o--> " 1 " CategoriaProduto
-
 
 @enduml
