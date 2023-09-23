@@ -7,6 +7,12 @@ class Usuario {
   - senha : String
 }
 
+class Token {
+  - valor : String
+  - dataCriacao : LocalDateTime
+  - dataExpiracao : LocalDateTime
+}
+
 class Cliente {
   - datanascimento : LocalDate
 }
@@ -44,23 +50,34 @@ class TipoProduto {
 
 class Produto {
   - nome : String
-  - preco : Double
+  - precoVenda : Double
   - desconto : Double
+  - frete : Double
   - quantidadeDisponivel : Integer
   - descricao : String
   - dataDisponivel : LocalDateTime
   - codigo : String
   - imagem : String
+  - precoCusto : Double
 }
 
 class ItemVenda {
   - preco : Double
+  - frete: Double
   - quantidade : Integer
 }
 
 class Venda {
   - data : LocalDateTime
   - codigo : String
+  - chavePix : String
+}
+
+class Fornecedor {
+  - nome : String
+  - email : String
+  - telefone : String
+  - cnpj : String
 }
 
 class HistoricoStatus {
@@ -90,15 +107,18 @@ enum QuantidadeEstrelas  {
   + CINCO : int
 }
 
+Usuario " 1 " --> " * " Token
 Usuario <|--  Cliente
 Usuario <|--  Admin
-Cliente " 1 " --> " * " Endereco
+Cliente " 1 " *--> " * " Endereco
 Endereco " * " *--> " 1 " Cidade
 Cidade " * " *--> " 1 " Estado
 
+Venda " 1 " *--> " 1 " Endereco
 Venda " * " --> " 1 " Cliente
 Venda " 1 " --> " * " ItemVenda
 ItemVenda " * " *--> " 1 " Produto
+Produto " * " --> " 1 " Fornecedor
 HistoricoStatus " * " *--> " 1 " Venda
 HistoricoStatus " * " --> " 1 " StatusVenda
 
