@@ -1,4 +1,10 @@
-# quarkus-topicos1-floricultura
+# quarkus-topicos1-floricultura - by us
+
+## branches
+- **main** - projeto do quarkus
+- **other-files** - outros arquivos da disciplina
+
+# quarkus-topicos1-floricultura (default)
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
