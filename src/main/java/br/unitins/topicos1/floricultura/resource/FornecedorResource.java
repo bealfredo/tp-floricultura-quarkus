@@ -1,10 +1,8 @@
 package br.unitins.topicos1.floricultura.resource;
 
-import java.util.List;
-
-import br.unitins.topicos1.floricultura.dto.EstadoDTO;
-import br.unitins.topicos1.floricultura.dto.EstadoResponseDTO;
-import br.unitins.topicos1.floricultura.service.EstadoService;
+import br.unitins.topicos1.floricultura.dto.FornecedorDTO;
+import br.unitins.topicos1.floricultura.dto.FornecedorResponseDTO;
+import br.unitins.topicos1.floricultura.service.FornecedorService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -19,23 +17,23 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-@Path("/estados")
-@Produces(MediaType.APPLICATION_JSON) // indica que todos serão assim
+@Path("/fornecedores")
+@Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class EstadoResource {
+public class FornecedorResource {
 
   @Inject
-  EstadoService service;
+  FornecedorService service;
 
   @POST
-  public Response insert(@Valid EstadoDTO dto) {
-    EstadoResponseDTO retorno = service.insert(dto);
+  public Response insert(@Valid FornecedorDTO dto) {
+    FornecedorResponseDTO retorno = service.insert(dto);
     return Response.status(Status.CREATED).entity(retorno).build();
   }
 
   @PUT
   @Path("/{id}")
-  public Response update(EstadoDTO dto, @PathParam("id") Long id) {
+  public Response update(FornecedorDTO dto, @PathParam("id") Long id) {
     service.update(dto, id);
     return Response.status(Status.NO_CONTENT).build();
   }
@@ -53,7 +51,7 @@ public class EstadoResource {
   }
 
   @GET
-  @Path("/{id}")  // /estado/id
+  @Path("/{id}") 
   public Response findById(@PathParam("id") Long id) {
     return Response.ok(service.findById(id)).build();
   }
@@ -65,14 +63,8 @@ public class EstadoResource {
   }
 
   @GET
-  @Path("/search/sigla/{sigla}")
-  public Response findBySigla(@PathParam("sigla") String sigla) {
-    return Response.ok(service.findBySigla(sigla)).build();
-  }
-
-  @GET
-  @Path("/search/nomeESigla/{txt}")
-  public Response findByNomeESigla(@PathParam("txt") String txt) {
-    return Response.ok(service.findByNomeESigla(txt)).build();
+  @Path("/search/cnpj/{cnpj}")
+  public Response findByCnpj(@PathParam("cnpj") String cnpj) {
+    return Response.ok(service.findByCnpj(cnpj)).build();
   }
 }

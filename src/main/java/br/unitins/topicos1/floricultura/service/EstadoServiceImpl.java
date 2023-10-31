@@ -1,6 +1,9 @@
 package br.unitins.topicos1.floricultura.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import br.unitins.topicos1.floricultura.dto.EstadoDTO;
 import br.unitins.topicos1.floricultura.dto.EstadoResponseDTO;
@@ -11,7 +14,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 
-@ApplicationScoped //só vai assistir um no servidor, então vai montar só uma vez e não um para cada usuário
+@ApplicationScoped
 public class EstadoServiceImpl implements EstadoService {
 
   @Inject
@@ -22,7 +25,7 @@ public class EstadoServiceImpl implements EstadoService {
   public EstadoResponseDTO insert(EstadoDTO dto) {
     Estado novoEstado = new Estado();
     novoEstado.setNome(dto.getNome());
-    novoEstado.setSigla(dto.getSigla());
+    novoEstado.setSigla(dto.getSigla().toUpperCase());
 
     repository.persist(novoEstado);
     
@@ -35,7 +38,7 @@ public class EstadoServiceImpl implements EstadoService {
     Estado estado = repository.findById(id);
     if (estado != null) {
       estado.setNome(dto.getNome());
-      estado.setSigla(dto.getSigla());
+      estado.setSigla(dto.getSigla().toUpperCase());
     } else {
       throw new NotFoundException();
     }
@@ -61,7 +64,13 @@ public class EstadoServiceImpl implements EstadoService {
 
   @Override
   public EstadoResponseDTO findById(Long id) {
-    return EstadoResponseDTO.valueOf(repository.findById(id));
+    Estado estado = repository.findById(id);
+
+    if (estado == null) {
+      throw new NotFoundException();
+    }
+
+    return EstadoResponseDTO.valueOf(estado);
   }
 
   @Override
@@ -72,4 +81,34 @@ public class EstadoServiceImpl implements EstadoService {
       .toList();
   }
   
+  @Override
+  public List<EstadoResponseDTO> findBySigla(String sigla) {
+    return repository.findBySigla(sigla)
+      .stream()
+      .map(e -> EstadoResponseDTO.valueOf(e))
+      .toList();
+  }
+
+  @Override
+  public List<EstadoResponseDTO> findByNomeESigla(String txt) {
+    List<EstadoResponseDTO> foundByNome = findByNome(txt);
+    List<EstadoResponseDTO> foundBySigla = findBySigla(txt);  
+
+    Set<Long> idsExistentes = new HashSet<>();
+    List<EstadoResponseDTO> all = new ArrayList<>();
+    
+    for (EstadoResponseDTO estado : foundByNome) {
+      if (idsExistentes.add(estado.id())) {
+        all.add(estado);
+      }
+    }
+
+    for (EstadoResponseDTO estado : foundBySigla) {
+      if (idsExistentes.add(estado.id())) {
+        all.add(estado);
+      }
+    }
+
+    return all;
+  }
 }
