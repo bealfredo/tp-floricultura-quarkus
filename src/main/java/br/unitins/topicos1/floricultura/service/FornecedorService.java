@@ -4,10 +4,11 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.FornecedorDTO;
 import br.unitins.topicos1.floricultura.dto.FornecedorResponseDTO;
+import jakarta.validation.Valid;
 
 public interface FornecedorService {
   
-  public FornecedorResponseDTO insert(FornecedorDTO dto);
+  public FornecedorResponseDTO insert(@Valid FornecedorDTO dto);
 
   public FornecedorResponseDTO update(FornecedorDTO dto, Long id);
 
