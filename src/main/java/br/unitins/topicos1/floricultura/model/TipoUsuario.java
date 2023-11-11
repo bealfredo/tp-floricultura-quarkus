@@ -3,7 +3,7 @@ package br.unitins.topicos1.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Perfil {
+public enum TipoUsuario {
   
   USER(1, "User"),
   ADMIN(2, "Admin");
@@ -12,7 +12,7 @@ public enum Perfil {
   private final String label;
 
 
-  Perfil(Integer id, String label) {
+  TipoUsuario(Integer id, String label) {
     this.id = id;
     this.label = label;
   }
@@ -25,10 +25,10 @@ public enum Perfil {
     return label;
   }
 
-  public static Perfil valueOf(Integer id) throws IllegalArgumentException {
+  public static TipoUsuario valueOf(Integer id) throws IllegalArgumentException {
     if (id == null)
       return null;
-    for (Perfil perfil : Perfil.values()) {
+    for (TipoUsuario perfil : TipoUsuario.values()) {
       if (perfil.getId().equals(id))
         return perfil;
     }
