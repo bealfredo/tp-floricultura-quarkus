@@ -4,7 +4,9 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.UsuarioDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.PathParam;
 
 public interface UsuarioService {
 
@@ -20,6 +22,8 @@ public interface UsuarioService {
 
     public UsuarioResponseDTO findByLoginAndSenha(String login, String senha);
 
-    public List<UsuarioResponseDTO> findByAll(); 
+    public List<UsuarioResponseDTO> findByAll();
+
+    public void updateSenha(UsuarioUpdateSenhaDTO dto);
     
 }

@@ -31,8 +31,8 @@ public class Produto extends DefaultEntity {
     
     private LocalDateTime dataDisponivel;
 
-    @OneToMany(mappedBy = "tipoProduto")
-    private List<TipoProduto> tipoProduto;
+    // @OneToMany(mappedBy = "tipoProduto")
+    // private List<TipoProduto> tipoProduto;
 
     
 
