@@ -117,26 +117,5 @@ public class UsuarioServiceImpl implements UsuarioService {
         
         return UsuarioResponseDTO.valueOf(usuario);
     }
-
-    @Override
-    public void updateSenha(UsuarioUpdateSenhaDTO dto) {
-        // if (repository.findById(id) != null) {
-        //     throw new ValidationException("login", "Login já existe.");
-        // }
-
-        String login = jwt.getSubject();
-        Usuario usuario = repository.findByLogin(login);
-        if (usuario == null) 
-            throw new ValidationException("login", "Login inválido");
-
-        String hashSenhaAntiga = hashService.getHashSenha(dto.senhaAntiga());
-
-        if (!hashSenhaAntiga.equals(usuario.getSenha()))
-            throw new ValidationException("senhaAntiga", "A senha informada está incorreta");
-
-        String hashSenhaNova = hashService.getHashSenha(dto.senhaNova());
-
-        usuario.setSenha(hashSenhaNova);
-    }
     
 }

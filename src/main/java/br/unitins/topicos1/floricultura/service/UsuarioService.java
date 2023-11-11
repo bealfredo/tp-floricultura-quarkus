@@ -22,8 +22,5 @@ public interface UsuarioService {
 
     public UsuarioResponseDTO findByLoginAndSenha(String login, String senha);
 
-    public List<UsuarioResponseDTO> findByAll();
-
-    public void updateSenha(UsuarioUpdateSenhaDTO dto);
-    
+    public List<UsuarioResponseDTO> findByAll();    
 }

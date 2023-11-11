@@ -66,13 +66,5 @@ public class UsuarioResource {
     public Response findByNome(@PathParam("nome") String nome) {
         return Response.ok(service.findByNome(nome)).build();
     }
-
-    @PATCH
-    @Transactional
-    @Path("/update/senha")
-    @RolesAllowed({"User"})
-    public Response updateSenha(UsuarioUpdateSenhaDTO dto) {
-        service.updateSenha(dto);
-        return Response.noContent().build();
-    }
+    
 }
