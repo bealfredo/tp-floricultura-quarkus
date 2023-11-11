@@ -1,0 +1,131 @@
+@startuml TrabalhoTopicos
+
+class Usuario {
+  - nome : String
+  - sobrenome : String
+  - email : String
+  - senha : String
+}
+
+class Token {
+  - valor : String
+  - dataCriacao : LocalDateTime
+  - dataExpiracao : LocalDateTime
+}
+class Cliente {
+  - datanascimento : LocalDate
+}
+
+class Admin {
+  - cnpj : String
+}
+
+class Endereco {
+  - codigo : String
+  - rua : String
+  - bairro : String
+  - numeroLote : String
+  - complemento : string
+}
+
+class Estado {
+  - nome : String
+  - sigla : String
+}
+
+class Cidade {
+  - nome : String
+}
+
+class CategoriaProduto {
+  - nome : String
+  - descricao : String
+}
+
+class TipoProduto {
+  - nome : String
+  - descricao : String
+}
+
+class Produto {
+  - nome : String
+  - precoVenda : Double
+  - desconto : Double
+  - quantidadeDisponivel : Integer
+  - descricao : String
+  - dataDisponivel : LocalDateTime
+  - codigo : String
+  - imagem : String
+  - precoCusto : Double
+}
+
+
+class ItemVenda {
+  - preco : Double
+  - quantidade : Integer
+}
+
+class Venda {
+  - data : LocalDateTime
+  - codigo : String
+  - chavePix : String
+}
+
+class Fornecedor {
+  - nome : String
+  - email : String
+  - telefone : String
+  - cnpj : String
+
+}
+
+class HistoricoStatus {
+  - data: LocalDateTime
+}
+
+enum StatusVenda {
+  + AGUARDANDO_PAGAMENTO
+  + PAGAMENTO_CONFIRMADO
+  + PREPARANDO_ENVIO
+  + ENVIADO
+  + ENTREGUE
+  + CANCELADO
+}
+
+class Avaliacao {
+  - data : LocalDate
+  - estrelas : Integer
+  - descricao : String
+}
+
+enum QuantidadeEstrelas  {
+  + UMA : int
+  + DUAS : int
+  + TRES : int
+  + QUATRO : int
+  + CINCO : int
+}
+
+
+Usuario " 1 " --> " * " Token
+Usuario <|--  Cliente
+Usuario <|--  Admin
+Cliente " 1 " *--> " * " Endereco
+Endereco " * " *--> " 1 " Cidade
+Cidade " * " *--> " 1 " Estado
+
+Venda " 1 " *--> " 1 " Endereco
+Venda " * " --> " 1 " Cliente
+Venda " 1 " --> " * " ItemVenda
+ItemVenda " * " *--> " 1 " Produto
+Produto " * " --> " 1 " Fornecedor
+HistoricoStatus " * " *--> " 1 " Venda
+HistoricoStatus " * " --> " 1 " StatusVenda
+
+Produto " * " --> " * " TipoProduto
+TipoProduto " * " *--> " 1 " CategoriaProduto
+
+Avaliacao " * " --> " 1 " QuantidadeEstrelas
+Avaliacao " * " --> " 1 " Produto
+
+@enduml
