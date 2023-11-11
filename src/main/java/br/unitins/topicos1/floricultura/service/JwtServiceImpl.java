@@ -1,11 +1,11 @@
-package br.unitins.topicos1.service;
+package br.unitins.topicos1.floricultura.service;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-import br.unitins.topicos1.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
 

@@ -1,4 +1,4 @@
-package br.unitins.topicos1.dto;
+package br.unitins.topicos1.floricultura.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 

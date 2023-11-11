@@ -1,15 +1,15 @@
-package br.unitins.topicos1.service;
+package br.unitins.topicos1.floricultura.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.unitins.topicos1.dto.TelefoneDTO;
-import br.unitins.topicos1.dto.UsuarioDTO;
-import br.unitins.topicos1.dto.UsuarioResponseDTO;
-import br.unitins.topicos1.model.Telefone;
-import br.unitins.topicos1.model.Usuario;
-import br.unitins.topicos1.repository.UsuarioRepository;
-import br.unitins.topicos1.validation.ValidationException;
+import br.unitins.topicos1.floricultura.dto.TelefoneDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.floricultura.model.Telefone;
+import br.unitins.topicos1.floricultura.model.Usuario;
+import br.unitins.topicos1.floricultura.repository.UsuarioRepository;
+import br.unitins.topicos1.floricultura.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -17,6 +17,9 @@ import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class UsuarioServiceImpl implements UsuarioService {
+
+    @Inject
+    HashService hashService;
 
     @Inject
     UsuarioRepository repository;
@@ -31,9 +34,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         Usuario novoUsuario = new Usuario();
         novoUsuario.setNome(dto.nome());
+        novoUsuario.setSobreNome(dto.sobreNome());
         novoUsuario.setLogin(dto.login());
-        novoUsuario.setSenha(dto.senha());
-
+        novoUsuario.setSenha(hashService.getHashSenha(dto.senha()));
+        novoUsuario.setDataNascimento(dto.dataNascimento());
         if (dto.listaTelefone() != null && 
                     !dto.listaTelefone().isEmpty()){
             novoUsuario.setListaTelefone(new ArrayList<Telefone>());
@@ -54,12 +58,21 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public UsuarioResponseDTO update(UsuarioDTO dto, Long id) {
         Usuario usuario = repository.findById(id);
-        usuario.setLogin(dto.login());
         usuario.setNome(dto.nome());
-        usuario.setSenha(dto.senha());
-
-        // falta a implementacao dos telefones
-        // vcs (ALUNOS) devem implementar!!!!!
+        usuario.setSobreNome(dto.sobreNome());
+        usuario.setLogin(dto.login());
+        usuario.setSenha(hashService.getHashSenha(dto.senha()));
+        usuario.setDataNascimento(dto.dataNascimento());
+        if (dto.listaTelefone() != null && 
+                    !dto.listaTelefone().isEmpty()){
+            usuario.setListaTelefone(new ArrayList<Telefone>());
+            for (TelefoneDTO tel : dto.listaTelefone()) {
+                Telefone telefone = new Telefone();
+                telefone.setCodigoArea(tel.codigoArea());
+                telefone.setNumero(tel.numero());
+                usuario.getListaTelefone().add(telefone);
+            }
+        }
         
         return UsuarioResponseDTO.valueOf(usuario);
     }

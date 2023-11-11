@@ -1,6 +1,6 @@
-package br.unitins.topicos1.dto;
+package br.unitins.topicos1.floricultura.dto;
 
-import br.unitins.topicos1.model.Cidade;
+import br.unitins.topicos1.floricultura.model.Cidade;
 import jakarta.validation.constraints.NotBlank;
 
 public record EnderecoResponseDTO(

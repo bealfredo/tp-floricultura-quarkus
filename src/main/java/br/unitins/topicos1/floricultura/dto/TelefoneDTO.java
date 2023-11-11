@@ -1,6 +1,6 @@
-package br.unitins.topicos1.dto;
+package br.unitins.topicos1.floricultura.dto;
 
-import br.unitins.topicos1.model.Telefone;
+import br.unitins.topicos1.floricultura.model.Telefone;
 
 public record TelefoneDTO(
     String codigoArea,

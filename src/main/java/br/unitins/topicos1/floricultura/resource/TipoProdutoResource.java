@@ -4,9 +4,6 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.TipoProdutoDTO;
 import br.unitins.topicos1.floricultura.dto.TipoProdutoResponseDTO;
-import br.unitins.topicos1.floricultura.dto.TipoProdutoResponseDTO;
-import br.unitins.topicos1.floricultura.dto.TipoProdutoDTO;
-import br.unitins.topicos1.floricultura.service.CategoriaProdutoService;
 import br.unitins.topicos1.floricultura.service.TipoProdutoService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;

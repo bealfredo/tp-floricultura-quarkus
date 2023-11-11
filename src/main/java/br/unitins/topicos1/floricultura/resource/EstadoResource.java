@@ -1,7 +1,5 @@
 package br.unitins.topicos1.floricultura.resource;
 
-import java.util.List;
-
 import br.unitins.topicos1.floricultura.dto.EstadoDTO;
 import br.unitins.topicos1.floricultura.dto.EstadoResponseDTO;
 import br.unitins.topicos1.floricultura.service.EstadoService;

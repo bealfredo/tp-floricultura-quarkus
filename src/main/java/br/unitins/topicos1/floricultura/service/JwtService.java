@@ -1,6 +1,6 @@
-package br.unitins.topicos1.service;
+package br.unitins.topicos1.floricultura.service;
 
-import br.unitins.topicos1.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
 
 public interface JwtService {
 

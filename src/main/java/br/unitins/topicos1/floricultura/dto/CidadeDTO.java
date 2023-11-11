@@ -1,6 +1,6 @@
-package br.unitins.topicos1.dto;
+package br.unitins.topicos1.floricultura.dto;
 
-import br.unitins.topicos1.model.Estado;
+import br.unitins.topicos1.floricultura.model.Estado;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

@@ -1,11 +1,11 @@
-package br.unitins.topicos1.service;
+package br.unitins.topicos1.floricultura.service;
 
 import java.util.List;
 
-import br.unitins.topicos1.dto.CidadeDTO;
-import br.unitins.topicos1.dto.CidadeResponseDTO;
-import br.unitins.topicos1.model.Cidade;
-import br.unitins.topicos1.repository.CidadeRepository;
+import br.unitins.topicos1.floricultura.dto.CidadeDTO;
+import br.unitins.topicos1.floricultura.dto.CidadeResponseDTO;
+import br.unitins.topicos1.floricultura.model.Cidade;
+import br.unitins.topicos1.floricultura.repository.CidadeRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;

@@ -1,7 +1,7 @@
-package br.unitins.topicos1.resource;
+package br.unitins.topicos1.floricultura.resource;
 
-import br.unitins.topicos1.dto.UsuarioDTO;
-import br.unitins.topicos1.service.UsuarioService;
+import br.unitins.topicos1.floricultura.dto.UsuarioDTO;
+import br.unitins.topicos1.floricultura.service.UsuarioService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;

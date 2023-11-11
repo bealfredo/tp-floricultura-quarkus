@@ -1,7 +1,7 @@
-package br.unitins.topicos1.dto;
+package br.unitins.topicos1.floricultura.dto;
 
-import br.unitins.topicos1.model.Cidade;
-import br.unitins.topicos1.model.Estado;
+import br.unitins.topicos1.floricultura.model.Cidade;
+import br.unitins.topicos1.floricultura.model.Estado;
 
 public record CidadeResponseDTO(
     Long id,

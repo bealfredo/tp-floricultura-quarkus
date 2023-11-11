@@ -1,5 +1,6 @@
 package br.unitins.topicos1.floricultura.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -13,8 +14,9 @@ public class Usuario extends DefaultEntity {
 
     private String nome;
     private String sobreNome;
-    private String email;
+    private String login;
     private String senha;
+    private LocalDate dataNascimento;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name="usuario_telefone",
@@ -30,12 +32,12 @@ public class Usuario extends DefaultEntity {
         this.nome = nome;
     }
     
-    public String getEmail() {
-        return email;
+    public String getLogin() {
+        return login;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getSenha() {
@@ -61,5 +63,14 @@ public class Usuario extends DefaultEntity {
     public void setSobreNome(String sobreNome) {
         this.sobreNome = sobreNome;
     }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+    
 
 }
