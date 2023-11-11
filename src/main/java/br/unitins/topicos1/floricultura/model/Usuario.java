@@ -17,7 +17,7 @@ public class Usuario extends DefaultEntity {
     private String login;
     private String senha;
     private LocalDate dataNascimento;
-
+    private TipoUsuario tipoUsuario;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name="usuario_telefone",
         joinColumns= @JoinColumn(name="id_usuario"),
@@ -70,6 +70,14 @@ public class Usuario extends DefaultEntity {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
     
 

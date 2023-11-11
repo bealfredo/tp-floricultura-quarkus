@@ -1,11 +1,11 @@
-package br.unitins.topicos1.model;
+package br.unitins.topicos1.floricultura.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoUsuario {
   
-  USER(1, "User"),
+  CLIENTE(1, "Cliente"),
   ADMIN(2, "Admin");
 
   private final Integer id;
