@@ -1,12 +1,15 @@
 package br.unitins.topicos1.floricultura.resource;
 
 import br.unitins.topicos1.floricultura.dto.UsuarioDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
 import br.unitins.topicos1.floricultura.service.UsuarioService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -63,4 +66,5 @@ public class UsuarioResource {
     public Response findByNome(@PathParam("nome") String nome) {
         return Response.ok(service.findByNome(nome)).build();
     }
+    
 }
