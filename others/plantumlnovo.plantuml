@@ -52,6 +52,10 @@ class Produto {
   - precoCusto : Double
 }
 
+enum StatusProduto {
+  
+}
+
 
 class ItemVenda {
   - preco : Double

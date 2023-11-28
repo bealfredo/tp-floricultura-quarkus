@@ -35,7 +35,7 @@ public class Produto extends DefaultEntity {
     
     private LocalDateTime dataDisponivel;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "produto_tipoproduto",
         joinColumns = @JoinColumn(name = "id_produto"),

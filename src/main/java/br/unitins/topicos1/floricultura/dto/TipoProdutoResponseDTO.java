@@ -25,6 +25,6 @@ public record TipoProdutoResponseDTO (
     return tipoProduto.stream()
     .map((TipoProduto t) -> TipoProdutoResponseDTO.valueOf(t))
     .toList();
- }
+  }
 
 }
