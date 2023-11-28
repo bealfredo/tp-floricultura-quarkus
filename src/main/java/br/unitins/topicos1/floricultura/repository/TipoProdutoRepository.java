@@ -13,10 +13,6 @@ public class TipoProdutoRepository implements PanacheRepository<TipoProduto> {
     return find("UPPER(nome) LIKE UPPER(?1) ", "%"+nome+"%").list();
   }
 
-  // public List<TipoProduto> findByCategoriaProduto(Long categoriaProduto) {
-  //   return find("id_categoriaproduto = (?1) ", categoriaProduto).list();
-  // }
-
   public List<TipoProduto> findByCategoriaProduto(CategoriaProduto categoriaProduto) {
     return find("categoriaProduto = ?1", categoriaProduto).list();
   }
