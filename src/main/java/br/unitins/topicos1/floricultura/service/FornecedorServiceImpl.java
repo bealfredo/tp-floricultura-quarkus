@@ -5,6 +5,7 @@ import br.unitins.topicos1.floricultura.dto.FornecedorDTO;
 import br.unitins.topicos1.floricultura.dto.FornecedorResponseDTO;
 import br.unitins.topicos1.floricultura.model.Fornecedor;
 import br.unitins.topicos1.floricultura.repository.FornecedorRepository;
+import br.unitins.topicos1.floricultura.resource.AuthResource;
 import br.unitins.topicos1.floricultura.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -12,8 +13,11 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.NotFoundException;
 
+import org.jboss.logging.Logger;
+
 @ApplicationScoped
 public class FornecedorServiceImpl implements FornecedorService {
+  private static final Logger LOG = Logger.getLogger(AuthResource.class);
 
   @Inject
   FornecedorRepository repository;
@@ -21,8 +25,8 @@ public class FornecedorServiceImpl implements FornecedorService {
   @Override
   @Transactional
   public FornecedorResponseDTO insert(@Valid FornecedorDTO dto) {
-    
-    if (repository.findByCnpj(dto.cnpj()) != null) {
+    List<Fornecedor> fornecedores = repository.findByCnpj(dto.cnpj());
+    if (!fornecedores.isEmpty()) {
       throw new ValidationException("cnpj", "CNPJ já cadastrado.");
     }
 
