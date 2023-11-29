@@ -10,10 +10,10 @@ public record VendaResponseDTO(
     LocalDateTime data,
     String codigo,
     String chavePix,
-    Double totalPedido,
+    Double totalVenda,
+    EnderecoResponseDTO endereco,
     UsuarioResponseDTO usuario,
     List<ItemVendaResponseDTO> getItensVenda
-  
 ) {
   public static VendaResponseDTO valueOf(Venda venda) {
 
@@ -23,6 +23,7 @@ public record VendaResponseDTO(
       venda.getCodigo(),
       venda.getChavePix(),
       venda.getTotalVenda(),
+      EnderecoResponseDTO.valueOf(venda.getEndereco()),
       UsuarioResponseDTO.valueOf(venda.getUsuario()),
       ItemVendaResponseDTO.valueOf(venda.getItensVenda())
     );

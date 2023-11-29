@@ -1,18 +1,25 @@
 package br.unitins.topicos1.floricultura.dto;
 
 import br.unitins.topicos1.floricultura.model.Cidade;
-import jakarta.validation.constraints.NotBlank;
+import br.unitins.topicos1.floricultura.model.Endereco;
 
 public record EnderecoResponseDTO(
+    Long id,
     String codigo,
     String rua,
-    @NotBlank(message = "O campo cidade não pode ser nulo")
     String bairro,
-    @NotBlank(message = "O campo cidade não pode ser nulo")
     String numeroLote,
     String complemento,
-    @NotBlank(message = "O campo cidade não pode ser nulo")
     Cidade cidade
 ) {
-    
+    public static EnderecoResponseDTO valueOf(Endereco endereco) {
+        return new EnderecoResponseDTO(
+            endereco.getId(),
+            endereco.getCodigo(),
+            endereco.getRua(),
+            endereco.getBairro(),
+            endereco.getNumeroLote(),
+            endereco.getComplemento(),
+            endereco.getCidade());
+    }
 }

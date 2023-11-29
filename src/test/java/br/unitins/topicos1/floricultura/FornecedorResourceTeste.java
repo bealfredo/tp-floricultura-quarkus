@@ -1,20 +1,21 @@
 package br.unitins.topicos1.floricultura;
 
-import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.http.ContentType;
-import jakarta.inject.Inject;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 
 import org.junit.jupiter.api.Test;
 
 import br.unitins.topicos1.floricultura.dto.FornecedorDTO;
 import br.unitins.topicos1.floricultura.dto.FornecedorResponseDTO;
 import br.unitins.topicos1.floricultura.service.FornecedorService;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.http.ContentType;
+import io.restassured.response.ValidatableResponse;
+import jakarta.inject.Inject;
 
 @QuarkusTest
 public class FornecedorResourceTeste {
@@ -22,16 +23,26 @@ public class FornecedorResourceTeste {
   @Inject
   FornecedorService fornecedorService;
 
-  @Test
-  public void testInsert() {
+  private FornecedorDTO getOneDTO() {
     FornecedorDTO dto = new FornecedorDTO(
       "Flores da Ana",
       "floresanas@gmail.com",
       "63984334433",
-      "12345678901234"
+      "00000000000000"
     );
 
-    given()
+    return dto;
+  }
+
+  private FornecedorResponseDTO getOneResponseDTO() {
+    return fornecedorService.insert(getOneDTO());
+  }
+
+  @Test
+  public void testInsert() {
+    FornecedorDTO dto = getOneDTO();
+
+    ValidatableResponse validatableResponse = given()
       .contentType(ContentType.JSON)
       .body(dto)
       .when().post("/fornecedores")
@@ -42,26 +53,22 @@ public class FornecedorResourceTeste {
         "nome", is("Flores da Ana"),
         "email", is("floresanas@gmail.com"),
         "telefone", is("63984334433"),
-        "cnpj", is("12345678901234")); 
+        "cnpj", is("00000000000000")); 
+
+    Integer idCriado = validatableResponse.extract().jsonPath().get("id");
+    fornecedorService.delete(Long.valueOf(idCriado));
   }
 
   @Test
   public void testUpdate() {
-    FornecedorDTO dto = new FornecedorDTO(
-      "Flores da Anassssssssssssss",
-      "aaaaaaaaaa@gmail.com",
-      "00000000000",
-      "00000000000000"
-    );
-
-    FornecedorResponseDTO fornecedorTeste = fornecedorService.insert(dto);
+    FornecedorResponseDTO fornecedorTeste = getOneResponseDTO();
     Long id = fornecedorTeste.id();
 
     FornecedorDTO dtoUpdate = new FornecedorDTO(
-      "Flores da Ana",
-      "floresAnas@gmail.com",
-      "63984334433",
-      "6664567890123"
+      "Flores verdinhas",
+      "floresverdinhas@gmail.com",
+      "999999999",
+      "11111111111111"
     );
 
     given()
@@ -72,31 +79,36 @@ public class FornecedorResourceTeste {
       .statusCode(204); 
 
     FornecedorResponseDTO dtoAdicionado = fornecedorService.findById(id);
-    assertThat(dtoAdicionado.nome(), is("Flores da Ana"));
-    assertThat(dtoAdicionado.email(), is("floresAnas@gmail.com"));
-    assertThat(dtoAdicionado.telefone(), is("63984334433"));
-    assertThat(dtoAdicionado.cnpj(), is("6664567890123"));
+    assertThat(dtoAdicionado.nome(), is("Flores verdinhas"));
+    assertThat(dtoAdicionado.email(), is("floresverdinhas@gmail.com"));
+    assertThat(dtoAdicionado.telefone(), is("999999999"));
+    assertThat(dtoAdicionado.cnpj(), is("11111111111111"));
+
+    fornecedorService.delete(id);
+  }
+
+  @Test
+  public void testUpdateFornecedorInexistente() {
+    FornecedorDTO dtoUpdate = new FornecedorDTO(
+      "Flores verdinhas",
+      "floresverdinhas@gmail.com",
+      "999999999",
+      "6664567890123"
+    );
 
     // atualizando fornecedor que não existe
     given()
       .contentType(ContentType.JSON)
       .body(dtoUpdate)
-      .when().put("/fornecedores/1245654321")
+      .when().put("/fornecedores/-1245654321")
       .then()
       .statusCode(404); 
   }
 
   @Test
   public void testDelete() {
-    FornecedorDTO dto = new FornecedorDTO(
-      "To delete",
-      "todelete@gmail.com",
-      "00000000000",
-      "00000000000000"
-    );
-
-    FornecedorResponseDTO estadoTeste = fornecedorService.insert(dto);
-    Long id = estadoTeste.id();
+    FornecedorResponseDTO fornecedorTeste = getOneResponseDTO();
+    Long id = fornecedorTeste.id();
 
     given()
       .contentType(ContentType.JSON)

@@ -10,10 +10,14 @@ import org.jboss.logging.Logger;
 import br.unitins.topicos1.floricultura.dto.ItemVendaDTO;
 import br.unitins.topicos1.floricultura.dto.VendaDTO;
 import br.unitins.topicos1.floricultura.dto.VendaResponseDTO;
+import br.unitins.topicos1.floricultura.model.Cidade;
+import br.unitins.topicos1.floricultura.model.Endereco;
 import br.unitins.topicos1.floricultura.model.ItemVenda;
 import br.unitins.topicos1.floricultura.model.Produto;
+import br.unitins.topicos1.floricultura.model.StatusProduto;
 import br.unitins.topicos1.floricultura.model.Usuario;
 import br.unitins.topicos1.floricultura.model.Venda;
+import br.unitins.topicos1.floricultura.repository.CidadeRepository;
 import br.unitins.topicos1.floricultura.repository.ProdutoRepository;
 import br.unitins.topicos1.floricultura.repository.UsuarioRepository;
 import br.unitins.topicos1.floricultura.repository.VendaRepository;
@@ -34,6 +38,10 @@ public class VendaServiceImpl implements VendaService {
 
     @Inject
     ProdutoRepository produtoRepository;
+
+    // ! to delete
+    @Inject
+    CidadeRepository cidadeRepository;
 
     @Inject
     JsonWebToken jwt;
@@ -63,8 +71,24 @@ public class VendaServiceImpl implements VendaService {
 
         LOG.infof("Usuário encontrado. ID: %d", usuario.getId());
 
+        // endereço de entrega
+        LOG.infof("Verificando se o endereço para entrega é válido. idEndereco: %d", dto.idEnderecoEntrega());
+        // !Verificar endereço e copiar o endereço escolhido para um novo endereço
+        
+        LOG.info("Gerando uma cópia do endereço selecionado.");
+        Endereco enderecoEntrega = new Endereco();
+        enderecoEntrega.setCodigo("111111");
+        enderecoEntrega.setRua("Rua Castelo Branco");
+        enderecoEntrega.setBairro("Plano Diretor Sul");
+        enderecoEntrega.setNumeroLote("19");
+        enderecoEntrega.setComplemento(null);
+
+        Cidade cidadeEndereçoEntrega = cidadeRepository.findById(Long.valueOf(1));
+        enderecoEntrega.setCidade(cidadeEndereçoEntrega);
+
         Venda venda = new Venda();
         venda.setUsuario(usuario);
+        venda.setEndereco(enderecoEntrega);
         venda.setDataHora(LocalDateTime.now());
 
         LOG.info("Criando a lista de itens da venda.");
@@ -74,6 +98,11 @@ public class VendaServiceImpl implements VendaService {
             if (produto == null) {
                 LOG.errorf("Produto com o id não encontrado. ID do produto: %s", item.produto().toString());
                 throw new ValidationException("produto", "Um dos produtos informado não foi encontrado");
+            }
+
+            if (produto.getStatusProduto() != StatusProduto.ATIVO) {
+                LOG.errorf("Produto não está ativo. Produto: %s, ID: %d", produto.getNome(), item.produto());
+                throw new ValidationException("produto", "Um dos produtos informados não está ativo");
             }
 
             ItemVenda itemVenda = new ItemVenda();

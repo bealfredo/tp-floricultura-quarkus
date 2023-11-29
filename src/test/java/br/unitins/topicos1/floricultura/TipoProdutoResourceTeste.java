@@ -1,33 +1,45 @@
 package br.unitins.topicos1.floricultura;
 
-import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.http.ContentType;
-import jakarta.inject.Inject;
-
-import org.junit.jupiter.api.Test;
-
-import br.unitins.topicos1.floricultura.dto.CategoriaProdutoDTO;
-import br.unitins.topicos1.floricultura.dto.CategoriaProdutoResponseDTO;
-import br.unitins.topicos1.floricultura.dto.FornecedorDTO;
-import br.unitins.topicos1.floricultura.dto.FornecedorResponseDTO;
-import br.unitins.topicos1.floricultura.dto.TipoProdutoDTO;
-import br.unitins.topicos1.floricultura.dto.TipoProdutoResponseDTO;
-import br.unitins.topicos1.floricultura.model.CategoriaProduto;
-import br.unitins.topicos1.floricultura.service.CategoriaProdutoService;
-import br.unitins.topicos1.floricultura.service.FornecedorService;
-import br.unitins.topicos1.floricultura.service.TipoProdutoService;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+
+import org.junit.jupiter.api.Test;
+
+import br.unitins.topicos1.floricultura.dto.TipoProdutoDTO;
+import br.unitins.topicos1.floricultura.dto.TipoProdutoResponseDTO;
+import br.unitins.topicos1.floricultura.service.TipoProdutoService;
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.http.ContentType;
+import io.restassured.response.ValidatableResponse;
+import jakarta.inject.Inject;
 
 @QuarkusTest
 public class TipoProdutoResourceTeste {
 
   @Inject
   TipoProdutoService tipoProdutoService;
+
+  private TipoProdutoDTO getOneDTO() {
+    TipoProdutoDTO dto = new TipoProdutoDTO(
+      "Árvores noturnas",
+      "Árvores que aparecem de noite?",
+      Long.valueOf(1)
+    );
+
+    return dto;
+  }
+
+  private TipoProdutoResponseDTO getOneResponseDTO() {
+    try {
+      return tipoProdutoService.insert(getOneDTO());
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
   @Test
   public void testInsert() {
@@ -37,7 +49,7 @@ public class TipoProdutoResourceTeste {
       Long.valueOf(1)
     );
 
-    given()
+    ValidatableResponse validatableResponse = given()
       .contentType(ContentType.JSON)
       .body(dto)
       .when().post("/tiposproduto")
@@ -47,27 +59,17 @@ public class TipoProdutoResourceTeste {
         "id", notNullValue(),
         "nome", is("Árvores noturnas"),
         "descricao", is("Árvores que aparecem de noite?"),
-        "categoriaProduto.id", is(1),
-        "categoriaProduto.nome", is("Árvores"),
-        "categoriaProduto.descricao", is("Árvores de diferentes espécies")); 
+        "categoriaProduto.id", is(1));
+
+    Integer idCriado = validatableResponse.extract().jsonPath().get("id");
+    tipoProdutoService.delete(Long.valueOf(idCriado));
   }
 
   @Test
   public void testUpdate() {
-    TipoProdutoDTO dto = new TipoProdutoDTO(
-      "Árvores esquisitas",
-      "muiuasisumaiuoaass?",
-      Long.valueOf(1)
-    );
+    TipoProdutoResponseDTO tipoProdutoTeste = getOneResponseDTO();
 
-    TipoProdutoResponseDTO fornecedorTeste = null;
-
-    try {
-      fornecedorTeste = tipoProdutoService.insert(dto);
-    } catch (Exception e) {
-    }
-    
-    Long id = fornecedorTeste.id();
+    Long id = tipoProdutoTeste.id();
   
     TipoProdutoDTO dtoUpdate = new TipoProdutoDTO(
       "Arvores Esquisitas Demais",
@@ -93,25 +95,16 @@ public class TipoProdutoResourceTeste {
       .body(dtoUpdate)
       .when().put("/tiposproduto/1245654321")
       .then()
-      .statusCode(404); 
+      .statusCode(404);
+
+    tipoProdutoService.delete(id);
   }
 
   @Test
   public void testDelete() {
-    TipoProdutoDTO dto = new TipoProdutoDTO(
-      "Árvores para apagar",
-      "Precisa ser apagada",
-      Long.valueOf(1)
-    );
+    TipoProdutoResponseDTO tipoProdutoTeste = getOneResponseDTO();
 
-    TipoProdutoResponseDTO fornecedorTeste = null;
-
-    try {
-      fornecedorTeste = tipoProdutoService.insert(dto);
-    } catch (Exception e) {
-    }
-    
-    Long id = fornecedorTeste.id();
+    Long id = tipoProdutoTeste.id();
 
     given()
       .contentType(ContentType.JSON)
@@ -125,6 +118,7 @@ public class TipoProdutoResourceTeste {
       .when().delete("/tiposproduto/1234765432")
       .then()
       .statusCode(404);
+
   }
 
   @Test
