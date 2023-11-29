@@ -9,6 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Venda extends DefaultEntity {
@@ -19,7 +20,11 @@ public class Venda extends DefaultEntity {
 
   private String chavePix;
 
-  private Double totalVenda; 
+  private Double totalVenda;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "id_endereco")
+  private Endereco endereco;
 
   @ManyToOne
   @JoinColumn(name = "id_usuario")
@@ -58,6 +63,14 @@ public class Venda extends DefaultEntity {
 
   public void setTotalVenda(Double totalPedido) {
     this.totalVenda = totalPedido;
+  }
+
+  public Endereco getEndereco() {
+    return endereco;
+  }
+
+  public void setEndereco(Endereco endereco) {
+    this.endereco = endereco;
   }
 
   public Usuario getUsuario() {
