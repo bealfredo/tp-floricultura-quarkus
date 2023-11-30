@@ -4,8 +4,10 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.model.Produto;
 import br.unitins.topicos1.floricultura.model.StatusProduto;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.NoResultException;
 
 @ApplicationScoped
@@ -18,10 +20,20 @@ public class ProdutoRepository implements PanacheRepository<Produto>{
         try {
             return find("codigo = ?1 ", codigo ).singleResult();
         } catch (NoResultException e) {
-            e.printStackTrace();
             return null;
         }
         
+    }
+
+    public Produto findByIdComBloqueioCompartilhado(Long id) {
+        PanacheQuery<Produto> query = find("id = ?1", id);
+        query.withLock(LockModeType.PESSIMISTIC_READ);
+
+        try {
+            return query.singleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public List<Produto> findByFornecedor(Long id) {

@@ -6,12 +6,16 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import br.unitins.topicos1.floricultura.dto.VendaDTO;
 import br.unitins.topicos1.floricultura.dto.VendaResponseDTO;
+import br.unitins.topicos1.floricultura.dto.VendaUpdateStatusDTO;
+import br.unitins.topicos1.floricultura.model.StatusVenda;
 import br.unitins.topicos1.floricultura.service.VendaService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -32,6 +36,7 @@ public class VendaResource {
   VendaService service;
 
   @POST
+  @Transactional
   @RolesAllowed({"User"})
   public Response insert(@Valid VendaDTO dto) {
 
@@ -45,6 +50,20 @@ public class VendaResource {
   @RolesAllowed({"User", "Admin"})
   public Response findAll() {
     return Response.ok(service.findAll()).build();
+  }
+
+  @GET
+  @Path("/statusvenda")
+  public Response listAllStatusVenda() {
+      return Response.ok(StatusVenda.listAll()).build();
+  }
+
+  @PATCH // ! jó admin
+  @Transactional
+  @Path("/{id}/status")
+  public Response updateStatusVenda(@Valid VendaUpdateStatusDTO dto, @PathParam("id") Long id) {
+    service.updateStatusVenda(dto, id);
+    return Response.noContent().build();
   }
 
   // @PUT

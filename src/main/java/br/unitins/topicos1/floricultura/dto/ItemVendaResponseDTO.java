@@ -4,7 +4,6 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.model.ItemVenda;
 import br.unitins.topicos1.floricultura.model.Produto;
-import br.unitins.topicos1.floricultura.model.TipoProduto;
 
 public record ItemVendaResponseDTO(
     Long id,

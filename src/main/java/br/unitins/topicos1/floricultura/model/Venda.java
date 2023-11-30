@@ -33,6 +33,9 @@ public class Venda extends DefaultEntity {
   @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "venda", fetch = FetchType.LAZY)
   private List<ItemVenda> itensVenda;
 
+  @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "venda", fetch = FetchType.LAZY)
+  private List<HistoricoStatus> historicoStatus;
+
   public LocalDateTime getDataHora() {
     return dataHora;
   }
@@ -87,6 +90,14 @@ public class Venda extends DefaultEntity {
 
   public void setItensVenda(List<ItemVenda> itensVenda) {
     this.itensVenda = itensVenda;
+  }
+
+  public List<HistoricoStatus> getHistoricoStatus() {
+    return historicoStatus;
+  }
+
+  public void setHistoricoStatus(List<HistoricoStatus> historicoStatus) {
+    this.historicoStatus = historicoStatus;
   }
 
 }
