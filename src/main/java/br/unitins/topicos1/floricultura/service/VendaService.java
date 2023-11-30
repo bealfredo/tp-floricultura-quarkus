@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.VendaDTO;
 import br.unitins.topicos1.floricultura.dto.VendaResponseDTO;
+import br.unitins.topicos1.floricultura.dto.VendaUpdateStatusDTO;
 import jakarta.validation.Valid;
 
 public interface VendaService {
@@ -19,6 +20,8 @@ public interface VendaService {
     public VendaResponseDTO findById(Long id);
 
     public List<VendaResponseDTO> findByUsuario(Long id) throws Exception;
+
+    public VendaResponseDTO updateStatusVenda(VendaUpdateStatusDTO dto, Long id);
 
     // public ProdutoResponseDTO findByCodigo(String codigo);
 

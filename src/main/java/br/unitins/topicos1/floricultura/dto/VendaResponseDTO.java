@@ -13,7 +13,8 @@ public record VendaResponseDTO(
     Double totalVenda,
     EnderecoResponseDTO endereco,
     UsuarioResponseDTO usuario,
-    List<ItemVendaResponseDTO> getItensVenda
+    List<ItemVendaResponseDTO> itensVenda,
+    List<HistoricoStatusResponseDTO> historicoStatus
 ) {
   public static VendaResponseDTO valueOf(Venda venda) {
 
@@ -25,7 +26,8 @@ public record VendaResponseDTO(
       venda.getTotalVenda(),
       EnderecoResponseDTO.valueOf(venda.getEndereco()),
       UsuarioResponseDTO.valueOf(venda.getUsuario()),
-      ItemVendaResponseDTO.valueOf(venda.getItensVenda())
+      ItemVendaResponseDTO.valueOf(venda.getItensVenda()),
+      HistoricoStatusResponseDTO.valueOf(venda.getHistoricoStatus())
     );
   }
 }
