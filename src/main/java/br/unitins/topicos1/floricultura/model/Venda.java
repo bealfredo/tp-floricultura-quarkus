@@ -22,7 +22,11 @@ public class Venda extends DefaultEntity {
 
   private Double totalVenda;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @ManyToOne
+  @JoinColumn(name = "id_lastStatus")
+  private HistoricoStatus lastStatus;
+
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "id_endereco")
   private Endereco endereco;
 
@@ -30,10 +34,10 @@ public class Venda extends DefaultEntity {
   @JoinColumn(name = "id_usuario")
   private Usuario usuario;
 
-  @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "venda", fetch = FetchType.LAZY)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "venda", fetch = FetchType.LAZY, orphanRemoval = true)
   private List<ItemVenda> itensVenda;
 
-  @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "venda", fetch = FetchType.LAZY)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "venda", fetch = FetchType.LAZY, orphanRemoval = true)
   private List<HistoricoStatus> historicoStatus;
 
   public LocalDateTime getDataHora() {
@@ -66,6 +70,14 @@ public class Venda extends DefaultEntity {
 
   public void setTotalVenda(Double totalPedido) {
     this.totalVenda = totalPedido;
+  }
+
+   public HistoricoStatus getLastStatus() {
+    return lastStatus;
+  }
+
+  public void setLastStatus(HistoricoStatus lastStatus) {
+    this.lastStatus = lastStatus;
   }
 
   public Endereco getEndereco() {

@@ -14,6 +14,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
@@ -66,21 +67,12 @@ public class VendaResource {
     return Response.noContent().build();
   }
 
-  // @PUT
-  // @Path("/{id}")
-  // public Response update(PedidoDTO dto, @PathParam("id") Long id) {
-  //   service.update(dto, id);
-  //   return Response.status(Status.NO_CONTENT).build();
-  // }
-
-  // @DELETE
-  // @Path("/{id}")
-  // public Response delete(@PathParam("id") Long id) {
-  //   service.delete(id);
-  //   return Response.status(Status.NO_CONTENT).build();
-  // }
-
-
+  @DELETE
+  @Path("/{id}")
+  public Response delete(@PathParam("id") Long id) {
+    service.delete(id);
+    return Response.status(Status.NO_CONTENT).build();
+  }
 
   @GET
   @Path("/{id}")  // /venda/id
@@ -98,6 +90,18 @@ public class VendaResource {
     } catch (Exception e) {
       return Response.status(Status.NOT_FOUND).entity("O Usuário informado não foi informado").build();
     }
+  }
+
+  @GET
+  @RolesAllowed({"User"}) // !só admin
+  @Path("/search/laststatus/{id}")
+  public Response findByLastStatus(@PathParam("id") Integer idStatusVenda) {
+    // try {
+      List<VendaResponseDTO> retorno = service.findByLastStatus(idStatusVenda);
+      return Response.ok(retorno).build();
+    // } catch (Exception e) {
+    //   return Response.status(Status.NOT_FOUND).entity("O Usuário informado não foi informado").build();
+    // }
   }
 
 }
