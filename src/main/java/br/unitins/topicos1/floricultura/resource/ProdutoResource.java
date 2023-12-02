@@ -5,6 +5,8 @@ import java.io.File;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.unitins.topicos1.floricultura.dto.ProdutoDTO;
+import br.unitins.topicos1.floricultura.dto.ProdutoUpdateQuantidadeDTO;
+import br.unitins.topicos1.floricultura.dto.ProdutoUpdateStatusProdutoDTO;
 import br.unitins.topicos1.floricultura.form.ProdutoImageForm;
 import br.unitins.topicos1.floricultura.model.StatusProduto;
 import br.unitins.topicos1.floricultura.service.ProdutoService;
@@ -79,6 +81,22 @@ public class ProdutoResource {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response deleteImagem(@PathParam("id") Long id) {
         service.deleteImagem(id);
+        return Response.noContent().build();
+
+    }
+
+    // @RolesAllowed({"Test", "Cliente", "Admin"})
+    @PATCH
+    @Path("/{id}/update/statusProduto")
+    public Response updateStatusProduto(ProdutoUpdateStatusProdutoDTO dto, @PathParam("id") Long id) {
+        service.updateStatusProduto(dto, id);
+        return Response.noContent().build();
+    }
+
+    @PATCH
+    @Path("/{id}/update/quantidade")
+    public Response updateQuantidade(ProdutoUpdateQuantidadeDTO dto, @PathParam("id") Long id) {
+        service.updateQuantidade(dto, id);
         return Response.noContent().build();
 
     }

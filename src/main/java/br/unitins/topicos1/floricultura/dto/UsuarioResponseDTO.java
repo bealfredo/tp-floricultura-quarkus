@@ -9,6 +9,7 @@ import br.unitins.topicos1.floricultura.model.Usuario;
 public record UsuarioResponseDTO(
     Long id,
     String nome,
+    String sobreNome,
     String login,
     String cpf,
     LocalDate dataNascimento,
@@ -20,6 +21,7 @@ public record UsuarioResponseDTO(
         return new UsuarioResponseDTO(
             usuario.getId(), 
             usuario.getNome(),
+            usuario.getSobreNome(),
             usuario.getLogin(),
             usuario.getCpf(),
             usuario.getDataNascimento(),

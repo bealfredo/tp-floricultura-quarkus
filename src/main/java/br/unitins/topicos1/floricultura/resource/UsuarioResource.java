@@ -1,6 +1,7 @@
 package br.unitins.topicos1.floricultura.resource;
 
 import br.unitins.topicos1.floricultura.dto.UsuarioDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioUpdateInfoDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
 import br.unitins.topicos1.floricultura.service.UsuarioService;
 import jakarta.annotation.security.RolesAllowed;
@@ -34,10 +35,10 @@ public class UsuarioResource {
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();
     }
 
-    @PUT
+    @PATCH
     @Transactional
     @Path("/{id}")
-    public Response update(UsuarioDTO dto, @PathParam("id") Long id) {
+    public Response update(UsuarioUpdateInfoDTO dto, @PathParam("id") Long id) {
         service.update(dto, id);
         return Response.noContent().build();
     }
@@ -51,7 +52,7 @@ public class UsuarioResource {
     }
 
     @GET
-    @RolesAllowed({"Admin"})
+    @RolesAllowed({"Test", "Admin"})
     public Response findAll() {
         return Response.ok(service.findAll()).build();
     }
@@ -66,6 +67,23 @@ public class UsuarioResource {
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome) {
         return Response.ok(service.findByNome(nome)).build();
+    }
+
+    @GET
+    @RolesAllowed({ "Test", "Cliente", "Admin" })
+    @Path("/userInfo")
+    public Response userInfo() {
+        return Response.ok(service.userInfo()).build();
+
+    }
+
+    @PATCH
+    @Transactional
+    @Path("/update/senha")
+    @RolesAllowed({ "Test", "Cliente" })
+    public Response updateSenha(UsuarioUpdateSenhaDTO dto) {
+        service.updateSenha(dto);
+        return Response.noContent().build();
     }
     
 }

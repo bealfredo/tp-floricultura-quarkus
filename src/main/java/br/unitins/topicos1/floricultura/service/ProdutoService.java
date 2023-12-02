@@ -5,6 +5,8 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.ProdutoDTO;
 import br.unitins.topicos1.floricultura.dto.ProdutoResponseDTO;
+import br.unitins.topicos1.floricultura.dto.ProdutoUpdateQuantidadeDTO;
+import br.unitins.topicos1.floricultura.dto.ProdutoUpdateStatusProdutoDTO;
 import br.unitins.topicos1.floricultura.form.ProdutoImageForm;
 import jakarta.validation.Valid;
 
@@ -35,5 +37,10 @@ public interface ProdutoService {
     public File downloadImagem(Long id);
 
     public void deleteImagem( Long id);
+
+    public void updateStatusProduto(ProdutoUpdateStatusProdutoDTO dto, Long id);
+
+    public void updateQuantidade(ProdutoUpdateQuantidadeDTO dto, Long id);
+
 
 }

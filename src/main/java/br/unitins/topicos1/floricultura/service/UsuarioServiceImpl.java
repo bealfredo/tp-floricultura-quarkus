@@ -8,6 +8,8 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import br.unitins.topicos1.floricultura.dto.EnderecoDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioUpdateInfoDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
 import br.unitins.topicos1.floricultura.model.Cidade;
 import br.unitins.topicos1.floricultura.model.Endereco;
 import br.unitins.topicos1.floricultura.model.TipoUsuario;
@@ -87,15 +89,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO update(UsuarioDTO dto, Long id) {
+    public UsuarioResponseDTO update(UsuarioUpdateInfoDTO dto, Long id) {
         Usuario usuario = repository.findById(id);
         usuario.setNome(dto.nome());
         usuario.setSobreNome(dto.sobreNome());
-        usuario.setLogin(dto.login());
-        usuario.setSenha(hashService.getHashSenha(dto.senha()));
+        usuario.setCpf(dto.cpf());
         usuario.setDataNascimento(dto.dataNascimento());
+        
         if (dto.listaEndereco() != null && 
                     !dto.listaEndereco().isEmpty()){
+
             usuario.setListaEndereco(new ArrayList<Endereco>());
             for (EnderecoDTO e : dto.listaEndereco()) {
                 Endereco endereco = new Endereco();
@@ -154,6 +157,35 @@ public class UsuarioServiceImpl implements UsuarioService {
         throw new ValidationException("login", "Login inválido");
 
         return UsuarioResponseDTO.valueOf(usuario);
+    }
+
+    @Override
+    public UsuarioResponseDTO userInfo() {
+        String login = jwt.getSubject();
+
+        Usuario usuario = repository.findByLogin(login);
+
+        return UsuarioResponseDTO.valueOf(usuario);
+    }
+
+
+    @Override
+    @Transactional
+    public void updateSenha(UsuarioUpdateSenhaDTO dto) {
+
+        String login = jwt.getSubject();
+        Usuario usuario = repository.findByLogin(login);
+        if (usuario == null) 
+            throw new ValidationException("login", "Login inválido");
+
+        String hashSenhaAntiga = hashService.getHashSenha(dto.senhaAntiga());
+
+        if (!hashSenhaAntiga.equals(usuario.getSenha()))
+            throw new ValidationException("senhaAntiga", "A senha informada está incorreta");
+
+        String hashSenhaNova = hashService.getHashSenha(dto.senhaNova());
+
+        usuario.setSenha(hashSenhaNova);
     }
     
 }
