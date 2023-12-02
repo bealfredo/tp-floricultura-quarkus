@@ -235,6 +235,10 @@ public class ProdutoServiceImpl implements ProdutoService {
             throw new GeneralValidationException("Imagem produto", "Erro ao salvar a imagem");
         }
 
+        if (produto.getImagem() != null) {
+            produtoFileService.apagar(produto.getImagem());
+        }
+
         produto.setImagem(nomeImagem);
 
         return ProdutoResponseDTO.valueOf(produto);
@@ -261,6 +265,23 @@ public class ProdutoServiceImpl implements ProdutoService {
         }
 
         return produtoFileService.obter(produto.getImagem());
+    }
+
+    @Override
+    @Transactional
+    public void deleteImagem(Long id) {
+        Produto produto = repository.findById(id);
+        if (produto == null) {
+            throw new NotFoundException();
+        }
+
+        if (produto.getImagem() == null) {
+            throw new GeneralValidationException("Imagem produto", "O produto não possui imagem");
+        }
+
+        produtoFileService.apagar(produto.getImagem());
+
+        produto.setImagem(null);
     }
 
     

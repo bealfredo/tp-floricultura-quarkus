@@ -34,4 +34,6 @@ public interface ProdutoService {
 
     public File downloadImagem(Long id);
 
+    public void deleteImagem( Long id);
+
 }

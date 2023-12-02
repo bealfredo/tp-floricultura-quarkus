@@ -15,9 +15,6 @@ import org.jboss.logging.Logger;
 import br.unitins.topicos1.floricultura.resource.AuthResource;
 import br.unitins.topicos1.floricultura.validation.GeneralValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.core.Response;
 
 @ApplicationScoped
 public class ProdutoFileService implements FileService {
@@ -76,6 +73,20 @@ public class ProdutoFileService implements FileService {
   public File obter(String nomeArquivo) {
     File file = new File(PATH_USER+nomeArquivo);
     return file;
+  }
+
+  @Override
+  public Boolean apagar(String nomeArquivo) {
+    try {
+        LOG.info("Apagando a imagem: " + nomeArquivo);
+        Path filePath = Paths.get(PATH_USER, nomeArquivo);
+        Files.deleteIfExists(filePath);
+        LOG.info("Imagem apagada com sucesso.");
+        return true;
+    } catch (IOException e) {
+        LOG.error("Erro ao apagar a imagem: " + nomeArquivo);
+        throw new GeneralValidationException("Imagem produto", "Erro ao apagar a imagem");
+    }
   }
 
   private void verificarTamanhoImagem(byte[] arquivo) {

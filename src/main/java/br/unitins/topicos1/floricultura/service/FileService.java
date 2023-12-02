@@ -9,4 +9,6 @@ public interface FileService {
 
   File obter(String nomeArquivo);
 
+  Boolean apagar(String nomeArquivo);
+
 }

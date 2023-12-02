@@ -11,6 +11,7 @@ import br.unitins.topicos1.floricultura.service.ProdutoService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
@@ -70,6 +71,16 @@ public class ProdutoResource {
         ResponseBuilder response = Response.ok(imageFile);
         response.header("Content-Disposition", "attachment;filename=" + imageFile.getName());
         return response.build();
+    }
+
+    // @RolesAllowed({"User", "Admin"})
+    @DELETE
+    @Path("/{id}/delete/imagem")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response deleteImagem(@PathParam("id") Long id) {
+        service.deleteImagem(id);
+        return Response.noContent().build();
+
     }
 
     @GET
