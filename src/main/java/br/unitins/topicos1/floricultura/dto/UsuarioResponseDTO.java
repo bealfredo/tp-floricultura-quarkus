@@ -9,9 +9,11 @@ import br.unitins.topicos1.floricultura.model.Usuario;
 public record UsuarioResponseDTO(
     Long id,
     String nome,
+    String sobreNome,
     String login,
+    String cpf,
     LocalDate dataNascimento,
-    List<TelefoneDTO> listaTelefone,
+    List<EnderecoResponseDTO> listaEndereco,
     TipoUsuario tipoUsuario
 ) { 
     public static UsuarioResponseDTO valueOf(Usuario usuario){
@@ -19,11 +21,13 @@ public record UsuarioResponseDTO(
         return new UsuarioResponseDTO(
             usuario.getId(), 
             usuario.getNome(),
+            usuario.getSobreNome(),
             usuario.getLogin(),
+            usuario.getCpf(),
             usuario.getDataNascimento(),
-            usuario.getListaTelefone()
+            usuario.getListaEndereco()
                 .stream()
-                .map(t -> TelefoneDTO.valueOf(t)).toList(),
+                .map(e -> EnderecoResponseDTO.valueOf(e)).toList(),
             usuario.getTipoUsuario()
         );
     }

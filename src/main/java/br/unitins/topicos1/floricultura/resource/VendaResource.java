@@ -38,7 +38,7 @@ public class VendaResource {
 
   @POST
   @Transactional
-  @RolesAllowed({"User"})
+  @RolesAllowed({"Test", "Admin", "Cliente"})
   public Response insert(@Valid VendaDTO dto) {
 
     String login = jwt.getSubject();
@@ -48,19 +48,20 @@ public class VendaResource {
   }
 
   @GET
-  @RolesAllowed({"User", "Admin"})
+  @RolesAllowed({"Test", "Admin"})
   public Response findAll() {
     return Response.ok(service.findAll()).build();
   }
 
   @GET
   @Path("/statusvenda")
+  @RolesAllowed({"Test", "Admin"})
   public Response listAllStatusVenda() {
       return Response.ok(StatusVenda.listAll()).build();
   }
 
-  @PATCH // ! jó admin
   @Transactional
+  @RolesAllowed({"Test", "Admin"})
   @Path("/{id}/status")
   public Response updateStatusVenda(@Valid VendaUpdateStatusDTO dto, @PathParam("id") Long id) {
     service.updateStatusVenda(dto, id);
@@ -68,6 +69,7 @@ public class VendaResource {
   }
 
   @DELETE
+  @RolesAllowed({"Test", "Admin"})
   @Path("/{id}")
   public Response delete(@PathParam("id") Long id) {
     service.delete(id);
@@ -75,13 +77,14 @@ public class VendaResource {
   }
 
   @GET
-  @Path("/{id}")  // /venda/id
-  @RolesAllowed({"User"}) // !só admin
+  @Path("/{id}")
+  @RolesAllowed({"Test", "Admin"})
   public Response findById(@PathParam("id") Long id) {
     return Response.ok(service.findById(id)).build();
   }
 
   @GET
+  @RolesAllowed({"Test", "Admin"})
   @Path("/search/usuario/{id}")
   public Response findByUsuario(@PathParam("id") Long id) {
     try {
@@ -93,7 +96,7 @@ public class VendaResource {
   }
 
   @GET
-  @RolesAllowed({"User"}) // !só admin
+  @RolesAllowed({"Test", "Admin"})
   @Path("/search/laststatus/{id}")
   public Response findByLastStatus(@PathParam("id") Integer idStatusVenda) {
     // try {

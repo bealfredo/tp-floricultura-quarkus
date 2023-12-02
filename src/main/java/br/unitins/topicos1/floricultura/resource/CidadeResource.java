@@ -3,6 +3,7 @@ package br.unitins.topicos1.floricultura.resource;
 import br.unitins.topicos1.floricultura.dto.CidadeDTO;
 import br.unitins.topicos1.floricultura.dto.CidadeResponseDTO;
 import br.unitins.topicos1.floricultura.service.CidadeService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -26,6 +27,7 @@ public class CidadeResource {
     CidadeService service;
 
     @POST
+    @RolesAllowed({"Test", "Admin"})
     public Response insert(CidadeDTO dto) {
         CidadeResponseDTO retorno = service.insert(dto);
         return Response.status(201).entity(retorno).build();
@@ -34,6 +36,7 @@ public class CidadeResource {
     @PUT
     @Transactional
     @Path("/{id}")
+    @RolesAllowed({"Test", "Admin"})
     public Response update(CidadeDTO dto, @PathParam("id") Long id) {
         service.update(dto, id);
         return Response.status(Status.NO_CONTENT).build();
@@ -42,24 +45,28 @@ public class CidadeResource {
     @DELETE
     @Transactional
     @Path("/{id}")
+    @RolesAllowed({"Test", "Admin"})
     public Response delete(@PathParam("id") Long id) {
         service.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @GET
+    @RolesAllowed({"Test", "Admin", "Cliente"})
     public Response findAll() {
         return Response.ok(service.findByAll()).build();
     }
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"Test", "Admin", "Cliente"})
     public Response findById(@PathParam("id") Long id) {
         return Response.ok(service.findById(id)).build();
     }
     
     @GET
     @Path("/search/nome/{nome}")
+    @RolesAllowed({"Test", "Admin", "Cliente"})
     public Response findByNome(@PathParam("nome") String nome) {
         return Response.ok(service.findByNome(nome)).build();
     }

@@ -8,6 +8,9 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import br.unitins.topicos1.floricultura.dto.ProdutoDTO;
 import br.unitins.topicos1.floricultura.dto.ProdutoResponseDTO;
+import br.unitins.topicos1.floricultura.dto.ProdutoUpdateQuantidadeDTO;
+import br.unitins.topicos1.floricultura.dto.ProdutoUpdateStatusProdutoDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
 import br.unitins.topicos1.floricultura.form.ProdutoImageForm;
 import br.unitins.topicos1.floricultura.model.Fornecedor;
 import br.unitins.topicos1.floricultura.model.Produto;
@@ -283,6 +286,34 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         produto.setImagem(null);
     }
+
+    @Override
+    @Transactional
+    public void updateStatusProduto(ProdutoUpdateStatusProdutoDTO dto, Long id) {
+        Produto produto = repository.findById(id);
+        if (produto == null) {
+            throw new NotFoundException();
+        }
+
+        StatusProduto statusProduto = StatusProduto.valueOf(dto.idStatus());
+        if(statusProduto == null) {
+            throw new ValidationException("idStatusProduto", "O status do produto é inválido.");
+        }
+
+        produto.setStatusProduto(statusProduto);
+    }
+
+    @Override
+    @Transactional
+    public void updateQuantidade(ProdutoUpdateQuantidadeDTO dto, Long id) {
+        Produto produto = repository.findById(id);
+        if (produto == null) {
+            throw new NotFoundException();
+        }
+
+        produto.setQuantidadeDisponivel(dto.quantidade());
+    }
+
 
     
 }
