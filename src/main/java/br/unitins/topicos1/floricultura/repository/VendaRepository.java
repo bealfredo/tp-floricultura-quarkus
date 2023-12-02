@@ -3,6 +3,7 @@ package br.unitins.topicos1.floricultura.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import br.unitins.topicos1.floricultura.model.StatusVenda;
 import br.unitins.topicos1.floricultura.model.Usuario;
 import br.unitins.topicos1.floricultura.model.Venda;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -22,7 +23,8 @@ public class VendaRepository implements PanacheRepository<Venda> {
 
   }
 
-  // public List<TipoProduto> findByCategoriaProduto(CategoriaProduto categoriaProduto) {
-  //   return find("categoriaProduto = ?1", categoriaProduto).list();
-  // }
+  public List<Venda> findByLastStatus(StatusVenda status) {
+    return find("lastStatus.statusVenda = ?1", status).list();
+  }
+
 }

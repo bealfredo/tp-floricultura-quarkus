@@ -8,8 +8,8 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import br.unitins.topicos1.floricultura.dto.TelefoneDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
-import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
 import br.unitins.topicos1.floricultura.model.Telefone;
+import br.unitins.topicos1.floricultura.model.TipoUsuario;
 import br.unitins.topicos1.floricultura.model.Usuario;
 import br.unitins.topicos1.floricultura.repository.UsuarioRepository;
 import br.unitins.topicos1.floricultura.validation.ValidationException;
@@ -17,8 +17,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.core.Response;
 
 @ApplicationScoped
 public class UsuarioServiceImpl implements UsuarioService {
@@ -59,6 +57,8 @@ public class UsuarioServiceImpl implements UsuarioService {
                 novoUsuario.getListaTelefone().add(telefone);
             }
         }
+
+        novoUsuario.setTipoUsuario(TipoUsuario.CLIENTE);
 
         repository.persist(novoUsuario);
 

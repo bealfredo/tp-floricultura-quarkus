@@ -68,7 +68,7 @@ public class VendaServiceImpl implements VendaService {
 
         String prefixo = "VE";
         
-        String qtVendasOfDay =  String.format("%04d", vendaRepository.qtVendasOfDay());
+        String qtVendasOfDay =  String.format("%04d", vendaRepository.qtVendasOfDay() + 1);
 
         return prefixo + anoMesDia + qtVendasOfDay;
     }
@@ -166,16 +166,25 @@ public class VendaServiceImpl implements VendaService {
         
         venda.setHistoricoStatus(historicoStatus);
 
+        venda.setLastStatus(historico1);
+
         LOG.info("Salvando no banco de dados.");
         vendaRepository.persist(venda);
 
         return VendaResponseDTO.valueOf(venda);
     }
 
-    // // @Override
-    // // @Transactional
-    // // public void delete(Long id) {
-    // // }
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        LOG.info("Iniciando deleção da venda. Id da venda: " + id);
+        if (!vendaRepository.deleteById(id)) {
+            LOG.error("Venda não encontrada. Id da venda: " + id);
+            throw new NotFoundException();
+        }
+
+        LOG.info("Deletando venda. Id da venda: " + id);
+    }
 
     @Override
     public List<VendaResponseDTO> findAll() {
@@ -231,11 +240,23 @@ public class VendaServiceImpl implements VendaService {
         vendaRepository.persist(venda);
         LOG.info("Histórico adicionado com sucesso." + venda.getHistoricoStatus().size());
 
+        LOG.info("Atualizando ultimo status da venda.");
+        venda.setLastStatus(novoStatus);
+
         return VendaResponseDTO.valueOf(venda);
     }
 
-    // public List<VendaResponseDTO> findByStatus() {
+    @Override
+    public List<VendaResponseDTO> findByLastStatus(Integer id) {
+        StatusVenda status = StatusVenda.valueOf(id);
+        if (status == null) {
+            throw new NotFoundException();
+        }
 
-    // }
+        return vendaRepository.findByLastStatus(status)
+            .stream()
+            .map(venda -> VendaResponseDTO.valueOf(venda))
+            .toList();
+    }
 
 }

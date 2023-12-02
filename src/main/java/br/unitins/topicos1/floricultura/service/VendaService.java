@@ -23,6 +23,10 @@ public interface VendaService {
 
     public VendaResponseDTO updateStatusVenda(VendaUpdateStatusDTO dto, Long id);
 
+    public List<VendaResponseDTO> findByLastStatus(Integer id);
+
+    public void delete(Long id);
+
     // public ProdutoResponseDTO findByCodigo(String codigo);
 
     // public List<ProdutoResponseDTO> findByTipoProduto(Long id);

@@ -16,7 +16,7 @@ public enum StatusVenda {
     PREPARANDO_ENVIO(3, "Preparando envio"),
     ENVIADO(4, "Enviado"),
     ENTREGUE(5, "Entregue"),
-    CANCELADO(6, "Cancelado");
+    CANCELADO(6, "Cancelada");
 
     private final Integer id;
     private final String label;
