@@ -29,7 +29,7 @@ public class UsuarioLogadoResource {
 
 
   @GET
-  @RolesAllowed({ "User", "Admin" })
+  @RolesAllowed({ "Test", "Cliente", "Admin" })
   public Response getUsuario() {
     return Response.ok(usuarioLogadoService.getUsuario()).build();
 
@@ -38,7 +38,7 @@ public class UsuarioLogadoResource {
   @PATCH
   @Transactional
   @Path("/update/senha")
-  @RolesAllowed({ "User" })
+  @RolesAllowed({ "Test", "Cliente" })
   public Response updateSenha(UsuarioUpdateSenhaDTO dto) {
     usuarioLogadoService.updateSenha(dto);
     return Response.noContent().build();

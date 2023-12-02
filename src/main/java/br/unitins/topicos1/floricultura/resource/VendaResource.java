@@ -38,7 +38,7 @@ public class VendaResource {
 
   @POST
   @Transactional
-  @RolesAllowed({"User"})
+  @RolesAllowed({"Test", "Cliente"})
   public Response insert(@Valid VendaDTO dto) {
 
     String login = jwt.getSubject();
@@ -48,7 +48,7 @@ public class VendaResource {
   }
 
   @GET
-  @RolesAllowed({"User", "Admin"})
+  @RolesAllowed({"Test", "Cliente", "Admin"})
   public Response findAll() {
     return Response.ok(service.findAll()).build();
   }
@@ -76,7 +76,7 @@ public class VendaResource {
 
   @GET
   @Path("/{id}")  // /venda/id
-  @RolesAllowed({"User"}) // !só admin
+  @RolesAllowed({"Test", "Cliente"}) // !só admin
   public Response findById(@PathParam("id") Long id) {
     return Response.ok(service.findById(id)).build();
   }
@@ -93,7 +93,7 @@ public class VendaResource {
   }
 
   @GET
-  @RolesAllowed({"User"}) // !só admin
+  @RolesAllowed({"Test", "Cliente"}) // !só admin
   @Path("/search/laststatus/{id}")
   public Response findByLastStatus(@PathParam("id") Integer idStatusVenda) {
     // try {

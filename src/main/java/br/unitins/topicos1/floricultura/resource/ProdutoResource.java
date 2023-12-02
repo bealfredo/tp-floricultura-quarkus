@@ -62,7 +62,7 @@ public class ProdutoResource {
         return Response.ok(service.salvarImagem(form, id)).build();
     }
 
-    // @RolesAllowed({"User", "Admin"})
+    // @RolesAllowed({"Test", "Cliente", "Admin"})
     @GET
     @Path("/{id}/download/imagem")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
@@ -73,7 +73,7 @@ public class ProdutoResource {
         return response.build();
     }
 
-    // @RolesAllowed({"User", "Admin"})
+    // @RolesAllowed({"Test", "Cliente", "Admin"})
     @DELETE
     @Path("/{id}/delete/imagem")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)

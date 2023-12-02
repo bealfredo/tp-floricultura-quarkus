@@ -3,9 +3,10 @@ insert into estado (nome, sigla) values ('Goiás', 'GO');
 insert into estado (nome, sigla) values ('Rio de Janeiro', 'RJ');
 insert into estado (nome, sigla) values ('São Paulo', 'SP');
 
-INSERT INTO usuario(login, nome, sobrenome, datanascimento, senha) VALUES 
-  ('string', 'Usuario', 'Teste', '2022-03-25T09:45:00', 'bbkbW6fhMoOwDuxoZ0jiAqkHujRJi1k3g4yfYRyTYybON03LFBWxwD7qx2wJmPlJa3hdAinzz9dntHOm9QBoIA=='),
-  ('maria', 'maria', 'testadora', '2022-03-25T09:45:00', 'mGIC/uOHQno3SxCLDKTkWePyuE+8xA13SJCxqKQT8E1N+4GFy3424nwH1ymot2+0ozp9GnnicUmwZs09Fi5HRw==');
+INSERT INTO usuario(tipoUsuario, login, nome, sobrenome, cpf, datanascimento, senha) VALUES 
+  (3, 'string', 'Test', 'Teste', '11111111111', '2022-03-25T09:45:00', 'bbkbW6fhMoOwDuxoZ0jiAqkHujRJi1k3g4yfYRyTYybON03LFBWxwD7qx2wJmPlJa3hdAinzz9dntHOm9QBoIA=='),
+  (1, 'admin', 'Admin', 'Trador', '22222222222', '2022-03-25T09:45:00', '55Lf07wobDs5E1udtQsHKYduh9vJqAJx7O6UElcGSahQp5SCMXL70ZGX7lM2axNPdmBbCqf7+6XuVTepfKH3Nw=='),
+  (2, 'maria', 'Maria', 'testadora', '33333333333', '2022-03-25T09:45:00', 'mGIC/uOHQno3SxCLDKTkWePyuE+8xA13SJCxqKQT8E1N+4GFy3424nwH1ymot2+0ozp9GnnicUmwZs09Fi5HRw==');
 
 insert into fornecedor (nome, email, telefone, cnpj) values ('Natureza Verde', 'nverde@gmail.com', '63991111111', '1114567890123');
 insert into fornecedor (nome, email, telefone, cnpj) values ('Plantas PN', 'pnplants@gmail.com', '63992222222', '22234567890123');

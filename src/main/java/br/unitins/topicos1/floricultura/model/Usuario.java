@@ -15,6 +15,7 @@ public class Usuario extends DefaultEntity {
     private String nome;
     private String sobreNome;
     private String login;
+    private String cpf;
     private String senha;
     private LocalDate dataNascimento;
     private TipoUsuario tipoUsuario;
@@ -38,6 +39,14 @@ public class Usuario extends DefaultEntity {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+        public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getSenha() {

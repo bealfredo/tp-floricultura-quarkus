@@ -51,8 +51,9 @@ public class UsuarioResource {
     }
 
     @GET
+    @RolesAllowed({"Admin"})
     public Response findAll() {
-        return Response.ok(service.findByAll()).build();
+        return Response.ok(service.findAll()).build();
     }
 
     @GET

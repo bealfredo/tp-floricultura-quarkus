@@ -10,6 +10,7 @@ public record UsuarioResponseDTO(
     Long id,
     String nome,
     String login,
+    String cpf,
     LocalDate dataNascimento,
     List<TelefoneDTO> listaTelefone,
     TipoUsuario tipoUsuario
@@ -20,6 +21,7 @@ public record UsuarioResponseDTO(
             usuario.getId(), 
             usuario.getNome(),
             usuario.getLogin(),
+            usuario.getCpf(),
             usuario.getDataNascimento(),
             usuario.getListaTelefone()
                 .stream()

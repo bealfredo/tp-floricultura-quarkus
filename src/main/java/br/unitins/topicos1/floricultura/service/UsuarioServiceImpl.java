@@ -41,12 +41,18 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new ValidationException("login", "Login já existe.");
         }
 
+        if (repository.findByCpf(dto.cpf()) != null) {
+            throw new ValidationException("cpf", "Cpf já cadastrado.");
+        }
+
         Usuario novoUsuario = new Usuario();
         novoUsuario.setNome(dto.nome());
         novoUsuario.setSobreNome(dto.sobreNome());
         novoUsuario.setLogin(dto.login());
+        novoUsuario.setCpf(dto.cpf());
         novoUsuario.setSenha(hashService.getHashSenha(dto.senha()));
         novoUsuario.setDataNascimento(dto.dataNascimento());
+
         if (dto.listaTelefone() != null && 
                     !dto.listaTelefone().isEmpty()){
             novoUsuario.setListaTelefone(new ArrayList<Telefone>());
@@ -94,27 +100,36 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public List<UsuarioResponseDTO> findAll() {
+        return repository.listAll().stream()
+            .map(e -> UsuarioResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
     public UsuarioResponseDTO findById(Long id) {
         return UsuarioResponseDTO.valueOf(repository.findById(id));
     }
 
     @Override
     public List<UsuarioResponseDTO> findByNome(String nome) {
-             return null;
-    }
-
-    @Override
-    public List<UsuarioResponseDTO> findByAll() {
-        return repository.listAll().stream()
-            .map(e -> UsuarioResponseDTO.valueOf(e)).toList();
+        return null;
     }
 
     @Override
     public UsuarioResponseDTO findByLoginAndSenha(String login, String senha) {
         Usuario usuario = repository.findByLoginAndSenha(login, senha);
-        if (usuario == null) 
-            throw new ValidationException("login", "Login ou senha inválido");
-        
+        if (usuario == null)
+        throw new ValidationException("login e senha", "Login ou senha inválidos");
+
+        return UsuarioResponseDTO.valueOf(usuario);
+    }
+
+    @Override
+    public UsuarioResponseDTO findByLogin(String login) {
+        Usuario usuario = repository.findByLogin(login);
+        if (usuario == null)
+        throw new ValidationException("login", "Login inválido");
+
         return UsuarioResponseDTO.valueOf(usuario);
     }
     
