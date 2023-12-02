@@ -38,7 +38,7 @@ public class VendaResource {
 
   @POST
   @Transactional
-  @RolesAllowed({"Test", "Cliente"})
+  @RolesAllowed({"Test", "Admin", "Cliente"})
   public Response insert(@Valid VendaDTO dto) {
 
     String login = jwt.getSubject();
@@ -60,7 +60,6 @@ public class VendaResource {
       return Response.ok(StatusVenda.listAll()).build();
   }
 
-  @PATCH // ! jó admin
   @Transactional
   @RolesAllowed({"Test", "Admin"})
   @Path("/{id}/status")
@@ -70,6 +69,7 @@ public class VendaResource {
   }
 
   @DELETE
+  @RolesAllowed({"Test", "Admin"})
   @Path("/{id}")
   public Response delete(@PathParam("id") Long id) {
     service.delete(id);
@@ -77,13 +77,14 @@ public class VendaResource {
   }
 
   @GET
-  @Path("/{id}")  // /venda/id
-  @RolesAllowed({"Test", "Cliente"}) // !só admin
+  @Path("/{id}")
+  @RolesAllowed({"Test", "Admin"})
   public Response findById(@PathParam("id") Long id) {
     return Response.ok(service.findById(id)).build();
   }
 
   @GET
+  @RolesAllowed({"Test", "Admin"})
   @Path("/search/usuario/{id}")
   public Response findByUsuario(@PathParam("id") Long id) {
     try {
@@ -95,7 +96,7 @@ public class VendaResource {
   }
 
   @GET
-  @RolesAllowed({"Test", "Cliente"}) // !só admin
+  @RolesAllowed({"Test", "Admin"})
   @Path("/search/laststatus/{id}")
   public Response findByLastStatus(@PathParam("id") Integer idStatusVenda) {
     // try {
