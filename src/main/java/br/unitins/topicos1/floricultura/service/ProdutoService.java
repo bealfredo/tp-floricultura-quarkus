@@ -1,9 +1,11 @@
 package br.unitins.topicos1.floricultura.service;
 
+import java.io.File;
 import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.ProdutoDTO;
 import br.unitins.topicos1.floricultura.dto.ProdutoResponseDTO;
+import br.unitins.topicos1.floricultura.form.ProdutoImageForm;
 import jakarta.validation.Valid;
 
 public interface ProdutoService {
@@ -27,5 +29,9 @@ public interface ProdutoService {
     public List<ProdutoResponseDTO> findByFornecedor(Long id);
 
     public List<ProdutoResponseDTO> findByStatusProduto(Integer id);
+
+    public ProdutoResponseDTO salvarImagem(ProdutoImageForm form, Long id);
+
+    public File downloadImagem(Long id);
 
 }

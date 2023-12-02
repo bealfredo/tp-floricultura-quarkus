@@ -1,10 +1,14 @@
 package br.unitins.topicos1.floricultura.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import br.unitins.topicos1.floricultura.dto.ProdutoDTO;
 import br.unitins.topicos1.floricultura.dto.ProdutoResponseDTO;
+import br.unitins.topicos1.floricultura.form.ProdutoImageForm;
 import br.unitins.topicos1.floricultura.model.Fornecedor;
 import br.unitins.topicos1.floricultura.model.Produto;
 import br.unitins.topicos1.floricultura.model.StatusProduto;
@@ -12,6 +16,7 @@ import br.unitins.topicos1.floricultura.model.TipoProduto;
 import br.unitins.topicos1.floricultura.repository.FornecedorRepository;
 import br.unitins.topicos1.floricultura.repository.ProdutoRepository;
 import br.unitins.topicos1.floricultura.repository.TipoProdutoRepository;
+import br.unitins.topicos1.floricultura.validation.GeneralValidationException;
 import br.unitins.topicos1.floricultura.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -33,6 +38,15 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Inject
     TipoProdutoRepository tipoProdutoRepository;
+
+    @Inject
+    ProdutoFileService produtoFileService;
+
+    @Inject
+    JsonWebToken jwt;
+
+    @Inject
+    UsuarioService usuarioService;
 
     @Override
     @Transactional
@@ -204,5 +218,50 @@ public class ProdutoServiceImpl implements ProdutoService {
             .map(produto -> ProdutoResponseDTO.valueOf(produto))
             .toList();
     }
+
+    @Override
+    @Transactional
+    public ProdutoResponseDTO salvarImagem(ProdutoImageForm form, Long id) {
+        Produto produto = repository.findById(id);
+        if (produto == null) {
+            throw new NotFoundException();
+        }
+
+        String nomeImagem = "";
+
+        try {
+            nomeImagem = produtoFileService.salvar(form.getNomeImagem(), form.getImagem());
+        } catch (Exception e) {
+            throw new GeneralValidationException("Imagem produto", "Erro ao salvar a imagem");
+        }
+
+        produto.setImagem(nomeImagem);
+
+        return ProdutoResponseDTO.valueOf(produto);
+    }
+
+    @Override
+    public File downloadImagem(Long id) {
+        Produto produto = repository.findById(id);
+        if (produto == null) {
+            throw new NotFoundException();
+        }
+
+        // String login = jwt.getSubject();
+        // UsuarioResponseDTO usuarioResponseDTO = usuarioService.fin(id);
+
+        // if (usuarioResponseDTO.tipoUsuario() == TipoUsuario.CLIENTE) {
+            if (!(produto.getStatusProduto() == StatusProduto.ATIVO)) {
+                throw new GeneralValidationException("Imagem produto", "O produto não está ativo");
+            }
+        // }
+
+        if (produto.getImagem() == null) {
+            throw new GeneralValidationException("Imagem produto", "O produto não possui imagem");
+        }
+
+        return produtoFileService.obter(produto.getImagem());
+    }
+
     
 }
