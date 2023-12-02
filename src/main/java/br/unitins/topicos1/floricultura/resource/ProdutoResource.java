@@ -1,12 +1,19 @@
 package br.unitins.topicos1.floricultura.resource;
 
+import java.io.File;
+
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+
 import br.unitins.topicos1.floricultura.dto.ProdutoDTO;
+import br.unitins.topicos1.floricultura.form.ProdutoImageForm;
 import br.unitins.topicos1.floricultura.model.StatusProduto;
 import br.unitins.topicos1.floricultura.service.ProdutoService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -15,7 +22,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
-
+import jakarta.ws.rs.core.Response.ResponseBuilder;
 
 
 @Path("/produtos")
@@ -46,6 +53,35 @@ public class ProdutoResource {
     //     service.delete(id);
     //     return Response.noContent().build();
     // }
+
+    // @RolesAllowed({"Admin"})
+    @PATCH
+    @Path("/{id}/upload/imagem")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response salvarImagem(@MultipartForm ProdutoImageForm form, @PathParam("id") Long id) {
+        return Response.ok(service.salvarImagem(form, id)).build();
+    }
+
+    // @RolesAllowed({"User", "Admin"})
+    @GET
+    @Path("/{id}/download/imagem")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadImagem(@PathParam("id") Long id) {
+        File imageFile = service.downloadImagem(id);
+        ResponseBuilder response = Response.ok(imageFile);
+        response.header("Content-Disposition", "attachment;filename=" + imageFile.getName());
+        return response.build();
+    }
+
+    // @RolesAllowed({"User", "Admin"})
+    @DELETE
+    @Path("/{id}/delete/imagem")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response deleteImagem(@PathParam("id") Long id) {
+        service.deleteImagem(id);
+        return Response.noContent().build();
+
+    }
 
     @GET
     public Response findAll() {
