@@ -12,7 +12,7 @@ public record UsuarioResponseDTO(
     String login,
     String cpf,
     LocalDate dataNascimento,
-    List<TelefoneDTO> listaTelefone,
+    List<EnderecoResponseDTO> listaEndereco,
     TipoUsuario tipoUsuario
 ) { 
     public static UsuarioResponseDTO valueOf(Usuario usuario){
@@ -23,9 +23,9 @@ public record UsuarioResponseDTO(
             usuario.getLogin(),
             usuario.getCpf(),
             usuario.getDataNascimento(),
-            usuario.getListaTelefone()
+            usuario.getListaEndereco()
                 .stream()
-                .map(t -> TelefoneDTO.valueOf(t)).toList(),
+                .map(e -> EnderecoResponseDTO.valueOf(e)).toList(),
             usuario.getTipoUsuario()
         );
     }

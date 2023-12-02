@@ -18,7 +18,7 @@ public record UsuarioDTO (
     @NotBlank(message = "O campo nome não pode ser nulo.")
     String senha,
     LocalDate dataNascimento,
-    List<TelefoneDTO> listaTelefone
+    List<EnderecoDTO> listaEndereco
 ) {
 
 }

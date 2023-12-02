@@ -14,8 +14,6 @@ public class Estado extends DefaultEntity {
     @Column(length = 2)
     private String sigla;
 
-    private LocalDate dataCadastro;
-
     public String getNome() {
         return nome;
     }
@@ -30,13 +28,5 @@ public class Estado extends DefaultEntity {
 
     public void setSigla(String sigla) {
         this.sigla = sigla;
-    }
-
-    public LocalDate getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(LocalDate dataCadastro) {
-        this.dataCadastro = dataCadastro;
     }
 }

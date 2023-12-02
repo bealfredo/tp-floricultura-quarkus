@@ -4,7 +4,6 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
 import br.unitins.topicos1.floricultura.service.UsuarioLogadoService;
-import br.unitins.topicos1.floricultura.service.UsuarioService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;

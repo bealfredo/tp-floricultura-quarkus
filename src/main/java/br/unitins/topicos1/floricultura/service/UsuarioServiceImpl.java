@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
-import br.unitins.topicos1.floricultura.dto.TelefoneDTO;
+import br.unitins.topicos1.floricultura.dto.EnderecoDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
-import br.unitins.topicos1.floricultura.model.Telefone;
+import br.unitins.topicos1.floricultura.model.Cidade;
+import br.unitins.topicos1.floricultura.model.Endereco;
 import br.unitins.topicos1.floricultura.model.TipoUsuario;
 import br.unitins.topicos1.floricultura.model.Usuario;
+import br.unitins.topicos1.floricultura.repository.CidadeRepository;
 import br.unitins.topicos1.floricultura.repository.UsuarioRepository;
 import br.unitins.topicos1.floricultura.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -26,6 +28,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Inject
     UsuarioRepository repository;
+
+    @Inject
+    CidadeRepository cidadeRepository;
 
     @Inject
     JwtService jwtService;
@@ -53,14 +58,23 @@ public class UsuarioServiceImpl implements UsuarioService {
         novoUsuario.setSenha(hashService.getHashSenha(dto.senha()));
         novoUsuario.setDataNascimento(dto.dataNascimento());
 
-        if (dto.listaTelefone() != null && 
-                    !dto.listaTelefone().isEmpty()){
-            novoUsuario.setListaTelefone(new ArrayList<Telefone>());
-            for (TelefoneDTO tel : dto.listaTelefone()) {
-                Telefone telefone = new Telefone();
-                telefone.setCodigoArea(tel.codigoArea());
-                telefone.setNumero(tel.numero());
-                novoUsuario.getListaTelefone().add(telefone);
+        if (dto.listaEndereco() != null && 
+                    !dto.listaEndereco().isEmpty()){
+            novoUsuario.setListaEndereco(new ArrayList<Endereco>());
+            for (EnderecoDTO e : dto.listaEndereco()) {
+                Endereco endereco = new Endereco();
+                endereco.setCodigo(e.codigo());
+                endereco.setRua(e.rua());
+                endereco.setBairro(e.bairro());
+                endereco.setNumeroLote(e.numeroLote());
+                endereco.setComplemento(e.complemento());
+
+                Cidade cidade = cidadeRepository.findById(e.cidade());
+                if (cidade == null) {
+                    throw new ValidationException("cidade", "A cidade de um dos endereços é inválida.");
+                }
+
+                endereco.setCidade(cidade);
             }
         }
 
@@ -80,14 +94,23 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setLogin(dto.login());
         usuario.setSenha(hashService.getHashSenha(dto.senha()));
         usuario.setDataNascimento(dto.dataNascimento());
-        if (dto.listaTelefone() != null && 
-                    !dto.listaTelefone().isEmpty()){
-            usuario.setListaTelefone(new ArrayList<Telefone>());
-            for (TelefoneDTO tel : dto.listaTelefone()) {
-                Telefone telefone = new Telefone();
-                telefone.setCodigoArea(tel.codigoArea());
-                telefone.setNumero(tel.numero());
-                usuario.getListaTelefone().add(telefone);
+        if (dto.listaEndereco() != null && 
+                    !dto.listaEndereco().isEmpty()){
+            usuario.setListaEndereco(new ArrayList<Endereco>());
+            for (EnderecoDTO e : dto.listaEndereco()) {
+                Endereco endereco = new Endereco();
+                endereco.setCodigo(e.codigo());
+                endereco.setRua(e.rua());
+                endereco.setBairro(e.bairro());
+                endereco.setNumeroLote(e.numeroLote());
+                endereco.setComplemento(e.complemento());
+
+                Cidade cidade = cidadeRepository.findById(e.cidade());
+                if (cidade == null) {
+                    throw new ValidationException("cidade", "A cidade de um dos endereços é inválida.");
+                }
+
+                endereco.setCidade(cidade);
             }
         }
         
