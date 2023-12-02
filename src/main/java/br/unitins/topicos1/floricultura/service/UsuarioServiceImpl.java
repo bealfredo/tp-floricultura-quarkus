@@ -10,6 +10,7 @@ import br.unitins.topicos1.floricultura.dto.UsuarioDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioUpdateInfoDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
+import br.unitins.topicos1.floricultura.dto.VendaResponseDTO;
 import br.unitins.topicos1.floricultura.model.Cidade;
 import br.unitins.topicos1.floricultura.model.Endereco;
 import br.unitins.topicos1.floricultura.model.TipoUsuario;
@@ -33,6 +34,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Inject
     CidadeRepository cidadeRepository;
+
+    @Inject
+    VendaService vendaService;
 
     @Inject
     JwtService jwtService;
@@ -167,6 +171,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         return UsuarioResponseDTO.valueOf(usuario);
     }
+
+    @Override
+    public List<VendaResponseDTO> minhasCompras() {
+            String login = jwt.getSubject();
+
+            Usuario usuario = repository.findByLogin(login);
+
+            List<VendaResponseDTO> vendas = null;
+
+            try {
+                vendas = vendaService.findByUsuario(usuario.getId());
+            } catch (Exception e) {
+            }
+
+            return vendas;
+        }
 
 
     @Override

@@ -48,19 +48,21 @@ public class VendaResource {
   }
 
   @GET
-  @RolesAllowed({"Test", "Cliente", "Admin"})
+  @RolesAllowed({"Test", "Admin"})
   public Response findAll() {
     return Response.ok(service.findAll()).build();
   }
 
   @GET
   @Path("/statusvenda")
+  @RolesAllowed({"Test", "Admin"})
   public Response listAllStatusVenda() {
       return Response.ok(StatusVenda.listAll()).build();
   }
 
   @PATCH // ! jó admin
   @Transactional
+  @RolesAllowed({"Test", "Admin"})
   @Path("/{id}/status")
   public Response updateStatusVenda(@Valid VendaUpdateStatusDTO dto, @PathParam("id") Long id) {
     service.updateStatusVenda(dto, id);

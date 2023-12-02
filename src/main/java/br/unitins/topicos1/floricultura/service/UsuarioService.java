@@ -6,6 +6,7 @@ import br.unitins.topicos1.floricultura.dto.UsuarioDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioUpdateInfoDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
+import br.unitins.topicos1.floricultura.dto.VendaResponseDTO;
 import jakarta.validation.Valid;
 
 public interface UsuarioService {
@@ -26,7 +27,9 @@ public interface UsuarioService {
   
     public UsuarioResponseDTO findByLogin(String login); 
 
-    public UsuarioResponseDTO userInfo();
+    public UsuarioResponseDTO userInfo();   
+
+    public List<VendaResponseDTO> minhasCompras();
 
     public void updateSenha(UsuarioUpdateSenhaDTO dto);
     

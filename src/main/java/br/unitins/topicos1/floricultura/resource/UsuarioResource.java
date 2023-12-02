@@ -74,7 +74,13 @@ public class UsuarioResource {
     @Path("/userInfo")
     public Response userInfo() {
         return Response.ok(service.userInfo()).build();
+    }
 
+    @GET
+    @RolesAllowed({ "Test", "Cliente", "Admin" })
+    @Path("/minhasCompras")
+    public Response minhasCompras() {
+        return Response.ok(service.minhasCompras()).build();
     }
 
     @PATCH
