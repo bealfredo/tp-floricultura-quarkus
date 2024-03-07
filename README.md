@@ -1,4 +1,4 @@
-# quarkus-topicos1-floricultura - by us
+# tp-floricultura-quarkus - by us
 
 ## branches
 - **main** - projeto do quarkus
