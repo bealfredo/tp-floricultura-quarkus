@@ -1,8 +1,29 @@
 # tp-floricultura-quarkus - by us
 
-## branches
-- **main** - projeto do quarkus
-- **other-files** - outros arquivos da disciplina
+## Responsabilidades
+
+### Alfredo
+
+- CategoriaPlanta
+- TipoPlanta
+- Planta
+- Avaliacao
+- Venda
+
+
+### Luiz
+
+- Cliente
+- Entregador
+- Admin
+- Fornecedor
+- Endereco
+- Telefone
+
+
+### Feitos
+- Cidade
+- Estado
 
 
 ## Teste 10
