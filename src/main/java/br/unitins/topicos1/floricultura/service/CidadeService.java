@@ -8,9 +8,9 @@ import jakarta.validation.Valid;
 
 public interface CidadeService {
 
-    public CidadeResponseDTO insert(@Valid CidadeDTO dto);
+    public CidadeResponseDTO insert(@Valid CidadeDTO dto) throws Exception;
 
-    public CidadeResponseDTO update(CidadeDTO dto, Long id);
+    public CidadeResponseDTO update(CidadeDTO dto, Long id) throws Exception;
 
     public void delete(Long id);
 

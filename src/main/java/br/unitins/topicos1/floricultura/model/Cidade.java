@@ -15,6 +15,9 @@ public class Cidade extends DefaultEntity {
     @JoinColumn(name = "id_estado")
     private Estado estado;
 
+    @Column
+    private Double frete;
+
     public String getNome() {
         return nome;
     }
@@ -29,6 +32,14 @@ public class Cidade extends DefaultEntity {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public Double getFrete() {
+        return frete;
+    }
+
+    public void setFrete(Double frete) {
+        this.frete = frete;
     }
 
 }

@@ -6,12 +6,14 @@ import br.unitins.topicos1.floricultura.model.Estado;
 public record CidadeResponseDTO(
     Long id,
     String nome,
-    Estado estado
+    Estado estado,
+    Double frete
 ) {
     public static CidadeResponseDTO valueOf(Cidade cidade){
         return new CidadeResponseDTO(
             cidade.getId(), 
             cidade.getNome(),
-            cidade.getEstado());
+            cidade.getEstado(),
+            cidade.getFrete());
     }
 }

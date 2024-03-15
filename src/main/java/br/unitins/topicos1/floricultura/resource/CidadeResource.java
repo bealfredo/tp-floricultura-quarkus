@@ -2,6 +2,7 @@ package br.unitins.topicos1.floricultura.resource;
 
 import br.unitins.topicos1.floricultura.dto.CidadeDTO;
 import br.unitins.topicos1.floricultura.dto.CidadeResponseDTO;
+import br.unitins.topicos1.floricultura.dto.TipoProdutoResponseDTO;
 import br.unitins.topicos1.floricultura.service.CidadeService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -29,8 +30,12 @@ public class CidadeResource {
     @POST
     @RolesAllowed({"Test", "Admin"})
     public Response insert(CidadeDTO dto) {
-        CidadeResponseDTO retorno = service.insert(dto);
-        return Response.status(201).entity(retorno).build();
+        try {
+            CidadeResponseDTO retorno = service.insert(dto);
+            return Response.status(Status.CREATED).entity(retorno).build();
+        } catch (Exception e) {
+            return Response.status(Status.NOT_FOUND).entity("O estado informado não foi encontrado").build();
+        }
     }
 
     @PUT
@@ -38,8 +43,12 @@ public class CidadeResource {
     @Path("/{id}")
     @RolesAllowed({"Test", "Admin"})
     public Response update(CidadeDTO dto, @PathParam("id") Long id) {
-        service.update(dto, id);
-        return Response.status(Status.NO_CONTENT).build();
+        try {
+            service.update(dto, id);
+            return Response.status(Status.NO_CONTENT).build();
+        } catch (Exception e) {
+            return Response.status(Status.NOT_FOUND).entity("A cidade não existe ou o estado informado não foi encontrado").build();
+        }
     }
 
     @DELETE

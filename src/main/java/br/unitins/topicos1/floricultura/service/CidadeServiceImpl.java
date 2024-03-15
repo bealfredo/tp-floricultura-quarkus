@@ -4,8 +4,12 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.CidadeDTO;
 import br.unitins.topicos1.floricultura.dto.CidadeResponseDTO;
+import br.unitins.topicos1.floricultura.model.CategoriaProduto;
 import br.unitins.topicos1.floricultura.model.Cidade;
+import br.unitins.topicos1.floricultura.model.Estado;
+import br.unitins.topicos1.floricultura.repository.CategoriaProdutoRepository;
 import br.unitins.topicos1.floricultura.repository.CidadeRepository;
+import br.unitins.topicos1.floricultura.repository.EstadoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -17,13 +21,23 @@ public class CidadeServiceImpl implements CidadeService{
     
     @Inject
     CidadeRepository repository;
+    @Inject
+    EstadoRepository repositoryEstado;
 
     @Override
     @Transactional
-    public CidadeResponseDTO insert(@Valid CidadeDTO dto) {
+    public CidadeResponseDTO insert(@Valid CidadeDTO dto) throws Exception {
+        
+        Estado estado = repositoryEstado.findById(dto.estado());
+
+        if (estado == null) {
+            throw new Exception("O estado informado não foi encontrada");
+        }
+
         Cidade novoCidade = new Cidade();
-        novoCidade.setNome(dto.getNome());
-        novoCidade.setEstado(dto.getEstado());
+        novoCidade.setNome(dto.nome());
+        novoCidade.setEstado(estado);
+        novoCidade.setFrete(dto.frete());
 
         repository.persist(novoCidade);
 
@@ -32,12 +46,19 @@ public class CidadeServiceImpl implements CidadeService{
 
     @Override
     @Transactional
-    public CidadeResponseDTO update(CidadeDTO dto, Long id) {
-        
+    public CidadeResponseDTO update(CidadeDTO dto, Long id) throws Exception {
+
+        Estado estado = repositoryEstado.findById(dto.estado());
+
+        if (estado == null) {
+            throw new Exception("O estado informado não foi encontrada");
+        }
+      
         Cidade cidade = repository.findById(id);
         if (cidade != null) {
-            cidade.setNome(dto.getNome());
-            cidade.setEstado(dto.getEstado());
+            cidade.setNome(dto.nome());
+            cidade.setEstado(estado);
+            cidade.setFrete(dto.frete());
         } else {
             throw new NotFoundException();
         }
