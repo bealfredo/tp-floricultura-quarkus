@@ -7,20 +7,34 @@ class Usuario {
   - cpf : String
   - senha : String
   - dataNascimento : String
-  - carrinho : String
-  - tipoUsuario : TipoUsuario
 }
 
-Usuario " * " --> " 1 " TipoUsuario
-Usuario " 1 " o--> " * " Endereco
 Usuario " 1 " *--> " 1 " Telefone
 
-enum TipoUsuario{
-  + CLIENTE
-  + ADMIN
-  + FUNCIONARIO
-  + ENTREGADOR
+class Cliente {
+  - carrinho : String
 }
+
+class Entregador {
+  - cnh : String
+  - cnpj : String
+}
+
+Entregador " 1 " --> " 1 " Usuario
+
+class Admin {
+} 
+
+Admin " 1 " --> " 1 " Usuario
+Admin " * " --> " 1 " TipoAdmin
+
+enum TipoAdmin {
+  + OWNER
+  + EMPLOYEE
+}
+
+Cliente " 1 " --> " 1 " Usuario
+Cliente " 1 " *--> " * " Endereco
 
 class Endereco {
   - nome : String
@@ -152,8 +166,9 @@ class Venda {
 
 Venda " 1 " *--> " *" ItemVenda
 Venda " 1 " *--> " * " HistoricoStatus
-Venda " 1 " --> " 1 " Usuario
+Venda " 1 " --> " 1 " Cliente
 Venda " 1 " *--> " 1 " Endereco
+Venda " 1 " --> " 1 " Entregador
 
 class Avaliacao {
    - data : LocalDate
@@ -161,14 +176,13 @@ class Avaliacao {
    - descricao : String
 }
 
-Avaliacao " * " --> " 1 " Usuario
+Avaliacao " * " --> " 1 " Cliente
 Planta " 1 " *--> " * " Avaliacao
 
 class Telefone {
   - ddd: String
   - numero : String
 }
-
 
 
 @enduml
