@@ -46,18 +46,6 @@ class Estado {
   - sigla : String
 }
 
-class CategoriaProduto {
-  - nome : String
-  - descricao : String
-}
-
-class TipoProduto {
-  - nome : String
-  - descricao : String
-}
-
-TipoProduto " * " --> " 1 " CategoriaProduto
-
 class Fornecedor {
   - nome : String
   - email : String
@@ -66,7 +54,19 @@ class Fornecedor {
 
 }
 
-class Produto {
+class CategoriaPlanta {
+  - nome : String
+  - descricao : String
+}
+
+class TipoPlanta {
+  - nome : String
+  - descricao : String
+}
+
+TipoPlanta " * " --> " 1 " CategoriaPlanta
+
+class Planta {
   - nome : String
   - precoVenda : Double
   - precoCusto : Double
@@ -76,19 +76,48 @@ class Produto {
   - descricao : String
   - dataDisponivel : LocalDateTime
   - codigo : String
-  - imagem : String
+  - imagemPrincipal : String
+  - imagens : String[]
+  - origem : String
+  - tempoCrescimento : String
 }
 
-Produto " * " --> " * " TipoProduto
-Produto " * " --> " 1 " StatusProduto
-Produto " * " --> " 1 " Fornecedor
+Planta " * " --> " 1 " PortePlanta
+Planta " * " --> " 1 " NivelToxicidade
+Planta " * " --> " 1 " NivelDificuldade
+Planta " * " --> " * " TipoPlanta
+Planta " * " --> " 1 " StatusPlanta
+Planta " * " --> " 1 " Fornecedor
 
-enum StatusProduto {
+enum NivelToxicidade {
+  + NAOTOXICA
+  + LEVEMENTETOXICA
+  + MODERADAMENTETOXICA
+  + ALTAMENTETOXICA
+  + EXTREMAMENTETOXICA
+}
+
+enum NivelDificuldade {
+  + FACIL
+  + MODERADO
+  + DIFICIL
+  + ESPECIALISTA 
+}
+
+enum PortePlanta {
+  + PEQUENO
+  + MEDIO
+  + GRANDE
+}
+
+enum StatusPlanta {
   + RASCUNHO
-  + ATIVO
-  + INATIVO
-  + ARQUIVO
+  + ATIVA
+  + INATIVA
+  + ARQUIVADA
 }
+
+Planta " * " --> " 1 " StatusPlanta
 
 
 class ItemVenda {
@@ -96,7 +125,7 @@ class ItemVenda {
   - quantidade : Integer
 }
 
-ItemVenda " * " o--> " 1" Produto
+ItemVenda " * " o--> " 1" Planta
 
 
 class HistoricoStatus {
@@ -134,6 +163,8 @@ class Avaliacao {
 }
 
 Avaliacao " * " --> " 1 " Usuario
-Produto " 1 " *--> " * " Avaliacao
+Planta " 1 " *--> " * " Avaliacao
+
+
 
 @enduml
