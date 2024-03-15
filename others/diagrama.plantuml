@@ -13,6 +13,7 @@ class Usuario {
 
 Usuario " * " --> " 1 " TipoUsuario
 Usuario " 1 " o--> " * " Endereco
+Usuario " 1 " *--> " 1 " Telefone
 
 enum TipoUsuario{
   + CLIENTE
@@ -29,7 +30,6 @@ class Endereco {
   - bairro : String
   - numeroLote : String
   - complemento : String
-  - telefoneContato : String
 }
 
 Endereco " * " --> " 1 " Cidade
@@ -51,8 +51,9 @@ class Fornecedor {
   - email : String
   - telefone : String
   - cnpj : String
-
 }
+
+Fornecedor " 1 " *--> " 1" Telefone
 
 class CategoriaPlanta {
   - nome : String
@@ -117,8 +118,6 @@ enum StatusPlanta {
   + ARQUIVADA
 }
 
-Planta " * " --> " 1 " StatusPlanta
-
 
 class ItemVenda {
   - preco : Double
@@ -164,6 +163,11 @@ class Avaliacao {
 
 Avaliacao " * " --> " 1 " Usuario
 Planta " 1 " *--> " * " Avaliacao
+
+class Telefone {
+  - ddd: String
+  - numero : String
+}
 
 
 
