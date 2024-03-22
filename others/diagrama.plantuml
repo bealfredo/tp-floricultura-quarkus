@@ -72,17 +72,59 @@ Fornecedor " 1 " *--> " 1" Telefone
 class CategoriaPlanta {
   - nome : String
   - descricao : String
+  - prioridade : Integer
+  - ativa : Boolean
 }
 
-class TipoPlanta {
+enum TipoCategoria {
+  + BIOLOGICA
+  + VIEW
+}
+
+CategoriaPlanta " * " --> " 1 " TipoCategoria
+
+' "biológica" para categorias que descrevem características naturais das plantas,
+' "view" para categorias de apresentação/navegação no site
+
+
+' enum TipoCategoria {
+'   + ORNAMENTAL
+'   + FRUTIFERA
+'   + MEDICINAL
+'   + AROMATICA
+'   + CACTO
+'   + SUCULENTA
+'   + BONSAI
+'   + AQUATICA
+'   + TAPETE
+'   + GRAMA
+'   + ARVORE
+'   + PALMEIRA
+'   + SAMAMBAIA
+'   + CEREAIS
+'   + LEGUMINOSA
+'   + TUBEROSA
+'   + RAIZ
+'   + BULBO
+'   + TREPADEIRA
+'   + TREPADEIRA
+'   + CIPÓ
+'   + PLANTA
+'   + ERVA
+' }
+
+class Tag {
   - nome : String
   - descricao : String
+  - prioridade : Integer
+  - ativa : Boolean
 }
 
-TipoPlanta " * " --> " 1 " CategoriaPlanta
+Tag " * " --> " 1 " CategoriaPlanta
 
 class Planta {
-  - nome : String
+  - nomeComum : String
+  - nomeCientifico : String
   - precoVenda : Double
   - precoCusto : Double
   - desconto : Double
@@ -100,9 +142,10 @@ class Planta {
 Planta " * " --> " 1 " PortePlanta
 Planta " * " --> " 1 " NivelToxicidade
 Planta " * " --> " 1 " NivelDificuldade
-Planta " * " --> " * " TipoPlanta
+Planta " * " --> " * " Tag
 Planta " * " --> " 1 " StatusPlanta
 Planta " * " --> " 1 " Fornecedor
+Planta " * " --> " 1 " CategoriaPlanta : categoriaBiologica
 
 enum NivelToxicidade {
   + NAOTOXICA
@@ -177,7 +220,8 @@ class Avaliacao {
 }
 
 Avaliacao " * " --> " 1 " Cliente
-Planta " 1 " *--> " * " Avaliacao
+' Planta " 1 " *--> " * " Avaliacao
+Avaliacao " * " --> " 1 " Planta
 
 class Telefone {
   - ddd: String
