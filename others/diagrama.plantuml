@@ -221,7 +221,7 @@ class Avaliacao {
 
 Avaliacao " * " --> " 1 " Cliente
 ' Planta " 1 " *--> " * " Avaliacao
-Avaliacao " * " --> " 1 " Planta
+Avaliacao " * " --> " 1 " ItemVenda
 
 class Telefone {
   - ddd: String
