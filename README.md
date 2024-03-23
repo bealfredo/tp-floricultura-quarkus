@@ -5,10 +5,9 @@
 ### Alfredo
 
 - CategoriaPlanta
-- TipoPlanta
+- Tag
 - Planta
-- Avaliacao
-- Venda
+- Fornecedor
 
 
 ### Luiz
@@ -16,7 +15,6 @@
 - Cliente
 - Entregador
 - Admin
-- Fornecedor
 - Endereco
 - Telefone
 
@@ -24,6 +22,11 @@
 ### Feitos
 - Cidade
 - Estado
+
+
+## outros
+- Avaliacao (so na a2)
+<!-- - Venda -->
 
 
 ## Teste 10
