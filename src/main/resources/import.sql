@@ -96,7 +96,7 @@ insert into itemvenda (preco, quantidade, id_produto, id_venda) values
   (100, 2, 3, 3);
 
 
--- new with angular
+-- new with angular project
 
 INSERT into categoriaplanta (nome, descricao, prioridade, ativa, tipocategoria) values
   ('Árvores', 'Esta categoria engloba uma variedade de árvores provenientes de diferentes espécies, proporcionando opções diversificadas para seu jardim ou espaço verde.', 1, true, 1),
