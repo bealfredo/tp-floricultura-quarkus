@@ -30,13 +30,13 @@ public enum TipoCategoria {
     return description;
   }
 
-  public static TipoCategoria valueOf(Integer id) throws IllegalArgumentException {
+  public static TipoCategoria valueOf(Integer id) {
     if (id == null)
       return null;
     for (TipoCategoria item : TipoCategoria.values()) {
       if (item.getId().equals(id))
         return item;
     }
-    throw new IllegalArgumentException("id inválido " + id);
+    return null;
   }
 }
