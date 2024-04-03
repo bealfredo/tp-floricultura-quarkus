@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record CategoriaPlantaDTO (
+public record TagDTO (
   @NotBlank(message = "O campo nome não pode ser nulo")
   String nome,
   @Size(max = 400, message = "O campo descricao deve ter no máximo 400 caracteres")
@@ -13,8 +13,8 @@ public record CategoriaPlantaDTO (
   Integer prioridade,
   @NotNull(message = "O campo ativa não pode ser nulo")
   Boolean ativa,
-  @NotNull(message = "O campo idTipoCategoria não pode ser nulo")
-  Integer idTipoCategoria
+  @NotNull(message = "O campo idCategoriaPlanta não pode ser nulo")
+  Long idCategoriaPlanta
 ) {
 
 }

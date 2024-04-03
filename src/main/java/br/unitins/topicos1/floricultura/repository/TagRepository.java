@@ -3,14 +3,14 @@ package br.unitins.topicos1.floricultura.repository;
 import java.util.List;
 
 import br.unitins.topicos1.floricultura.model.CategoriaPlanta;
-import br.unitins.topicos1.floricultura.model.TipoCategoria;
+import br.unitins.topicos1.floricultura.model.Tag;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class CategoriaPlantaRepository implements PanacheRepository<CategoriaPlanta> {
-  public PanacheQuery<CategoriaPlanta> findByNome(String nome, boolean caseSensitive) {
+public class TagRepository implements PanacheRepository<Tag> {
+  public PanacheQuery<Tag> findByNome(String nome, boolean caseSensitive) {
     if (nome == null) {
       return null;
     }
@@ -21,17 +21,15 @@ public class CategoriaPlantaRepository implements PanacheRepository<CategoriaPla
     }
   }
 
-  public List<CategoriaPlanta> findByAtiva(boolean ativa) {
+  public List<Tag> findByAtiva(boolean ativa) {
     return find("ativa", ativa).list();
   }
 
-  public List<CategoriaPlanta> findByPrioridade() {
+  public List<Tag> findByPrioridade() {
     return find("order by prioridade asc").list();
   }
 
-   public List<CategoriaPlanta> findByTipoCategoria(TipoCategoria tipoCategoria) {
-    return find("tipoCategoria = ?1", tipoCategoria).list();
+  public List<Tag> findByCategoriaPlanta(CategoriaPlanta categoriaPlanta) {
+    return find("categoriaPlanta = ?1", categoriaPlanta).list();
   }
-
-
 }

@@ -98,8 +98,18 @@ insert into itemvenda (preco, quantidade, id_produto, id_venda) values
 
 -- new with angular project
 
-INSERT into categoriaplanta (nome, descricao, prioridade, ativa, tipocategoria) values
-  ('Árvores', 'Esta categoria engloba uma variedade de árvores provenientes de diferentes espécies, proporcionando opções diversificadas para seu jardim ou espaço verde.', 1, true, 1),
-  ('Flores', 'Esta categoria engloba uma variedade de flores para alegrar e decorar diferentes ambientes.', 2, false, 1),
-  ('Novidades', 'Esta categoria abrange todas as novidades em plantas e acessórios para jardim.', 100, false, 2),
-  ('Plantas por estados', 'Esta categoria oferece plantas específicas de cada estado brasileiro.', 4, true, 2);
+INSERT INTO categoriaplanta (tipocategoria, nome, ativa, prioridade, descricao) VALUES
+  (1, 'Árvores', true, 3, 'Esta categoria engloba uma variedade de árvores provenientes de diferentes espécies, proporcionando opções diversificadas para seu jardim ou espaço verde.'),
+  (1, 'Flores', false, 2, 'Esta categoria engloba uma variedade de flores para alegrar e decorar diferentes ambientes.'),
+  (2, 'Novidades', false, 100, 'Esta categoria abrange todas as novidades em plantas e acessórios para jardim.'),
+  (2, 'Plantas por Regiões Brasileiras', true, 1, 'Esta categoria oferece plantas específicas das regiões do Brasil.');
+
+
+INSERT INTO tag (id_categoriaplanta, nome, ativa, prioridade, descricao) VALUES
+  (1, 'Árvores Frutíferas', true, 1, 'Árvores que produzem frutos comestíveis, oferecendo uma opção funcional e decorativa para diversos ambientes.'),
+  (2, 'Flores Decorativas', false, 2, 'Flores decorativas, ideais para trazer charme e colorido a diversos ambientes.'),
+  (2, 'Flores Azuis', true, 3, 'Flores azuis, ideais para trazer charme e colorido a diversos ambientes.'),
+  (3, 'Novidades em Flores', false, 100, 'Novidades em flores.'),
+  (4, 'Nordeste', true, 1, 'Plantas específicas da região Nordeste do Brasil.'),
+  (4, 'Sudeste', true, 1, 'Plantas específicas da região Sudeste do Brasil.'),
+  (4, 'Sul', true, 1, 'Plantas específicas da região Sul do Brasil.');
