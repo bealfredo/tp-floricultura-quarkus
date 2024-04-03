@@ -65,10 +65,6 @@ public class CategoriaPlantaServiceImpl implements CategoriaPlantaService {
       throw new ValidationException("nome", "Nome já cadastrado.");
     }
 
-    // if (repository.findByNome(dto.nome(), true).count() > 0) {
-    //   throw new ValidationException("nome", "Nome já cadastrado.");
-    // }
-
     categoriaPlanta.setNome(dto.nome());
     categoriaPlanta.setDescricao(dto.descricao());
     categoriaPlanta.setPrioridade(dto.prioridade());
@@ -85,10 +81,6 @@ public class CategoriaPlantaServiceImpl implements CategoriaPlantaService {
     if (categoriaPlanta == null) {
       throw new NotFoundException();
     }
-
-    // if (repositoryTipoProduto.findByCategoriaPlanta(categoriaPlanta).size() > 0) {
-    //   throw new Exception("Não é possivel apagar a categoria porquê há tiposdeproduto associados a ela");
-    // }
 
     if (!repository.deleteById(id)) {
       throw new NotFoundException();
