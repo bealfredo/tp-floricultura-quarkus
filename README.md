@@ -31,6 +31,12 @@
 
 ## observações
 
+### configurações
+
+- banco de dados na porta 5433
+
+### classes
+
 - plantas podem ter o mesmo nome, mas não o mesmo código
 
 - na planta, não é possivel adicionar tags de outras categoria biologica (ok)
