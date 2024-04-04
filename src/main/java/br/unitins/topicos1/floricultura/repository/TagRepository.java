@@ -21,6 +21,17 @@ public class TagRepository implements PanacheRepository<Tag> {
     }
   }
 
+  public PanacheQuery<Tag> findByNomeECategoria(String nome, boolean caseSensitive, CategoriaPlanta categoriaPlanta) {
+    if (nome == null || categoriaPlanta == null) {
+      return null;
+    }
+    if (caseSensitive) {
+      return find("nome = ?1 and categoriaPlanta = ?2", nome, categoriaPlanta);
+  } else {
+      return find("UPPER(nome) LIKE UPPER(?1) and categoriaPlanta = ?2", "%" + nome + "%", categoriaPlanta);
+  }
+  }
+
   public List<Tag> findByAtiva(boolean ativa) {
     return find("ativa", ativa).list();
   }

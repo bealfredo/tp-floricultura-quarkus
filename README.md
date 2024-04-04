@@ -37,7 +37,7 @@
 
 - categorias não podem ter nomes iguais (case sensitive) (ok)
 
-- tags não podem ter nomes iguais na mesma categoria (case sensitive)
+- tags não podem ter nomes iguais na mesma categoria (case sensitive) (ok)
 
 
 
