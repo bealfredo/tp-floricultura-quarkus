@@ -17,6 +17,8 @@ public class Fornecedor extends DefaultEntity {
     @Column (length = 20, unique = true)
     private String cnpj;
 
+    // ! falta implementar o relacionamento com a classe telefone e apagar o atributo telefone
+
     public String getNome() {
         return nome;
     }
