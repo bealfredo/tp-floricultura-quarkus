@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
@@ -14,29 +15,19 @@ import br.unitins.topicos1.floricultura.dto.PlantaDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaResponseDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaUpdateAddRemoveQuantidadeDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaUpdateStatusPlantaDTO;
-import br.unitins.topicos1.floricultura.dto.ProdutoDTO;
-import br.unitins.topicos1.floricultura.dto.ProdutoResponseDTO;
-import br.unitins.topicos1.floricultura.dto.ProdutoUpdateQuantidadeDTO;
-import br.unitins.topicos1.floricultura.dto.ProdutoUpdateStatusProdutoDTO;
-import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
 import br.unitins.topicos1.floricultura.form.PlantaImageForm;
-import br.unitins.topicos1.floricultura.form.ProdutoImageForm;
 import br.unitins.topicos1.floricultura.model.CategoriaPlanta;
 import br.unitins.topicos1.floricultura.model.Fornecedor;
 import br.unitins.topicos1.floricultura.model.NivelDificuldade;
 import br.unitins.topicos1.floricultura.model.NivelToxidade;
 import br.unitins.topicos1.floricultura.model.Planta;
 import br.unitins.topicos1.floricultura.model.PortePlanta;
-import br.unitins.topicos1.floricultura.model.Produto;
 import br.unitins.topicos1.floricultura.model.StatusPlanta;
-import br.unitins.topicos1.floricultura.model.StatusProduto;
 import br.unitins.topicos1.floricultura.model.Tag;
 import br.unitins.topicos1.floricultura.model.TipoCategoria;
-import br.unitins.topicos1.floricultura.model.TipoProduto;
-import br.unitins.topicos1.floricultura.repository.FornecedorRepository;
 import br.unitins.topicos1.floricultura.repository.CategoriaPlantaRepository;
+import br.unitins.topicos1.floricultura.repository.FornecedorRepository;
 import br.unitins.topicos1.floricultura.repository.PlantaRepository;
-import br.unitins.topicos1.floricultura.repository.ProdutoRepository;
 import br.unitins.topicos1.floricultura.repository.TagRepository;
 import br.unitins.topicos1.floricultura.validation.GeneralValidationException;
 import br.unitins.topicos1.floricultura.validation.ValidationException;
@@ -158,23 +149,32 @@ public class PlantaServiceImpl implements PlantaService {
             throw new ValidationException("fornecedor", "O fornecedor informado não existe.");
         }
 
-        // List<Tag> tags = new ArrayList<Tag>();
-        // for (Long tagId : dto.idsTags()) {
-        //     Tag tag = tagRepository.findById(tagId);
-        //     if(tag == null) {
-        //         throw new ValidationException("tag", "Uma das tags informadas não existe.");
-        //     }
-        //     tags.add(tag);
-        // }
-
         Set<Tag> tagsSet = new HashSet<>();
+        Set<Tag> tagsSetDeOutrasCategorias = new HashSet<>();
         for (Long tagId : dto.idsTags()) {
             Tag tag = tagRepository.findById(tagId);
             if (tag == null) {
                 throw new ValidationException("tag", "Uma das tags informadas não existe.");
             }
+
+            if (tag.getCategoriaPlanta() != null && tag.getCategoriaPlanta().getTipoCategoria() == TipoCategoria.BIOLOGICA) {
+                if (tag.getCategoriaPlanta().getId() != dto.idCategoriaBiologica()) {
+                    tagsSetDeOutrasCategorias.add(tag);
+                }
+                // throw new ValidationException("tag", "As seguintes tags não pertencem à categoria biológica informada: " + tag.getNome() + ".");
+                // tagsSetDeOutrasCategorias.add(tag);
+            }
             tagsSet.add(tag);
         }
+
+        if (!tagsSetDeOutrasCategorias.isEmpty()) {
+            String tagsSetDeOutrasCategoriasString = String.join(", ", tagsSetDeOutrasCategorias.stream()
+                .map(tag -> tag.getNome())
+                .collect(Collectors.toList()));
+                        
+            throw new ValidationException("tag", "As seguintes tags pertecem à categorias biologica diferentes da categoria biológica informada: " + tagsSetDeOutrasCategoriasString + ".");
+        }
+
 
         List<Tag> tags = new ArrayList<>(tagsSet);
 
