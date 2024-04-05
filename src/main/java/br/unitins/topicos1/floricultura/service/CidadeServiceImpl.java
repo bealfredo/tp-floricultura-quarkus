@@ -4,10 +4,8 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.CidadeDTO;
 import br.unitins.topicos1.floricultura.dto.CidadeResponseDTO;
-import br.unitins.topicos1.floricultura.model.CategoriaProduto;
 import br.unitins.topicos1.floricultura.model.Cidade;
 import br.unitins.topicos1.floricultura.model.Estado;
-import br.unitins.topicos1.floricultura.repository.CategoriaProdutoRepository;
 import br.unitins.topicos1.floricultura.repository.CidadeRepository;
 import br.unitins.topicos1.floricultura.repository.EstadoRepository;
 import jakarta.enterprise.context.ApplicationScoped;

@@ -2,7 +2,6 @@ package br.unitins.topicos1.floricultura.resource;
 
 import br.unitins.topicos1.floricultura.dto.CidadeDTO;
 import br.unitins.topicos1.floricultura.dto.CidadeResponseDTO;
-import br.unitins.topicos1.floricultura.dto.TipoProdutoResponseDTO;
 import br.unitins.topicos1.floricultura.service.CidadeService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
