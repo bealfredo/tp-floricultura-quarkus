@@ -31,8 +31,8 @@ public class TagServiceImpl implements TagService {
       throw new ValidationException("categoriaPlanta", "Id para categoria planta inválido.");
     }
 
-    if (repository.findByNome(dto.nome(), true).count() > 0) {
-      throw new ValidationException("nome", "Nome já cadastrado.");
+    if (repository.findByNomeECategoria(dto.nome(), true, categoriaPlanta).count() > 0) {
+      throw new ValidationException("nome", "Nome já cadastrado na categoria informada.");
     }
 
     novaTag.setNome(dto.nome());
@@ -60,8 +60,8 @@ public class TagServiceImpl implements TagService {
       throw new ValidationException("categoriaPlanta", "Id para categoria planta inválido.");
     }
 
-    if (!tag.getNome().equals(dto.nome()) && repository.findByNome(dto.nome(), true).count() > 0) {
-      throw new ValidationException("nome", "Nome já cadastrado.");
+    if (!tag.getNome().equals(dto.nome()) && repository.findByNomeECategoria(dto.nome(), true, categoriaPlanta).count() > 0) {
+      throw new ValidationException("nome", "Nome já cadastrado na categoria informada.");
     }
 
     tag.setNome(dto.nome());
