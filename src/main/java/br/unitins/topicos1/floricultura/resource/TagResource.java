@@ -1,5 +1,6 @@
 package br.unitins.topicos1.floricultura.resource;
 
+import br.unitins.topicos1.floricultura.dto.CategoriaPlantaUpdateAtivaDTO;
 import br.unitins.topicos1.floricultura.dto.TagDTO;
 import br.unitins.topicos1.floricultura.dto.TagResponseDTO;
 import br.unitins.topicos1.floricultura.service.TagService;
@@ -9,6 +10,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -38,6 +40,14 @@ public class TagResource {
     service.update(dto, id);
     return Response.status(Status.NO_CONTENT).build();
   }
+
+  @PATCH
+  @Path("/{id}/update/ativa")
+  public Response updateAtiva(CategoriaPlantaUpdateAtivaDTO dto, @PathParam("id") Long id) {
+    service.updateAtiva(dto, id);
+    return Response.status(Status.NO_CONTENT).build();
+  }
+
 
   @DELETE
   @Path("/{id}")

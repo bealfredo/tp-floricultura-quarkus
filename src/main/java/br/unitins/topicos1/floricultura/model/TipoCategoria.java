@@ -1,6 +1,13 @@
 package br.unitins.topicos1.floricultura.model;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.unitins.topicos1.floricultura.dto.StatusProdutoResponseDTO;
+import br.unitins.topicos1.floricultura.dto.TipoCategoriaResponseDTO;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoCategoria {
@@ -39,4 +46,10 @@ public enum TipoCategoria {
     }
     return null;
   }
+
+  public static List<TipoCategoriaResponseDTO> listAll() {
+        return Arrays.stream(TipoCategoria.values())
+            .map(tipoCategoria -> new TipoCategoriaResponseDTO(tipoCategoria.getId(), tipoCategoria.getLabel(), tipoCategoria.getDescription()))
+            .collect(Collectors.toList());
+    }
 }

@@ -2,6 +2,8 @@ package br.unitins.topicos1.floricultura.resource;
 
 import br.unitins.topicos1.floricultura.dto.CategoriaPlantaDTO;
 import br.unitins.topicos1.floricultura.dto.CategoriaPlantaResponseDTO;
+import br.unitins.topicos1.floricultura.dto.CategoriaPlantaUpdateAtivaDTO;
+import br.unitins.topicos1.floricultura.model.TipoCategoria;
 import br.unitins.topicos1.floricultura.service.CategoriaPlantaService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -9,6 +11,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -39,6 +42,13 @@ public class CategoriaPlantaResource {
     return Response.status(Status.NO_CONTENT).build();
   }
 
+  @PATCH
+  @Path("/{id}/update/ativa")
+  public Response updateAtiva(CategoriaPlantaUpdateAtivaDTO dto, @PathParam("id") Long id) {
+    service.updateAtiva(dto, id);
+    return Response.status(Status.NO_CONTENT).build();
+  }
+
   @DELETE
   @Path("/{id}")
   public Response delete(@PathParam("id") Long id) {
@@ -50,6 +60,12 @@ public class CategoriaPlantaResource {
     } catch (Exception e) {
       return Response.status(Status.CONFLICT).entity("Não é possível apagar a categoria porque existem tiposdeproduto associados a ela").build();
     }
+  }
+
+  @GET
+  @Path("/tipocategoria")
+  public Response listAllStatusProduto() {
+      return Response.ok(TipoCategoria.listAll()).build();
   }
   
   @GET

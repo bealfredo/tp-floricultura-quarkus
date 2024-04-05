@@ -29,10 +29,10 @@ insert into usuario_endereco (id_endereco, id_usuario) values
   (2, 2),
   (3, 2);
 
-insert into fornecedor (nome, email, telefone, cnpj) values ('Natureza Verde', 'nverde@gmail.com', '63991111111', '1114567890123');
-insert into fornecedor (nome, email, telefone, cnpj) values ('Plantas PN', 'pnplants@gmail.com', '63992222222', '22234567890123');
-insert into fornecedor (nome, email, telefone, cnpj) values ('BomVerder', 'bonve@gmail.com', '63993333333', '3334567890123');
-insert into fornecedor (nome, email, telefone, cnpj) values ('Plnts', 'plants@gmail.com', '63994444444', '4444567890123');
+insert into fornecedor (nome, email, telefone, cnpj) values ('Natureza Verde', 'nverde@gmail.com', '63991111111', '11145678000123');
+insert into fornecedor (nome, email, telefone, cnpj) values ('Plantas PN', 'pnplants@gmail.com', '63992222222', '22234567000123');
+insert into fornecedor (nome, email, telefone, cnpj) values ('BomVerder', 'bonve@gmail.com', '63993333333', '33345678000123');
+insert into fornecedor (nome, email, telefone, cnpj) values ('Plnts', 'plants@gmail.com', '63994444444', '44445678000123');
 
 insert into categoriaproduto (nome, descricao) values
   ('Árvores', 'Esta categoria engloba uma variedade de árvores provenientes de diferentes espécies, proporcionando opções diversificadas para seu jardim ou espaço verde.'),
@@ -98,22 +98,22 @@ insert into itemvenda (preco, quantidade, id_produto, id_venda) values
 
 -- new with angular project
 
-INSERT INTO categoriaplanta (id, tipocategoria, nome, ativa, prioridade, descricao) VALUES
-  (1, 1, 'Árvores', true, 3, 'Esta categoria engloba uma variedade de árvores provenientes de diferentes espécies, proporcionando opções diversificadas para seu jardim ou espaço verde.'),
-  (2, 1, 'Flores', false, 2, 'Esta categoria engloba uma variedade de flores para alegrar e decorar diferentes ambientes.'),
-  (3, 1, 'Cactos', true, 4, 'Esta categoria engloba uma variedade de cactos, ideais para ambientes secos e com pouca manutenção.'),
-  (4, 2, 'Novidades', false, 100, 'Esta categoria abrange todas as novidades em plantas e acessórios para jardim.'),
-  (5, 2, 'Plantas por Regiões Brasileiras', true, 1, 'Esta categoria oferece plantas específicas das regiões do Brasil.');
+INSERT INTO categoriaplanta (tipocategoria, nome, ativa, prioridade, descricao) VALUES
+  (1, 'Árvores', true, 3, 'Esta categoria engloba uma variedade de árvores provenientes de diferentes espécies, proporcionando opções diversificadas para seu jardim ou espaço verde.'),
+  (1, 'Flores', false, 2, 'Esta categoria engloba uma variedade de flores para alegrar e decorar diferentes ambientes.'),
+  (1, 'Cactos', true, 4, 'Esta categoria engloba uma variedade de cactos, ideais para ambientes secos e com pouca manutenção.'),
+  (2, 'Novidades', false, 100, 'Esta categoria abrange todas as novidades em plantas e acessórios para jardim.'),
+  (2, 'Plantas por Regiões Brasileiras', true, 1, 'Esta categoria oferece plantas específicas das regiões do Brasil.');
 
 
 INSERT INTO tag (id_categoriaplanta, nome, ativa, prioridade, descricao) VALUES
   (1, 'Árvores Frutíferas', true, 1, 'Árvores que produzem frutos comestíveis, oferecendo uma opção funcional e decorativa para diversos ambientes.'),
   (2, 'Flores Decorativas', false, 2, 'Flores decorativas, ideais para trazer charme e colorido a diversos ambientes.'),
-  (2, 'Flores Azuis', true, 3, 'Flores azuis, ideais para trazer charme e colorido a diversos ambientes.'),
-  (4, 'Novidades em Flores', false, 100, 'Novidades em flores.'),
-  (5, 'Nordeste', true, 1, 'Plantas específicas da região Nordeste do Brasil.'),
-  (5, 'Sudeste', true, 1, 'Plantas específicas da região Sudeste do Brasil.'),
-  (5, 'Sul', true, 1, 'Plantas específicas da região Sul do Brasil.');
+  (2, 'Flores Azuis', true, 1, 'Flores azuis, ideais para trazer charme e colorido a diversos ambientes.'),
+  (4, 'Novidades em Flores', false, 10, 'Novidades em flores.'),
+  (5, 'Nordeste', true, 0, 'Plantas específicas da região Nordeste do Brasil.'),
+  (5, 'Sudeste', true, 0, 'Plantas específicas da região Sudeste do Brasil.'),
+  (5, 'Sul', true, 0, 'Plantas específicas da região Sul do Brasil.');
 
 INSERT INTO planta 
   (id_fornecedor, statusplanta, id_categoriabiologica, nomecomum, nomecientifico, descricao, codigo, precovenda, precocusto, desconto, quantidadedisponivel, quantidadevendido, origem, tempocrescimento, imagens, imagemprincipal) 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.CategoriaPlantaDTO;
 import br.unitins.topicos1.floricultura.dto.CategoriaPlantaResponseDTO;
+import br.unitins.topicos1.floricultura.dto.CategoriaPlantaUpdateAtivaDTO;
 import br.unitins.topicos1.floricultura.model.CategoriaPlanta;
 import br.unitins.topicos1.floricultura.model.TipoCategoria;
 import br.unitins.topicos1.floricultura.repository.CategoriaPlantaRepository;
@@ -72,6 +73,18 @@ public class CategoriaPlantaServiceImpl implements CategoriaPlantaService {
     categoriaPlanta.setTipoCategoria(tipoCategoria);
 
     return CategoriaPlantaResponseDTO.valueOf(categoriaPlanta);
+  }
+
+  @Override
+  @Transactional
+  public void updateAtiva(CategoriaPlantaUpdateAtivaDTO dto, Long id) {
+    CategoriaPlanta categoriaPlanta = repository.findById(id);
+
+    if (categoriaPlanta == null) {
+      throw new NotFoundException();
+    }
+
+    categoriaPlanta.setAtiva(dto.ativa());
   }
 
   @Override
