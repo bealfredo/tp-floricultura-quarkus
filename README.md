@@ -29,6 +29,24 @@
 <!-- - Venda -->
 
 
+## observações
+
+### configurações
+
+- banco de dados na porta 5433
+
+### classes
+
+- plantas podem ter o mesmo nome, mas não o mesmo código
+
+- na planta, não é possivel adicionar tags de outras categoria biologica (ok)
+
+- categorias não podem ter nomes iguais (case sensitive) (ok)
+
+- tags não podem ter nomes iguais na mesma categoria (case sensitive) (ok)
+
+
+
 ## Teste 10
 
 # quarkus-topicos1-floricultura (default)

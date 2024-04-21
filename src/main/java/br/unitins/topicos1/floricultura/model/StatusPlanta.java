@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public enum StatusPlanta {
   
   RASCUNHO(1, "Rascunho", "Planta em fase de desenvolvimento e não disponível para venda."),
-  ATIVO(1, "Ativo", "Planta ativa e disponível para venda."),
-  INATIVO(2, "Inativo", "Planta inativa e indisponível para venda."),
-  ARQUIVADO(3, "Arquivado", "Planta arquivada e não disponível para venda.");
+  ATIVO(2, "Ativo", "Planta ativa e disponível para venda."),
+  INATIVO(3, "Inativo", "Planta inativa e indisponível para venda."),
+  ARQUIVADO(4, "Arquivado", "Planta arquivada e não disponível para venda.");
 
   private final Integer id;
   private final String label;
