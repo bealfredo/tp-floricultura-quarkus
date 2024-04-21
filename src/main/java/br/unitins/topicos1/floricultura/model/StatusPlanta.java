@@ -1,6 +1,13 @@
 package br.unitins.topicos1.floricultura.model;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.unitins.topicos1.floricultura.dto.StatusPlantaResponseDTO;
+import br.unitins.topicos1.floricultura.dto.StatusPlantaResponseDTO;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum StatusPlanta {
@@ -41,4 +48,10 @@ public enum StatusPlanta {
     }
     return null;
   }
+
+  public static List<StatusPlantaResponseDTO> listAll() {
+        return Arrays.stream(StatusPlanta.values())
+            .map(statusPlanta -> new StatusPlantaResponseDTO(statusPlanta.getId(), statusPlanta.getLabel(), statusPlanta.getDescription()))
+            .collect(Collectors.toList());
+    }
 }

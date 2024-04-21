@@ -4,12 +4,15 @@ import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.CategoriaPlantaDTO;
 import br.unitins.topicos1.floricultura.dto.CategoriaPlantaResponseDTO;
+import br.unitins.topicos1.floricultura.dto.CategoriaPlantaUpdateAtivaDTO;
 
 public interface CategoriaPlantaService {
   
   public CategoriaPlantaResponseDTO insert(CategoriaPlantaDTO dto);
 
   public CategoriaPlantaResponseDTO update(CategoriaPlantaDTO dto, Long id);
+
+  public void updateAtiva(CategoriaPlantaUpdateAtivaDTO dto, Long id);
 
   public void delete(Long id) throws Exception;
 

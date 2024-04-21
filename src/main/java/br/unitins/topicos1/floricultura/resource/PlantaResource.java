@@ -9,6 +9,12 @@ import br.unitins.topicos1.floricultura.dto.PlantaDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaUpdateAddRemoveQuantidadeDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaUpdateStatusPlantaDTO;
 import br.unitins.topicos1.floricultura.form.PlantaImageForm;
+import br.unitins.topicos1.floricultura.model.NivelDificuldade;
+import br.unitins.topicos1.floricultura.model.NivelToxidade;
+import br.unitins.topicos1.floricultura.model.PortePlanta;
+import br.unitins.topicos1.floricultura.model.StatusPlanta;
+import br.unitins.topicos1.floricultura.model.StatusProduto;
+import br.unitins.topicos1.floricultura.model.TipoCategoria;
 import br.unitins.topicos1.floricultura.service.PlantaService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -100,8 +106,8 @@ public class PlantaResource {
 
     // @RolesAllowed({"Test", "Cliente", "Admin"})
     @PATCH
-    @Path("/{id}/update/statusProduto")
-    public Response updateStatusProduto(PlantaUpdateStatusPlantaDTO dto, @PathParam("id") Long id) {
+    @Path("/{id}/update/statusplanta")
+    public Response updateStatusplanta(PlantaUpdateStatusPlantaDTO dto, @PathParam("id") Long id) {
         service.updateStatusPlanta(dto, id);
         return Response.noContent().build();
     }
@@ -111,19 +117,36 @@ public class PlantaResource {
     public Response updateQuantidade(PlantaUpdateAddRemoveQuantidadeDTO dto, @PathParam("id") Long id) {
         service.updateAddRemoveQuantidade(dto, id);
         return Response.noContent().build();
+    }
 
+    @GET
+    @Path("/statusplanta")
+    public Response listAllStatusPlanta() {
+        return Response.ok(StatusPlanta.listAll()).build();
+    }
+
+    @GET
+    @Path("/niveldificuldade")
+    public Response listAllNivelDificuldade() {
+        return Response.ok(NivelDificuldade.listAll()).build();
+    }
+
+    @GET
+    @Path("/niveltoxicidade")
+    public Response listAllNivelToxicidade() {
+        return Response.ok(NivelToxidade.listAll()).build();
+    }
+
+    @GET
+    @Path("/porteplanta")
+    public Response listAllPortePlanta() {
+        return Response.ok(PortePlanta.listAll()).build();
     }
 
     @GET
     public Response findAll() {
         return Response.ok(service.findAll()).build();
     }
-
-    // @GET
-    // @Path("/statusproduto")
-    // public Response listAllStatusProduto() {
-    //     return Response.ok(StatusProduto.listAll()).build();
-    // }
 
     @GET
     @Path("/{id}")

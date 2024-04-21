@@ -25,17 +25,21 @@ public class FornecedorServiceImpl implements FornecedorService {
   @Override
   @Transactional
   public FornecedorResponseDTO insert(@Valid FornecedorDTO dto) {
+
     List<Fornecedor> fornecedores = repository.findByCnpj(dto.cnpj());
-    if (!fornecedores.isEmpty()) {
-      throw new ValidationException("cnpj", "CNPJ já cadastrado.");
+    if (!dto.cnpj().equals("")) {
+      if (!fornecedores.isEmpty()) {
+        throw new ValidationException("cnpj", "CNPJ já cadastrado.");
+      }
     }
+
 
     Fornecedor novoFornecedor = new Fornecedor();
 
     novoFornecedor.setNome(dto.nome());
     novoFornecedor.setEmail(dto.email());
     novoFornecedor.setTelefone(dto.telefone());
-    novoFornecedor.setCnpj(dto.cnpj());
+    novoFornecedor.setCnpj(dto.cnpj().equals("") ? null : dto.cnpj());
 
     repository.persist(novoFornecedor);
     

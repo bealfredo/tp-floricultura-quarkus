@@ -1,6 +1,8 @@
 package br.unitins.topicos1.floricultura.service;
 
 import java.util.List;
+
+import br.unitins.topicos1.floricultura.dto.CategoriaPlantaUpdateAtivaDTO;
 import br.unitins.topicos1.floricultura.dto.TagDTO;
 import br.unitins.topicos1.floricultura.dto.TagResponseDTO;
 import br.unitins.topicos1.floricultura.model.CategoriaPlanta;
@@ -72,6 +74,19 @@ public class TagServiceImpl implements TagService {
 
     return TagResponseDTO.valueOf(tag);
   }
+
+  @Override
+  @Transactional
+  public void updateAtiva(CategoriaPlantaUpdateAtivaDTO dto, Long id) {
+    Tag tag = repository.findById(id);
+
+    if (tag == null) {
+      throw new NotFoundException();
+    }
+
+    tag.setAtiva(dto.ativa());
+  }
+
 
   @Override
   @Transactional
