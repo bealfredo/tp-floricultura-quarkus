@@ -18,6 +18,7 @@ public record UsuarioDTO (
     @NotBlank(message = "O campo nome não pode ser nulo.")
     String senha,
     LocalDate dataNascimento,
+    Long telefone,
     List<EnderecoDTO> listaEndereco
 ) {
 

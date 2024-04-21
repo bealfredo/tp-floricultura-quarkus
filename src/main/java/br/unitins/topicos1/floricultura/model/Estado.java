@@ -1,6 +1,5 @@
 package br.unitins.topicos1.floricultura.model;
 
-import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

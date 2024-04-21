@@ -5,6 +5,8 @@ import br.unitins.topicos1.floricultura.model.Endereco;
 
 public record EnderecoResponseDTO(
     Long id,
+    String nome,
+    String cep,
     String codigo,
     String rua,
     String bairro,
@@ -15,6 +17,8 @@ public record EnderecoResponseDTO(
     public static EnderecoResponseDTO valueOf(Endereco endereco) {
         return new EnderecoResponseDTO(
             endereco.getId(),
+            endereco.getNome(),
+            endereco.getCep(),
             endereco.getCodigo(),
             endereco.getRua(),
             endereco.getBairro(),

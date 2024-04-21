@@ -8,6 +8,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Usuario extends DefaultEntity {
@@ -18,6 +19,8 @@ public class Usuario extends DefaultEntity {
     private String cpf;
     private String senha;
     private LocalDate dataNascimento;
+    @OneToOne
+    private Telefone telefone;
     private TipoUsuario tipoUsuario;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -91,6 +94,12 @@ public class Usuario extends DefaultEntity {
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
-    
 
+    public Telefone getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(Telefone telefone) {
+        this.telefone = telefone;
+    }
 }

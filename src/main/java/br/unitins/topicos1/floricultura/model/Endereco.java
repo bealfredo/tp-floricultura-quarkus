@@ -6,6 +6,8 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Endereco extends DefaultEntity{
+    private String nome;
+    private String cep;
     private String codigo;
     private String rua;
     private String bairro;
@@ -16,6 +18,18 @@ public class Endereco extends DefaultEntity{
     @JoinColumn(name = "id_cidade")
     private Cidade cidade;
 
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public String getCep() {
+        return cep;
+    }
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
     public String getCodigo() {
         return codigo;
     }

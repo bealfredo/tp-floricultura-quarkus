@@ -13,9 +13,11 @@ import br.unitins.topicos1.floricultura.dto.UsuarioUpdateSenhaDTO;
 import br.unitins.topicos1.floricultura.dto.VendaResponseDTO;
 import br.unitins.topicos1.floricultura.model.Cidade;
 import br.unitins.topicos1.floricultura.model.Endereco;
+import br.unitins.topicos1.floricultura.model.Telefone;
 import br.unitins.topicos1.floricultura.model.TipoUsuario;
 import br.unitins.topicos1.floricultura.model.Usuario;
 import br.unitins.topicos1.floricultura.repository.CidadeRepository;
+import br.unitins.topicos1.floricultura.repository.TelefoneRepository;
 import br.unitins.topicos1.floricultura.repository.UsuarioRepository;
 import br.unitins.topicos1.floricultura.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -31,6 +33,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Inject
     UsuarioRepository repository;
+
+    @Inject
+    TelefoneRepository repositoryTelefone;
 
     @Inject
     CidadeRepository cidadeRepository;
@@ -63,7 +68,13 @@ public class UsuarioServiceImpl implements UsuarioService {
         novoUsuario.setCpf(dto.cpf());
         novoUsuario.setSenha(hashService.getHashSenha(dto.senha()));
         novoUsuario.setDataNascimento(dto.dataNascimento());
-
+        Telefone telefone = repositoryTelefone.findById(dto.telefone());
+        try {
+            novoUsuario.setTelefone(telefone);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
         if (dto.listaEndereco() != null && 
                     !dto.listaEndereco().isEmpty()){
             novoUsuario.setListaEndereco(new ArrayList<Endereco>());
@@ -99,10 +110,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setSobreNome(dto.sobreNome());
         usuario.setCpf(dto.cpf());
         usuario.setDataNascimento(dto.dataNascimento());
+        usuario.setTelefone(dto.telefone());
         
         if (dto.listaEndereco() != null && 
                     !dto.listaEndereco().isEmpty()){
-
             usuario.setListaEndereco(new ArrayList<Endereco>());
             for (EnderecoDTO e : dto.listaEndereco()) {
                 Endereco endereco = new Endereco();
