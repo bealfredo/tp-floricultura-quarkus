@@ -21,6 +21,7 @@ public class TelefoneServiceImpl implements TelefoneService {
   @Transactional
   public TelefoneResponseDTO insert(TelefoneDTO dto) throws Exception {
     Telefone novoTelefone = new Telefone();
+    
     novoTelefone.setDdd(dto.ddd());
     novoTelefone.setNumero(dto.numero());
 
