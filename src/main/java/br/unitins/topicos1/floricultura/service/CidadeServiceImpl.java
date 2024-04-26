@@ -8,6 +8,7 @@ import br.unitins.topicos1.floricultura.model.Cidade;
 import br.unitins.topicos1.floricultura.model.Estado;
 import br.unitins.topicos1.floricultura.repository.CidadeRepository;
 import br.unitins.topicos1.floricultura.repository.EstadoRepository;
+import br.unitins.topicos1.floricultura.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -29,7 +30,7 @@ public class CidadeServiceImpl implements CidadeService{
         Estado estado = repositoryEstado.findById(dto.estado());
 
         if (estado == null) {
-            throw new Exception("O estado informado não foi encontrada");
+            throw new ValidationException("estado", "O estado informado não foi encontrada");
         }
 
         Cidade novoCidade = new Cidade();
