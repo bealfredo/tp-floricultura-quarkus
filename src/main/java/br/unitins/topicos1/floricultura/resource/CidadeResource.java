@@ -27,7 +27,7 @@ public class CidadeResource {
     CidadeService service;
 
     @POST
-    @RolesAllowed({"Test", "Admin"})
+    //@RolesAllowed({"Test", "Admin"})
     public Response insert(CidadeDTO dto) {
         try {
             CidadeResponseDTO retorno = service.insert(dto);
@@ -40,7 +40,7 @@ public class CidadeResource {
     @PUT
     @Transactional
     @Path("/{id}")
-    @RolesAllowed({"Test", "Admin"})
+    //@RolesAllowed({"Test", "Admin"})
     public Response update(CidadeDTO dto, @PathParam("id") Long id) {
         try {
             service.update(dto, id);
@@ -53,28 +53,28 @@ public class CidadeResource {
     @DELETE
     @Transactional
     @Path("/{id}")
-    @RolesAllowed({"Test", "Admin"})
+    //@RolesAllowed({"Test", "Admin"})
     public Response delete(@PathParam("id") Long id) {
         service.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @GET
-    @RolesAllowed({"Test", "Admin", "Cliente"})
+    //@RolesAllowed({"Test", "Admin", "Cliente"})
     public Response findAll() {
         return Response.ok(service.findByAll()).build();
     }
 
     @GET
     @Path("/{id}")
-    @RolesAllowed({"Test", "Admin", "Cliente"})
+    //@RolesAllowed({"Test", "Admin", "Cliente"})
     public Response findById(@PathParam("id") Long id) {
         return Response.ok(service.findById(id)).build();
     }
     
     @GET
     @Path("/search/nome/{nome}")
-    @RolesAllowed({"Test", "Admin", "Cliente"})
+    //@RolesAllowed({"Test", "Admin", "Cliente"})
     public Response findByNome(@PathParam("nome") String nome) {
         return Response.ok(service.findByNome(nome)).build();
     }
