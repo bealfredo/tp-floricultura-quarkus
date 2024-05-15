@@ -6,7 +6,7 @@ public record FornecedorResponseDTO(
   Long id,
   String nome,
   String email,
-  String telefone,
+  TelefoneResponseDTO telefone,
   String cnpj
 ) { 
 
@@ -15,7 +15,7 @@ public record FornecedorResponseDTO(
       fornecedor.getId(),
       fornecedor.getNome(),
       fornecedor.getEmail(),
-      fornecedor.getTelefone(),
+      fornecedor.getTelefone() == null ? null : TelefoneResponseDTO.valueOf(fornecedor.getTelefone()),
       fornecedor.getCnpj()
     );
   }

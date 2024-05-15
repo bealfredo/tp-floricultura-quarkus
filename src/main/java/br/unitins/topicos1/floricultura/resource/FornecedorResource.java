@@ -67,4 +67,10 @@ public class FornecedorResource {
   public Response findByCnpj(@PathParam("cnpj") String cnpj) {
     return Response.ok(service.findByCnpj(cnpj)).build();
   }
+
+  @GET
+  @Path("/search/email/{email}")
+  public Response findByEmail(@PathParam("email") String email) {
+    return Response.ok(service.findByEmail(email)).build();
+  }
 }
