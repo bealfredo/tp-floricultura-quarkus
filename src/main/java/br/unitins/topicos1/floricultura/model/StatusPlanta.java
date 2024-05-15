@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.unitins.topicos1.floricultura.dto.StatusPlantaResponseDTO;
-import br.unitins.topicos1.floricultura.dto.StatusPlantaResponseDTO;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum StatusPlanta {

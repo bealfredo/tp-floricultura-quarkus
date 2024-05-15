@@ -13,7 +13,6 @@ import br.unitins.topicos1.floricultura.model.NivelDificuldade;
 import br.unitins.topicos1.floricultura.model.NivelToxidade;
 import br.unitins.topicos1.floricultura.model.PortePlanta;
 import br.unitins.topicos1.floricultura.model.StatusPlanta;
-import br.unitins.topicos1.floricultura.model.StatusProduto;
 import br.unitins.topicos1.floricultura.model.TipoCategoria;
 import br.unitins.topicos1.floricultura.service.PlantaService;
 import jakarta.inject.Inject;

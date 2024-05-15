@@ -12,14 +12,13 @@ import java.util.UUID;
 
 import org.jboss.logging.Logger;
 
-import br.unitins.topicos1.floricultura.resource.AuthResource;
 import br.unitins.topicos1.floricultura.validation.GeneralValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class PlantaFileService implements FileService {
 
-  private static final Logger LOG = Logger.getLogger(AuthResource.class);
+  private static final Logger LOG = Logger.getLogger(PlantaFileService.class);
 
   private final String PATH_USER = System.getProperty("user.home") +
     File.separator + "quarkus" + 
