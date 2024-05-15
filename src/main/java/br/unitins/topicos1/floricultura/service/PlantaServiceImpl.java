@@ -61,8 +61,8 @@ public class PlantaServiceImpl implements PlantaService {
     @Inject
     JsonWebToken jwt;
 
-    @Inject
-    UsuarioService usuarioService;
+    // @Inject
+    // UsuarioService usuarioService;
 
     @Override
     @Transactional

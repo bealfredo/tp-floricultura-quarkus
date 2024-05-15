@@ -21,15 +21,15 @@ public class Usuario extends DefaultEntity {
     private LocalDate dataNascimento;
     @OneToOne
     private Telefone telefone;
-    private TipoUsuario tipoUsuario;
+    // private TipoUsuario tipoUsuario;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "usuario_endereco",
-        joinColumns = @JoinColumn(name = "id_usuario"),
-        inverseJoinColumns = @JoinColumn(name = "id_endereco")
-    )
-    private List<Endereco> listaEndereco;
+    // @ManyToMany(fetch = FetchType.EAGER)
+    // @JoinTable(
+    //     name = "usuario_endereco",
+    //     joinColumns = @JoinColumn(name = "id_usuario"),
+    //     inverseJoinColumns = @JoinColumn(name = "id_endereco")
+    // )
+    // private List<Endereco> listaEndereco;
 
     public String getNome() {
         return nome;
@@ -63,13 +63,13 @@ public class Usuario extends DefaultEntity {
         this.senha = senha;
     }
 
-    public List<Endereco> getListaEndereco() {
-        return listaEndereco;
-    }
+    // public List<Endereco> getListaEndereco() {
+    //     return listaEndereco;
+    // }
 
-    public void setListaEndereco(List<Endereco> listaEndereco) {
-        this.listaEndereco = listaEndereco;
-    }
+    // public void setListaEndereco(List<Endereco> listaEndereco) {
+    //     this.listaEndereco = listaEndereco;
+    // }
 
     public String getSobreNome() {
         return sobreNome;
@@ -87,13 +87,13 @@ public class Usuario extends DefaultEntity {
         this.dataNascimento = dataNascimento;
     }
 
-    public TipoUsuario getTipoUsuario() {
-        return tipoUsuario;
-    }
+    // public TipoUsuario getTipoUsuario() {
+    //     return tipoUsuario;
+    // }
 
-    public void setTipoUsuario(TipoUsuario tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
-    }
+    // public void setTipoUsuario(TipoUsuario tipoUsuario) {
+    //     this.tipoUsuario = tipoUsuario;
+    // }
 
     public Telefone getTelefone() {
         return telefone;

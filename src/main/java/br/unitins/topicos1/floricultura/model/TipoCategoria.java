@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.unitins.topicos1.floricultura.dto.StatusProdutoResponseDTO;
 import br.unitins.topicos1.floricultura.dto.TipoCategoriaResponseDTO;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
