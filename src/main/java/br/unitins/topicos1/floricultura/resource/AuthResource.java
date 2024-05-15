@@ -31,6 +31,9 @@ public class AuthResource {
     @POST
     public Response login(@Valid LoginDTO dto) {
 
+        // ! O ideal é só receber, talvez mais interessante criar um service para regra de negócio
+        // 
+
         String hashSenha = hashService.getHashSenha(dto.senha());
 
         UsuarioResponseDTO result = service.findByLoginAndSenha(dto.login(), hashSenha);

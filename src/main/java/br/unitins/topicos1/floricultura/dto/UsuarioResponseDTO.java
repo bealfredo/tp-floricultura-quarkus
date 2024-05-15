@@ -20,6 +20,8 @@ public record UsuarioResponseDTO(
 ) { 
     public static UsuarioResponseDTO valueOf(Usuario usuario){
 
+        // retornar de acordo o tipo de usuário
+
         return new UsuarioResponseDTO(
             usuario.getId(), 
             usuario.getNome(),
