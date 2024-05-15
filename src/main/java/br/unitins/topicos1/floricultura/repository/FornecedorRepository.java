@@ -20,4 +20,8 @@ public class FornecedorRepository implements PanacheRepository<Fornecedor> {
       return null;
     }
   }
+
+  public List<Fornecedor> findByEmail(String email) {
+    return find("email LIKE ?1 ", "%"+email+"%").list();
+  }
 }

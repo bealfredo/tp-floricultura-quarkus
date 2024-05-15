@@ -1,7 +1,10 @@
 package br.unitins.topicos1.floricultura.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Fornecedor extends DefaultEntity {
@@ -9,15 +12,15 @@ public class Fornecedor extends DefaultEntity {
     @Column (nullable = false)
     private String nome;
 
+    @Column (nullable = false, unique = true)
     private String email;
 
-    @Column (length = 20)
-    private String telefone;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id_telefone")
+    private Telefone telefone;
 
     @Column (length = 20, unique = true)
     private String cnpj;
-
-    // ! falta implementar o relacionamento com a classe telefone e apagar o atributo telefone
 
     public String getNome() {
         return nome;
@@ -35,11 +38,11 @@ public class Fornecedor extends DefaultEntity {
         this.email = email;
     }
 
-    public String getTelefone() {
+    public Telefone getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(Telefone telefone) {
         this.telefone = telefone;
     }
 

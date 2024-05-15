@@ -10,7 +10,7 @@ public interface FornecedorService {
   
   public FornecedorResponseDTO insert(@Valid FornecedorDTO dto);
 
-  public FornecedorResponseDTO update(FornecedorDTO dto, Long id);
+  public FornecedorResponseDTO update(@Valid FornecedorDTO dto, Long id);
 
   public void delete(Long id);
 
@@ -21,4 +21,6 @@ public interface FornecedorService {
   public List<FornecedorResponseDTO> findByNome(String nome);
   
   public List<FornecedorResponseDTO> findByCnpj(String sigla);
+
+  public List<FornecedorResponseDTO> findByEmail(String email);
 }

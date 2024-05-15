@@ -1,7 +1,7 @@
-insert into estado (nome, sigla) values ('Tocantins', 'TO');
-insert into estado (nome, sigla) values ('Goiás', 'GO');
-insert into estado (nome, sigla) values ('Rio de Janeiro', 'RJ');
-insert into estado (nome, sigla) values ('São Paulo', 'SP');
+-- insert into estado (nome, sigla) values ('Tocantins', 'TO');
+-- insert into estado (nome, sigla) values ('Goiás', 'GO');
+-- insert into estado (nome, sigla) values ('Rio de Janeiro', 'RJ');
+-- insert into estado (nome, sigla) values ('São Paulo', 'SP');
 
 -- insert into cidade (nome, id_estado) values 
 --   ('Palmas', 1),
@@ -98,11 +98,14 @@ insert into estado (nome, sigla) values ('São Paulo', 'SP');
 
 -- new with angular project
 
-insert into fornecedor (nome, email, telefone, cnpj) values ('Natureza Verde', 'nverde@gmail.com', '63991111111', '11145678000123');
-insert into fornecedor (nome, email, telefone, cnpj) values ('Plantas PN', 'pnplants@gmail.com', '63992222222', '22234567000123');
-insert into fornecedor (nome, email, telefone, cnpj) values ('BomVerder', 'bonve@gmail.com', '63993333333', '33345678000123');
-insert into fornecedor (nome, email, telefone, cnpj) values ('Plnts', 'plants@gmail.com', '63994444444', '44445678000123');
+insert into telefone (ddd, numero) values 
+  (63, 912345678),
+  (62, 912345678);
 
+insert into fornecedor (nome, email, cnpj, id_telefone) values ('Natureza Verde', 'nverde@gmail.com', '11145678000123', 1);
+insert into fornecedor (nome, email, cnpj, id_telefone) values ('Plantas PN', 'pnplants@gmail.com', '22234567000123', 2);
+insert into fornecedor (nome, email, cnpj) values ('BomVerder', 'bonve@gmail.com', '33345678000123');
+insert into fornecedor (nome, email, cnpj) values ('Plnts', 'plants@gmail.com', '44445678000123');
 
 INSERT INTO categoriaplanta (tipocategoria, nome, ativa, prioridade, descricao) VALUES
   (1, 'Árvores', true, 3, 'Esta categoria engloba uma variedade de árvores provenientes de diferentes espécies, proporcionando opções diversificadas para seu jardim ou espaço verde.'),
