@@ -98,14 +98,20 @@
 
 -- new with angular project
 
-insert into telefone (ddd, numero) values 
+insert into telefone(ddd, numero) values 
   (63, 912345678),
-  (62, 912345678);
+  (62, 912345622);
 
-insert into fornecedor (nome, email, cnpj, id_telefone) values ('Natureza Verde', 'nverde@gmail.com', '11145678000123', 1);
-insert into fornecedor (nome, email, cnpj, id_telefone) values ('Plantas PN', 'pnplants@gmail.com', '22234567000123', 2);
-insert into fornecedor (nome, email, cnpj) values ('BomVerder', 'bonve@gmail.com', '33345678000123');
-insert into fornecedor (nome, email, cnpj) values ('Plnts', 'plants@gmail.com', '44445678000123');
+-- insert into fornecedor (nome, email, cnpj, id_telefone) values ('Natureza Verde', 'nverde@gmail.com', '11145678000123', 1);
+-- insert into fornecedor (nome, email, cnpj, id_telefone) values ('Plantas PN', 'pnplants@gmail.com', '22234567000123', 2);
+-- insert into fornecedor (nome, email, cnpj) values ('BomVerder', 'bonve@gmail.com', '33345678000123');
+-- insert into fornecedor (nome, email, cnpj) values ('Plnts', 'plants@gmail.com', '44445678000123');
+
+insert into fornecedor( id_telefone, nome, email, cnpj) values 
+  (1, 'Natureza Verde', 'nverde@gmail.com', '11145678000123'),
+  (2, 'Plantas PN', 'pnplants@gmail.com', '22234567000123'),
+  (null, 'BomVerder', 'bonve@gmail.com', '33345678000123'),
+  (null, 'Plnts', 'plants@gmail.com', '44445678000123');
 
 INSERT INTO categoriaplanta (tipocategoria, nome, ativa, prioridade, descricao) VALUES
   (1, 'Árvores', true, 3, 'Esta categoria engloba uma variedade de árvores provenientes de diferentes espécies, proporcionando opções diversificadas para seu jardim ou espaço verde.'),
@@ -136,7 +142,7 @@ VALUES
   (1, 1, 3, 'Mandacaru', 'Cereus jamacaru', 'Um cacto comum na região Nordeste', '2023P0009', 70, 45, 0, 4, 0, 'Região Nordeste do Brasil', '', '{}', NULL);
 
 
-  insert into planta_tag(id_planta, id_tag) VALUES
+  INSERT INTO planta_tag(id_planta, id_tag) VALUES
   (1, 1),
   (3, 2),
   (3, 4),
@@ -146,12 +152,11 @@ VALUES
   (6, 5),
   (7,5);
 
-  insert into telefone(ddd, numero) VALUES
-  (12, 912345678),
-  (21, 912345678),
-  (43, 912345678),
-  (25, 912345678),
-  (41, 912345678),
-  (42, 912345678),
-  (51, 912345678),
-  (54, 912345678);
+-- after A1
+
+INSERT INTO estado(nome, sigla) VALUES 
+  ('Tocantins', 'TO'),
+  ('Goiás', 'GO'),
+  ('Rio de Janeiro', 'RJ'),
+  ('São Paulo', 'SP');
+;
