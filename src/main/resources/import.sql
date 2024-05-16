@@ -160,3 +160,11 @@ INSERT INTO estado(nome, sigla) VALUES
   ('Rio de Janeiro', 'RJ'),
   ('São Paulo', 'SP');
 ;
+
+
+INSERT INTO cidade(nome, id_estado, frete) VALUES 
+  ('Palmas', 1, 10.0),
+  ('Pedro Afonso', 1, 15.0),
+  ('Cristalina', 2, 20.0),
+  ('Rio de Janeiro', 3, 25.0)
+;
