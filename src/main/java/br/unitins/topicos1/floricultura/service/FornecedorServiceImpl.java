@@ -22,17 +22,32 @@ public class FornecedorServiceImpl implements FornecedorService {
   @Inject
   FornecedorRepository repository;
 
-  private void valid(FornecedorDTO dto) {
-    List<Fornecedor> fornecedores = repository.findByCnpj(dto.cnpj());
-    if (!dto.cnpj().equals("")) {
+  private void valid(FornecedorDTO dto, Fornecedor obj2Update) {
+    if (obj2Update != null) {
+      if (!dto.email().equals(obj2Update.getEmail())) {
+        List<Fornecedor> fornecedores = repository.findByEmail(dto.email());
+        if (!fornecedores.isEmpty()) {
+          throw new ValidationException("email", "Email já cadastrado.");
+        }
+      }
+
+      if (!dto.cnpj().equals(obj2Update.getCnpj())) {
+        List<Fornecedor> fornecedores = repository.findByCnpj(dto.cnpj());
+        if (!fornecedores.isEmpty()) {
+          throw new ValidationException("cnpj", "CNPJ já cadastrado.");
+        }
+      }
+    } else {
+      List<Fornecedor> fornecedores = repository.findByNome(dto.nome());
+      fornecedores = repository.findByEmail(dto.email());
+      if (!fornecedores.isEmpty()) {
+        throw new ValidationException("email", "Email já cadastrado.");
+      }
+
+      fornecedores = repository.findByCnpj(dto.cnpj());
       if (!fornecedores.isEmpty()) {
         throw new ValidationException("cnpj", "CNPJ já cadastrado.");
       }
-    }
-
-    fornecedores = repository.findByEmail(dto.email());
-    if (!fornecedores.isEmpty()) {
-      throw new ValidationException("email", "Email já cadastrado.");
     }
   }
 
@@ -40,7 +55,7 @@ public class FornecedorServiceImpl implements FornecedorService {
   @Transactional
   public FornecedorResponseDTO insert(@Valid FornecedorDTO dto) {
 
-    valid(dto);
+    valid(dto, null);
 
     Fornecedor novoFornecedor = new Fornecedor();
     novoFornecedor.setNome(dto.nome());
@@ -70,7 +85,7 @@ public class FornecedorServiceImpl implements FornecedorService {
       throw new NotFoundException();
     }
 
-    valid(dto);
+    valid(dto, fornecedor);
 
     Telefone telefone = new Telefone();
     telefone.setDdd(dto.telefone().ddd());
