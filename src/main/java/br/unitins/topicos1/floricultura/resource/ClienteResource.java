@@ -1,5 +1,8 @@
 package br.unitins.topicos1.floricultura.resource;
-import br.unitins.topicos1.floricultura.dto.ClienteDTO;
+import br.unitins.topicos1.floricultura.dto.ClienteUpdateDTO;
+import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
+import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
+import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
 import br.unitins.topicos1.floricultura.service.ClienteService;
 import jakarta.inject.Inject;
@@ -25,16 +28,23 @@ public class ClienteResource {
     @Inject
     ClienteService service;
 
+    //check email availability
+    @POST
+    @Path("/emailavailable")
+    public Response checkEmailAvailable(EmailAvailableDTO dto) {
+        EmailAvailableResponseDTO retorno = service.checkEmailAvailable(dto);
+        return Response.status(200).entity(retorno).build();
+    }
 
     @POST
-    public Response insert(ClienteDTO dto) {
+    public Response insert(ClienteFastCreateDTO dto) {
         ClienteResponseDTO retorno = service.insert(dto);
         return Response.status(Status.CREATED).entity(retorno).build();
     }
 
     @PUT 
     @Path("/{id}")
-    public Response update(ClienteDTO dto, @PathParam("id") Long id) {
+    public Response update(ClienteUpdateDTO dto, @PathParam("id") Long id) {
         service.update(dto, id);
         return Response.status(Status.NO_CONTENT).build();
     }
