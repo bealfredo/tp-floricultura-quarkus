@@ -1,35 +1,35 @@
 package br.unitins.topicos1.floricultura.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
 public class Usuario extends DefaultEntity {
 
+    @Column (nullable = false)
     private String nome;
-    private String sobreNome;
-    private String login;
-    private String cpf;
-    private String senha;
-    private LocalDate dataNascimento;
-    @OneToOne
-    private Telefone telefone;
-    // private TipoUsuario tipoUsuario;
 
-    // @ManyToMany(fetch = FetchType.EAGER)
-    // @JoinTable(
-    //     name = "usuario_endereco",
-    //     joinColumns = @JoinColumn(name = "id_usuario"),
-    //     inverseJoinColumns = @JoinColumn(name = "id_endereco")
-    // )
-    // private List<Endereco> listaEndereco;
+    private String sobrenome;
+
+    @Column (nullable = false, unique = true)
+    private String login;
+
+    @Column (unique = true)
+    private String cpf;
+
+    @Column (nullable = false)
+    private String senha;
+
+    private LocalDate dataNascimento;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id_telefone")
+    private Telefone telefone;
 
     public String getNome() {
         return nome;
@@ -38,7 +38,15 @@ public class Usuario extends DefaultEntity {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobreNome) {
+        this.sobrenome = sobreNome;
+    }
+
     public String getLogin() {
         return login;
     }
@@ -47,7 +55,7 @@ public class Usuario extends DefaultEntity {
         this.login = login;
     }
 
-        public String getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
@@ -63,22 +71,6 @@ public class Usuario extends DefaultEntity {
         this.senha = senha;
     }
 
-    // public List<Endereco> getListaEndereco() {
-    //     return listaEndereco;
-    // }
-
-    // public void setListaEndereco(List<Endereco> listaEndereco) {
-    //     this.listaEndereco = listaEndereco;
-    // }
-
-    public String getSobreNome() {
-        return sobreNome;
-    }
-
-    public void setSobreNome(String sobreNome) {
-        this.sobreNome = sobreNome;
-    }
-
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
@@ -87,14 +79,6 @@ public class Usuario extends DefaultEntity {
         this.dataNascimento = dataNascimento;
     }
 
-    // public TipoUsuario getTipoUsuario() {
-    //     return tipoUsuario;
-    // }
-
-    // public void setTipoUsuario(TipoUsuario tipoUsuario) {
-    //     this.tipoUsuario = tipoUsuario;
-    // }
-
     public Telefone getTelefone() {
         return telefone;
     }
@@ -102,4 +86,5 @@ public class Usuario extends DefaultEntity {
     public void setTelefone(Telefone telefone) {
         this.telefone = telefone;
     }
+
 }

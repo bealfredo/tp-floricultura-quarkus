@@ -24,7 +24,7 @@ public record UsuarioResponseDTO(
         return new UsuarioResponseDTO(
             usuario.getId(), 
             usuario.getNome(),
-            usuario.getSobreNome(),
+            usuario.getSobrenome(),
             usuario.getLogin(),
             usuario.getCpf(),
             usuario.getDataNascimento(),
