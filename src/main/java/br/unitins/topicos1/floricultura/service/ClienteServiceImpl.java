@@ -157,7 +157,13 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public ClienteResponseDTO findById(Long id) {
-        return ClienteResponseDTO.valueOf(repository.findById(id));
+        Cliente cliente = repository.findById(id);
+
+        if (cliente == null) {
+            throw new NotFoundException();
+        }
+
+        return ClienteResponseDTO.valueOf(cliente);
     }
 
     @Override

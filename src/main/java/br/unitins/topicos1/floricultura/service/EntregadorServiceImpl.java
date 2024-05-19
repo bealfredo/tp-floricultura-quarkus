@@ -140,7 +140,13 @@ public class EntregadorServiceImpl implements EntregadorService{
 
     @Override
     public EntregadorResponseDTO findById(Long id) {
-        return EntregadorResponseDTO.valueOf(repository.findById(id));
+        Entregador entregador = repository.findById(id);
+
+        if (entregador == null) {
+            throw new NotFoundException();
+        }
+
+        return EntregadorResponseDTO.valueOf(entregador);
     }
 
     @Override

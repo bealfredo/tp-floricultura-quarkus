@@ -100,6 +100,7 @@ public class AdminServiceImpl implements AdminService{
         usuario.setSobrenome(dto.sobrenome());
         usuario.setCpf(dto.cpf());
         usuario.setDataNascimento(dto.dataNascimento());
+        usuario.setTelefone(telefone);
 
         usuarioRepository.persist(usuario);
 
@@ -174,7 +175,13 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public AdminResponseDTO findById(Long id) {
-        return AdminResponseDTO.valueOf(repository.findById(id));
+        Admin admin = repository.findById(id);
+
+        if (admin == null) {
+            throw new NotFoundException();
+        }
+
+        return AdminResponseDTO.valueOf(admin);
     }
 
     @Override
