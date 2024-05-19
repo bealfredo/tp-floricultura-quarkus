@@ -14,4 +14,11 @@ public class UsuarioRepository implements PanacheRepository<Usuario> {
         return find("LOWER(login) = LOWER(?1)", login.toLowerCase()).firstResult();
     }
 
+    public Usuario findByCpf(String cpf) {
+        if (cpf == null)
+            return null;
+            
+        return find("cpf = ?1", cpf).firstResult();
+    }
+
 }

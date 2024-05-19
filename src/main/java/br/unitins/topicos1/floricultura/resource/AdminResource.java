@@ -1,10 +1,11 @@
 package br.unitins.topicos1.floricultura.resource;
-import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
-import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
-import br.unitins.topicos1.floricultura.dto.ClienteUpdateDTO;
+import br.unitins.topicos1.floricultura.dto.AdminCreateDTO;
+import br.unitins.topicos1.floricultura.dto.AdminResponseDTO;
+import br.unitins.topicos1.floricultura.dto.AdminSelfUpdateDTO;
+import br.unitins.topicos1.floricultura.dto.AdminUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
-import br.unitins.topicos1.floricultura.service.ClienteService;
+import br.unitins.topicos1.floricultura.service.AdminService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -20,13 +21,13 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-@Path("/clientes")
+@Path("/admins")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class ClienteResource {
+public class AdminResource {
 
     @Inject
-    ClienteService service;
+    AdminService service;
 
     //check email availability
     @POST
@@ -37,15 +38,22 @@ public class ClienteResource {
     }
 
     @POST
-    public Response insert(ClienteFastCreateDTO dto) {
-        ClienteResponseDTO retorno = service.insert(dto);
+    public Response insert(AdminCreateDTO dto) {
+        AdminResponseDTO retorno = service.insert(dto);
         return Response.status(Status.CREATED).entity(retorno).build();
     }
 
     @PATCH 
     @Path("/{id}")
-    public Response update(ClienteUpdateDTO dto, @PathParam("id") Long id) {
+    public Response update(AdminUpdateDTO dto, @PathParam("id") Long id) {
         service.update(dto, id);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @PATCH 
+    @Path("/self/{id}")
+    public Response selfUpdate(AdminSelfUpdateDTO dto, @PathParam("id") Long id) {
+        service.selfUpdate(dto, id);
         return Response.status(Status.NO_CONTENT).build();
     }
 

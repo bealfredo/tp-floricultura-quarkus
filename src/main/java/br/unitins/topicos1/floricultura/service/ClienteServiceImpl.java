@@ -55,8 +55,7 @@ public class ClienteServiceImpl implements ClienteService{
         }
     }
 
-    private void valid(ClienteUpdateDTO dto, Cliente obj2Update) {
-
+    private void validUpdate(ClienteUpdateDTO dto, Cliente obj2Update) {
         for (EnderecoDTO endereco : dto.listaEndereco()) {
             if (endereco != null) {
                 Cidade cidade = cidadeRepository.findById(endereco.cidade());
@@ -66,10 +65,14 @@ public class ClienteServiceImpl implements ClienteService{
             }
         }
 
-        // if (obj2Update != null) {
-        // } else {
-        // }
+        if (!dto.cpf().equals(obj2Update.getUsuario().getCpf())) {
+            Usuario usuario = usuarioRepository.findByCpf(dto.cpf());
+            if (usuario != null) {
+                throw new ValidationException("cpf", "CPF já cadastrado.");
+            }
+        }
     }
+
 
     @Override
     @Transactional
@@ -105,7 +108,7 @@ public class ClienteServiceImpl implements ClienteService{
             throw new NotFoundException();
         }
 
-        valid(dto, cliente);
+        validUpdate(dto, cliente);
 
         // remove todos os endereços existentes
         for (Endereco endereco : cliente.getListaEndereco()) {

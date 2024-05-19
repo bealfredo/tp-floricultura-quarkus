@@ -1,18 +1,13 @@
 package br.unitins.topicos1.floricultura.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record ClienteUpdateDTO(
-    String carrinho,
-    @Valid
-    List<EnderecoDTO> listaEndereco,
-
+public record AdminSelfUpdateDTO (
     @NotBlank(message = "O campo nome não pode ser nulo")
     String nome,
     @NotBlank(message = "O campo sobrenome não pode ser nulo")
