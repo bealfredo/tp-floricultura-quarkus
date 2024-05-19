@@ -1,17 +1,17 @@
 package br.unitins.topicos1.floricultura.resource;
+import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
+import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
-import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
-import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
 import br.unitins.topicos1.floricultura.service.ClienteService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -42,7 +42,7 @@ public class ClienteResource {
         return Response.status(Status.CREATED).entity(retorno).build();
     }
 
-    @PUT 
+    @PATCH 
     @Path("/{id}")
     public Response update(ClienteUpdateDTO dto, @PathParam("id") Long id) {
         service.update(dto, id);
