@@ -19,7 +19,7 @@ public class Usuario extends DefaultEntity {
     @Column (nullable = false, unique = true)
     private String login;
 
-    @Column (unique = true)
+    @Column (unique = true, length = 11)
     private String cpf;
 
     @Column (nullable = false)
