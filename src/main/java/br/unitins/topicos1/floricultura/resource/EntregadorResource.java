@@ -1,6 +1,4 @@
 package br.unitins.topicos1.floricultura.resource;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorCreateDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorUpdateDTO;
@@ -27,14 +25,6 @@ public class EntregadorResource {
 
     @Inject
     EntregadorService service;
-
-    //check email availability
-    @POST
-    @Path("/emailavailable")
-    public Response checkEmailAvailable(EmailAvailableDTO dto) {
-        EmailAvailableResponseDTO retorno = service.checkEmailAvailable(dto);
-        return Response.status(200).entity(retorno).build();
-    }
 
     @POST
     public Response insert(EntregadorCreateDTO dto) {

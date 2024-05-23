@@ -3,8 +3,6 @@ package br.unitins.topicos1.floricultura.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorCreateDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorUpdateDTO;
@@ -39,17 +37,6 @@ public class EntregadorServiceImpl implements EntregadorService{
 
     @Inject
     UsuarioRepository usuarioRepository;
-
-    @Override
-    public EmailAvailableResponseDTO checkEmailAvailable(@Valid EmailAvailableDTO dto) {
-        Usuario usuario = usuarioRepository.findByLogin(dto.email());
-
-        if (usuario == null) {
-            return new EmailAvailableResponseDTO(dto.email(), true);
-        } else {
-            return new EmailAvailableResponseDTO(dto.email(), false);
-        }
-    }
 
     private void valid(String newCpf, String oldCpf) {
         if (newCpf != null && oldCpf != null && !newCpf.equals(oldCpf)) {

@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteUpdateDTO;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EnderecoDTO;
 import br.unitins.topicos1.floricultura.model.Cidade;
 import br.unitins.topicos1.floricultura.model.Cliente;
@@ -43,17 +41,6 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Inject
     UsuarioRepository usuarioRepository;
-
-    @Override
-    public EmailAvailableResponseDTO checkEmailAvailable(@Valid EmailAvailableDTO dto) {
-        Usuario usuario = usuarioRepository.findByLogin(dto.email());
-
-        if (usuario == null) {
-            return new EmailAvailableResponseDTO(dto.email(), true);
-        } else {
-            return new EmailAvailableResponseDTO(dto.email(), false);
-        }
-    }
 
     private void validUpdate(ClienteUpdateDTO dto, Cliente obj2Update) {
         for (EnderecoDTO endereco : dto.listaEndereco()) {

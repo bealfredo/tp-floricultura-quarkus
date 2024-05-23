@@ -6,13 +6,9 @@ import br.unitins.topicos1.floricultura.dto.AdminCreateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminResponseDTO;
 import br.unitins.topicos1.floricultura.dto.AdminSelfUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminUpdateDTO;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
 import jakarta.validation.Valid;
 
 public interface AdminService {
-
-    public EmailAvailableResponseDTO checkEmailAvailable(@Valid EmailAvailableDTO dto);
 
     public AdminResponseDTO insert(@Valid AdminCreateDTO dto);
 
