@@ -4,7 +4,9 @@
 insert into telefone(ddd, numero) values 
   (63, 912345678),
   (62, 912345622),
-  (21, 912345621);
+  (21, 912345621),
+  (11, 912345611),
+  (11, 912345656);
 
 insert into fornecedor( id_telefone, nome, email, cnpj) values 
   (1, 'Natureza Verde', 'nverde@gmail.com', '11145678000123'),
@@ -70,9 +72,20 @@ INSERT INTO cidade(nome, id_estado, frete) VALUES
 ;
 
 -- A senha é o nome
+-- maria - cliente
+-- joao - cliente
+-- pedro - admin - owner
+-- ana - admin - Employee
+-- lucas - entregador
+-- nelma - entregador
+
 INSERT INTO usuario (id_telefone, nome, sobrenome, cpf, datanascimento, login, senha ) VALUES
-  (3, 'Maria', 'Doe', '11111111111', '2022-03-25', 'maria@gmail.com', 'mGIC/uOHQno3SxCLDKTkWePyuE+8xA13SJCxqKQT8E1N+4GFy3424nwH1ymot2+0ozp9GnnicUmwZs09Fi5HRw=='),
-  (null, 'Joao', null, null, null, 'joao@gmail.com', 'uBxMhKJ50d1Kfb+2nN7me98lms/n+1ZVvkzhx7Tx2GRJqqp3TdqgND8RIJALSjrPlg7an9iy+Pt5tOobv9gDMw==');
+  (3, 'Maria', 'Doe', '11111111111', '2000-03-25', 'maria@gmail.com', 'mGIC/uOHQno3SxCLDKTkWePyuE+8xA13SJCxqKQT8E1N+4GFy3424nwH1ymot2+0ozp9GnnicUmwZs09Fi5HRw=='),
+  (null, 'Joao', null, null, null, 'joao@gmail.com', 'uBxMhKJ50d1Kfb+2nN7me98lms/n+1ZVvkzhx7Tx2GRJqqp3TdqgND8RIJALSjrPlg7an9iy+Pt5tOobv9gDMw=='),
+  (4, 'Pedro', 'Silva', '22222222222', '1990-03-25', 'pedro@gmail.com', 'PR5BsRIwJ01eCrmZOf2I1w7cz+doyKG85dHk3fvfzTJxx+Xz2nqiWGWumXwGimgOogyj2HTQL1cHnLYLb6Z9xQ=='),
+  (null, 'Ana', 'Silva', '33333333333', '1995-03-25', 'ana@gmail.com', 'N+ISheiw0YxOt/9cdGwdjB8zPz1ZCXYKTkrVCUJdFsRmHCnS2UclVL8dK73w1ifv8d1IYXPwZVhqSUfqbuia4A=='),
+  (5, 'Lucas', 'Silva', '44444444444', '1998-03-25', 'lucas@gmail.com', 'kj50ILdtWmUUh5DdVYp+wAz8yl8vnU3ZwCkJIigUu75e9M3vuMypKIFbESQ3Z07B7a0Ki8e5csQb09EEH2yBFA=='),
+  (null, 'Nelma', 'Souza', '55555555555', '1992-03-25', 'nelma@gmail.com', '+mGQCWJmGiS/rEiEsXa789phw6PrdwKC7JGOviEalw8PlEvyC0VHGJC5VCVRylgVPyH5EgsNfE8+SMqFqjPjrg==');
 
 INSERT INTO endereco (id_cidade, nome, cep, rua, bairro, numeroLote, complemento) VALUES
   (1, 'Casa 1', '77022-001', 'Rua Castelo Branco', 'Plano Diretor Norte', '1', 'Perto da maria'),
@@ -88,3 +101,14 @@ INSERT INTO cliente_endereco (id_cliente, id_endereco) VALUES
   (1, 2),
   (1, 3)
 ;
+
+
+// admin
+insert into admin (tipoadmin, id_usuario) values
+  (1, 3),
+  (2, 4);
+
+// entregador
+insert into entregador (id_usuario, cnh, cnpj) values
+  (5, '123456789', '12345678901234'),
+  (6, '223456789', '22345678901234');
