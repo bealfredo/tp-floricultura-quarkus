@@ -1,9 +1,10 @@
 package br.unitins.topicos1.floricultura.service;
 
-import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.floricultura.model.TipoPerfil;
+import br.unitins.topicos1.floricultura.model.Usuario;
 
 public interface JwtService {
 
-    public String generateJwt(UsuarioResponseDTO dto);
+    public String generateJwt(Usuario dto, TipoPerfil tipoPerfil);
     
 }

@@ -7,8 +7,6 @@ import br.unitins.topicos1.floricultura.dto.AdminCreateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminResponseDTO;
 import br.unitins.topicos1.floricultura.dto.AdminSelfUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminUpdateDTO;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
 import br.unitins.topicos1.floricultura.model.Admin;
 import br.unitins.topicos1.floricultura.model.Telefone;
 import br.unitins.topicos1.floricultura.model.TipoAdmin;
@@ -41,17 +39,6 @@ public class AdminServiceImpl implements AdminService{
 
     @Inject
     UsuarioRepository usuarioRepository;
-
-    @Override
-    public EmailAvailableResponseDTO checkEmailAvailable(@Valid EmailAvailableDTO dto) {
-        Usuario usuario = usuarioRepository.findByLogin(dto.email());
-
-        if (usuario == null) {
-            return new EmailAvailableResponseDTO(dto.email(), true);
-        } else {
-            return new EmailAvailableResponseDTO(dto.email(), false);
-        }
-    }
 
     private void valid(Integer tipoAdminId, String newCpf, String oldCpf) {
         if (tipoAdminId != null) {
@@ -100,6 +87,7 @@ public class AdminServiceImpl implements AdminService{
         usuario.setSobrenome(dto.sobrenome());
         usuario.setCpf(dto.cpf());
         usuario.setDataNascimento(dto.dataNascimento());
+        usuario.setTelefone(telefone);
 
         usuarioRepository.persist(usuario);
 
@@ -174,7 +162,13 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public AdminResponseDTO findById(Long id) {
-        return AdminResponseDTO.valueOf(repository.findById(id));
+        Admin admin = repository.findById(id);
+
+        if (admin == null) {
+            throw new NotFoundException();
+        }
+
+        return AdminResponseDTO.valueOf(admin);
     }
 
     @Override

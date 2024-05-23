@@ -6,6 +6,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class EntregadorRepository implements PanacheRepository<Entregador>{
-  
+  public Entregador findByLogin(String login) {
+    return find("LOWER(usuario.login) = LOWER(?1)", login.toLowerCase()).firstResult();
+  }
 
 }

@@ -3,8 +3,6 @@ import br.unitins.topicos1.floricultura.dto.AdminCreateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminResponseDTO;
 import br.unitins.topicos1.floricultura.dto.AdminSelfUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminUpdateDTO;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
-import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
 import br.unitins.topicos1.floricultura.service.AdminService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -28,14 +26,6 @@ public class AdminResource {
 
     @Inject
     AdminService service;
-
-    //check email availability
-    @POST
-    @Path("/emailavailable")
-    public Response checkEmailAvailable(EmailAvailableDTO dto) {
-        EmailAvailableResponseDTO retorno = service.checkEmailAvailable(dto);
-        return Response.status(200).entity(retorno).build();
-    }
 
     @POST
     public Response insert(AdminCreateDTO dto) {
