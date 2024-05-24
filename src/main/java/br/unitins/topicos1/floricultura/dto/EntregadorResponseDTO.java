@@ -3,8 +3,10 @@ package br.unitins.topicos1.floricultura.dto;
 import java.time.LocalDate;
 
 import br.unitins.topicos1.floricultura.model.Entregador;
+import br.unitins.topicos1.floricultura.model.TipoPerfil;
 
 public record EntregadorResponseDTO(
+    Integer idTipoPerfil,
     Long id,
     String nome,
     String sobreNome,
@@ -21,6 +23,7 @@ public record EntregadorResponseDTO(
             : TelefoneResponseDTO.valueOf(entregador.getUsuario().getTelefone());
 
         return new EntregadorResponseDTO(
+            TipoPerfil.DELIVERYMAN.getId(),
             entregador.getId(),
             entregador.getUsuario().getNome(),
             entregador.getUsuario().getSobrenome(),

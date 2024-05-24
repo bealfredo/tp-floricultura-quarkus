@@ -5,6 +5,7 @@ import br.unitins.topicos1.floricultura.dto.CategoriaPlantaResponseDTO;
 import br.unitins.topicos1.floricultura.dto.CategoriaPlantaUpdateAtivaDTO;
 import br.unitins.topicos1.floricultura.model.TipoCategoria;
 import br.unitins.topicos1.floricultura.service.CategoriaPlantaService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -30,6 +31,7 @@ public class CategoriaPlantaResource {
   CategoriaPlantaService service;
 
   @POST
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   public Response insert(@Valid CategoriaPlantaDTO dto) {
     CategoriaPlantaResponseDTO retorno = service.insert(dto);
     return Response.status(Status.CREATED).entity(retorno).build();
@@ -69,6 +71,7 @@ public class CategoriaPlantaResource {
   }
   
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   public Response findAll() {
     return Response.ok(service.findAll()).build();
   }
