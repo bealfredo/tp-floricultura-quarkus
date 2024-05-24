@@ -3,6 +3,7 @@ import br.unitins.topicos1.floricultura.dto.EntregadorCreateDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorUpdateDTO;
 import br.unitins.topicos1.floricultura.service.EntregadorService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -27,6 +28,7 @@ public class EntregadorResource {
     EntregadorService service;
 
     @POST
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response insert(EntregadorCreateDTO dto) {
         EntregadorResponseDTO retorno = service.insert(dto);
         return Response.status(Status.CREATED).entity(retorno).build();
@@ -34,6 +36,7 @@ public class EntregadorResource {
 
     @PATCH 
     @Path("/{id}")
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response update(EntregadorUpdateDTO dto, @PathParam("id") Long id) {
         service.update(dto, id);
         return Response.status(Status.NO_CONTENT).build();
@@ -41,12 +44,14 @@ public class EntregadorResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response delete(@PathParam("id") Long id) {
         service.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @GET
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response findAll(
         @QueryParam("page") @DefaultValue("0") int page,
         @QueryParam("pageSize") @DefaultValue("100") int pageSize
@@ -57,6 +62,7 @@ public class EntregadorResource {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response findById(@PathParam("id") Long id) {
         return Response.ok(service.findById(id)).build();
     }

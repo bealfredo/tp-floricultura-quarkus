@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import br.unitins.topicos1.floricultura.model.Cliente;
+import br.unitins.topicos1.floricultura.model.TipoPerfil;
 
 public record ClienteResponseDTO(
+    Integer idTipoPerfil,
     Long id,
     String nome,
     String sobreNome,
@@ -13,7 +15,6 @@ public record ClienteResponseDTO(
     String cpf,
     LocalDate dataNascimento,
     String carrinho,
-    String senha,
     TelefoneResponseDTO telefone,
     List<EnderecoResponseDTO> listaEndereco
 ) {
@@ -23,6 +24,7 @@ public record ClienteResponseDTO(
             : TelefoneResponseDTO.valueOf(cliente.getUsuario().getTelefone());
 
         return new ClienteResponseDTO(
+            TipoPerfil.CUSTOMER.getId(),
             cliente.getId(),
             cliente.getUsuario().getNome(),
             cliente.getUsuario().getSobrenome(),
@@ -30,7 +32,6 @@ public record ClienteResponseDTO(
             cliente.getUsuario().getCpf(),
             cliente.getUsuario().getDataNascimento(),
             cliente.getCarrinho(),
-            cliente.getUsuario().getSenha(),
             telefoneResponseDTO,
             EnderecoResponseDTO.valueOf(cliente.getListaEndereco())
         );

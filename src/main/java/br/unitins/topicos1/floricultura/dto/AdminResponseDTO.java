@@ -3,8 +3,10 @@ package br.unitins.topicos1.floricultura.dto;
 import java.time.LocalDate;
 
 import br.unitins.topicos1.floricultura.model.Admin;
+import br.unitins.topicos1.floricultura.model.TipoPerfil;
 
 public record AdminResponseDTO(
+    Integer idTipoPerfil,
     Long id,
     String nome,
     String sobreNome,
@@ -20,6 +22,7 @@ public record AdminResponseDTO(
             : TelefoneResponseDTO.valueOf(admin.getUsuario().getTelefone());
 
         return new AdminResponseDTO(
+            TipoPerfil.valueOf(admin.getTipoAdmin().getId()).getId(),
             admin.getId(),
             admin.getUsuario().getNome(),
             admin.getUsuario().getSobrenome(),

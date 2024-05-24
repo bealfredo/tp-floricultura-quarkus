@@ -2,10 +2,15 @@ package br.unitins.topicos1.floricultura.service;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import br.unitins.topicos1.floricultura.dto.AdminResponseDTO;
 import br.unitins.topicos1.floricultura.dto.AuthUsuarioDTO;
+import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
+import br.unitins.topicos1.floricultura.dto.EntregadorResponseDTO;
 import br.unitins.topicos1.floricultura.model.Admin;
+import br.unitins.topicos1.floricultura.model.Cliente;
+import br.unitins.topicos1.floricultura.model.Entregador;
 import br.unitins.topicos1.floricultura.model.TipoAdmin;
 import br.unitins.topicos1.floricultura.model.TipoPerfil;
 import br.unitins.topicos1.floricultura.model.Usuario;
@@ -42,13 +47,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     JsonWebToken jwt;
 
     private void throwTipoPerfilInvalido() {
-        throw new ValidationException("tipoPerfil", "Tipo de perfil inválido para o usuário.");
+        throw new ValidationException("idTipoPerfil", "Tipo de perfil inválido para o usuário.");
     }
 
     private void validTipoPerfil(Usuario usuario, AuthUsuarioDTO dto) {
         TipoPerfil tipoPerfil = TipoPerfil.valueOf(dto.idTipoPerfil());
             if (tipoPerfil == null) {
-                throw new ValidationException("tipoPerfil", "Tipo de perfil inválido.");
+                throw new ValidationException("idTipoPerfil", "Tipo de perfil inválido.");
             }
 
         switch (tipoPerfil) {
@@ -97,7 +102,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         Usuario usuario = usuarioRepository.findByLoginAndSenha(dto.login(), hashSenha);
         if (usuario == null)
-            throw new ValidationException("login e senha", "Login ou senha inválidos");
+            throw new ValidationException("auth", "Login ou senha inválidos");
         
         validTipoPerfil(usuario, dto);
 
@@ -106,6 +111,26 @@ public class UsuarioServiceImpl implements UsuarioService {
         return token;
     }
    
+    @Override
+    public AdminResponseDTO userInfoAdmin() {
+        String login = jwt.getSubject();
+        Admin admin = adminRepository.findByLogin(login);
+        return AdminResponseDTO.valueOf(admin);
+    }
+
+    @Override
+    public ClienteResponseDTO userInfoCliente() {
+        String login = jwt.getSubject();
+        Cliente cliente = clienteRepository.findByLogin(login);
+        return ClienteResponseDTO.valueOf(cliente);
+    }
+
+    @Override
+    public EntregadorResponseDTO userInfoEntregador() {
+        String login = jwt.getSubject();
+        Entregador entregador = entregadorRepository.findByLogin(login);
+        return EntregadorResponseDTO.valueOf(entregador);
+    }
     
 
     // @Override
