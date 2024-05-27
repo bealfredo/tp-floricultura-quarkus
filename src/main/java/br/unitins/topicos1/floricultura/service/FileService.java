@@ -5,10 +5,10 @@ import java.io.IOException;
 
 public interface FileService {
   
-  String salvar(String nomeArquivo, byte[] arquivo) throws IOException;
+  String salvar(Long idSubpasta, byte[] arquivo) throws IOException;
 
-  File obter(String nomeArquivo);
+  File obter(Long idSubpasta, String nomeArquivo);
 
-  Boolean apagar(String nomeArquivo);
+  Boolean apagar(Long idSubpasta, String nomeArquivo);
 
 }

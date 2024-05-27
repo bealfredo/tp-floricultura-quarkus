@@ -307,7 +307,7 @@ public class PlantaServiceImpl implements PlantaService {
         String nomeImagem = "";
 
         try {
-            nomeImagem = plantaFileService.salvar(form.getNomeImagem(), form.getImagem());
+            nomeImagem = plantaFileService.salvar(planta.getId(), form.getImagem());
         } catch (Exception e) {
             throw new GeneralValidationException("Imagem planta", "Erro ao adicionar a imagem: " + e.getMessage());
         }
@@ -346,7 +346,7 @@ public class PlantaServiceImpl implements PlantaService {
 
         for (String imagem : planta.getImagens()) {
             if (imagem.equals(nomeImagem)) {
-                return plantaFileService.obter(nomeImagem);
+                return plantaFileService.obter(planta.getId(), nomeImagem);
             }
         }
 
@@ -373,7 +373,7 @@ public class PlantaServiceImpl implements PlantaService {
             throw new GeneralValidationException("Imagem planta", "A imagem não foi encontrada");
         }
 
-        plantaFileService.apagar(nomeImagem);
+        plantaFileService.apagar(planta.getId(), nomeImagem);
         imagens.remove(nomeImagem);
         planta.setImagens(imagens.toArray(new String[0]));
         

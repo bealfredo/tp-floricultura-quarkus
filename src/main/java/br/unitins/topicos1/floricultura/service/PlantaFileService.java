@@ -1,8 +1,10 @@
 package br.unitins.topicos1.floricultura.service;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,6 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.tika.Tika;
+import org.apache.tika.mime.MimeTypeException;
+import org.apache.tika.mime.MimeTypes;
 import org.jboss.logging.Logger;
 
 import br.unitins.topicos1.floricultura.validation.GeneralValidationException;
@@ -19,6 +24,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class PlantaFileService implements FileService {
 
   private static final Logger LOG = Logger.getLogger(PlantaFileService.class);
+  private static final Tika tika = new Tika();
 
   private final String PATH_USER = System.getProperty("user.home") +
     File.separator + "quarkus" + 
@@ -32,7 +38,7 @@ public class PlantaFileService implements FileService {
   private static final int MAX_FILE_SIZE = 1024 * 1024 * 10; // 10mb
 
   @Override
-  public String salvar(String nomeArquivo, byte[] arquivo) throws IOException  {
+  public String salvar(Long idSubpasta, byte[] arquivo) throws IOException {
     LOG.info("Verificando o tamanho da imagem");
     verificarTamanhoImagem(arquivo);
 
@@ -40,31 +46,33 @@ public class PlantaFileService implements FileService {
     verificarSeVazio(arquivo);
     
     LOG.info("Verificando o tipo da imagem");
-    verificarTipoImagem(nomeArquivo);
+    String mimeType = verificarTipoImagem(arquivo);
 
     LOG.info("Criando o diretório caso não exista");
-    Path diretorio = Paths.get(PATH_USER);
+    Path diretorio = Paths.get(PATH_USER, idSubpasta.toString());
     Files.createDirectories(diretorio);
 
     LOG.info("Criando o nome do arquivo randomico para a imagem");
+    String extensao;
+    try {
+      extensao = MimeTypes.getDefaultMimeTypes().forName(mimeType).getExtension();
+    } catch (MimeTypeException e) {
+      throw new GeneralValidationException("Imagem planta", "Erro ao determinar a extensão do arquivo");
+    }
+
+    String novoNomeArquivo;
     Path filePath;
     do {
-      String mimeType = Files.probeContentType(Paths.get(nomeArquivo));
-      String extensao = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-      String novoNomeArquivo = UUID.randomUUID() + "." + extensao;
-
-      novoNomeArquivo = UUID.randomUUID() + "." + extensao;
-
+      novoNomeArquivo = UUID.randomUUID() + extensao;
       filePath = diretorio.resolve(novoNomeArquivo);
-
     } while (filePath.toFile().exists());
     
-    LOG.info("Caminho completo da imagem definidio: " + filePath);
+    LOG.info("Caminho completo da imagem definido: " + filePath);
 
     LOG.info("Salvando a imagem.");
-    try( FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
+    try (FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
       fos.write(arquivo);
-    } 
+    }
 
     LOG.info("Imagem salva com sucesso.");
 
@@ -72,22 +80,22 @@ public class PlantaFileService implements FileService {
   }
   
   @Override
-  public File obter(String nomeArquivo) {
-    File file = new File(PATH_USER+nomeArquivo);
+  public File obter(Long idSubpasta, String nomeArquivo) {
+    File file = new File(PATH_USER + idSubpasta.toString() + File.separator + nomeArquivo);
     return file;
   }
 
   @Override
-  public Boolean apagar(String nomeArquivo) {
+  public Boolean apagar(Long idSubpasta, String nomeArquivo) {
     try {
-        LOG.info("Apagando a imagem: " + nomeArquivo);
-        Path filePath = Paths.get(PATH_USER, nomeArquivo);
-        Files.deleteIfExists(filePath);
-        LOG.info("Imagem apagada com sucesso.");
-        return true;
+      LOG.info("Apagando a imagem: " + nomeArquivo);
+      Path filePath = Paths.get(PATH_USER, idSubpasta.toString(), nomeArquivo);
+      Files.deleteIfExists(filePath);
+      LOG.info("Imagem apagada com sucesso.");
+      return true;
     } catch (IOException e) {
-        LOG.error("Erro ao apagar a imagem: " + nomeArquivo);
-        throw new GeneralValidationException("Imagem planta", "Erro ao apagar a imagem");
+      LOG.error("Erro ao apagar a imagem: " + nomeArquivo);
+      throw new GeneralValidationException("Imagem planta", "Erro ao apagar a imagem");
     }
   }
 
@@ -97,20 +105,19 @@ public class PlantaFileService implements FileService {
     }
   }
 
-
   private void verificarTamanhoImagem(byte[] arquivo) {
     if (arquivo.length > MAX_FILE_SIZE)
       throw new GeneralValidationException("Imagem planta", "Arquivo maior que 10mb");
   }
 
-  private void verificarTipoImagem(String nomeArquivo) {
-    try {
-      String mimeType = Files.probeContentType(Paths.get(nomeArquivo));
-      if(!SUPPORTED_MIME_TYPES.contains(mimeType))
+  private String verificarTipoImagem(byte[] arquivo) {
+    try (InputStream is = new ByteArrayInputStream(arquivo)) {
+      String mimeType = tika.detect(is);
+      if (!SUPPORTED_MIME_TYPES.contains(mimeType))
         throw new GeneralValidationException("Imagem planta", "Tipo de imagem não suportada.");
-    } catch (Exception e) {
+      return mimeType;
+    } catch (IOException e) {
       throw new GeneralValidationException("Imagem planta", "Erro ao verificar o tipo da imagem");
     }
   }
-  
 }
