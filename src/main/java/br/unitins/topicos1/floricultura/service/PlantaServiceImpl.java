@@ -409,7 +409,7 @@ public class PlantaServiceImpl implements PlantaService {
 
     @Override
     @Transactional
-    public void updateStatusPlanta(PlantaUpdateStatusPlantaDTO dto, Long id) {
+    public void updateStatusPlanta(@Valid PlantaUpdateStatusPlantaDTO dto, Long id) {
         Planta planta = repository.findByIdComBloqueioCompartilhado(id);
         if (planta == null) {
             throw new NotFoundException();
@@ -425,7 +425,7 @@ public class PlantaServiceImpl implements PlantaService {
 
     @Override
     @Transactional
-    public void updateAddRemoveQuantidade(PlantaUpdateAddRemoveQuantidadeDTO dto, Long id) {
+    public void updateAddRemoveQuantidade(@Valid PlantaUpdateAddRemoveQuantidadeDTO dto, Long id) {
         Planta planta = repository.findByIdComBloqueioCompartilhado(id);
         if (planta == null) {
             throw new NotFoundException();

@@ -61,9 +61,9 @@ public interface PlantaService {
 
     public void definirImagemPrincipal(String nomeImagem, Long id);
 
-    public void updateStatusPlanta(PlantaUpdateStatusPlantaDTO dto, Long id);
+    public void updateStatusPlanta(@Valid PlantaUpdateStatusPlantaDTO dto, Long id);
 
-    public void updateAddRemoveQuantidade(PlantaUpdateAddRemoveQuantidadeDTO dto, Long id);
+    public void updateAddRemoveQuantidade(@Valid PlantaUpdateAddRemoveQuantidadeDTO dto, Long id);
 
 
 }
