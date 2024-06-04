@@ -31,7 +31,7 @@ public class FornecedorServiceImpl implements FornecedorService {
         }
       }
 
-      if (!dto.cnpj().equals(obj2Update.getCnpj())) {
+      if (!dto.cnpj().equals(obj2Update.getCnpj()) && !dto.cnpj().equals("")) {
         List<Fornecedor> fornecedores = repository.findByCnpj(dto.cnpj());
         if (!fornecedores.isEmpty()) {
           throw new ValidationException("cnpj", "CNPJ já cadastrado.");
@@ -45,7 +45,7 @@ public class FornecedorServiceImpl implements FornecedorService {
       }
 
       fornecedores = repository.findByCnpj(dto.cnpj());
-      if (!fornecedores.isEmpty()) {
+      if (!fornecedores.isEmpty() && !dto.cnpj().equals("")) {
         throw new ValidationException("cnpj", "CNPJ já cadastrado.");
       }
     }
