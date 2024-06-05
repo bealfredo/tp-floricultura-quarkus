@@ -9,7 +9,7 @@ public record EntregadorResponseDTO(
     Integer idTipoPerfil,
     Long id,
     String nome,
-    String sobreNome,
+    String sobrenome,
     String email,
     String cpf,
     LocalDate dataNascimento,

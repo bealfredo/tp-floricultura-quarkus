@@ -11,7 +11,7 @@ import br.unitins.topicos1.floricultura.model.Usuario;
 public record UsuarioResponseDTO(
     Long id,
     String nome,
-    String sobreNome,
+    String sobrenome,
     String login,
     String cpf,
     LocalDate dataNascimento,

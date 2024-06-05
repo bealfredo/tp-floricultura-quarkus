@@ -43,8 +43,8 @@ public class Usuario extends DefaultEntity {
         return sobrenome;
     }
 
-    public void setSobrenome(String sobreNome) {
-        this.sobrenome = sobreNome;
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
     public String getLogin() {

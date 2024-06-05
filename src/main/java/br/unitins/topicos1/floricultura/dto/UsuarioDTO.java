@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Pattern;
 public record UsuarioDTO (
     @NotBlank(message = "O campo nome não pode ser nulo.")
     String nome,
-    String sobreNome,
+    String sobrenome,
     @NotBlank(message = "O campo nome não pode ser nulo.")
     String login,
     @NotBlank(message = "O campo cpf não pode ser nulo.")
