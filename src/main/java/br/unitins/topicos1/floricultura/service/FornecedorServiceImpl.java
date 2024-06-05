@@ -87,13 +87,18 @@ public class FornecedorServiceImpl implements FornecedorService {
 
     valid(dto, fornecedor);
 
-    Telefone telefone = new Telefone();
-    telefone.setDdd(dto.telefone().ddd());
-    telefone.setNumero(dto.telefone().numero());
+    if (dto.telefone() != null) {
+      Telefone telefone = new Telefone();
+      telefone.setDdd(dto.telefone().ddd());
+      telefone.setNumero(dto.telefone().numero());
+      fornecedor.setTelefone(telefone);
+      fornecedor.setTelefone(telefone);
+    } else {
+      fornecedor.setTelefone(null);
+    }
 
     fornecedor.setNome(dto.nome());
     fornecedor.setEmail(dto.email());
-    fornecedor.setTelefone(telefone);
     fornecedor.setCnpj(dto.cnpj());
 
     return FornecedorResponseDTO.valueOf(fornecedor);
