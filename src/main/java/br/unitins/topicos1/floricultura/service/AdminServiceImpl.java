@@ -7,6 +7,7 @@ import br.unitins.topicos1.floricultura.dto.AdminCreateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminResponseDTO;
 import br.unitins.topicos1.floricultura.dto.AdminSelfUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminUpdateDTO;
+import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
 import br.unitins.topicos1.floricultura.model.Admin;
 import br.unitins.topicos1.floricultura.model.Telefone;
 import br.unitins.topicos1.floricultura.model.TipoAdmin;
@@ -74,12 +75,18 @@ public class AdminServiceImpl implements AdminService{
         }
 
         valid(dto.idTipoAdmin(), dto.cpf(), null);
-        
-        Telefone telefone = new Telefone();
-        telefone.setDdd(dto.telefone().ddd());
-        telefone.setNumero(dto.telefone().numero());
 
         usuario = new Usuario();
+
+        if (dto.telefone() != null) {
+            Telefone telefone = new Telefone();
+            telefone.setDdd(dto.telefone().ddd());
+            telefone.setNumero(dto.telefone().numero());
+            usuario.setTelefone(telefone);
+        } else {
+            usuario.setTelefone(null);
+        }
+
         usuario.setLogin(dto.email());
         usuario.setSenha(hashService.getHashSenha(dto.senha()));
         
@@ -87,7 +94,6 @@ public class AdminServiceImpl implements AdminService{
         usuario.setSobrenome(dto.sobrenome());
         usuario.setCpf(dto.cpf());
         usuario.setDataNascimento(dto.dataNascimento());
-        usuario.setTelefone(telefone);
 
         usuarioRepository.persist(usuario);
 
@@ -110,15 +116,19 @@ public class AdminServiceImpl implements AdminService{
 
         valid(dto.idTipoAdmin(), dto.cpf(), admin.getUsuario().getCpf());
 
-        Telefone telefone = new Telefone();
-        telefone.setDdd(dto.telefone().ddd());
-        telefone.setNumero(dto.telefone().numero());
+        if (dto.telefone() != null) {
+            Telefone telefone = new Telefone();
+            telefone.setDdd(dto.telefone().ddd());
+            telefone.setNumero(dto.telefone().numero());
+            admin.getUsuario().setTelefone(telefone);
+        } else {
+            admin.getUsuario().setTelefone(null);
+        }
             
         admin.getUsuario().setNome(dto.nome());
         admin.getUsuario().setSobrenome(dto.sobrenome());
         admin.getUsuario().setCpf(dto.cpf());
         admin.getUsuario().setDataNascimento(dto.dataNascimento());
-        admin.getUsuario().setTelefone(telefone);
 
         admin.setTipoAdmin(TipoAdmin.valueOf(dto.idTipoAdmin()));
 
@@ -137,15 +147,19 @@ public class AdminServiceImpl implements AdminService{
 
         valid(null, dto.cpf(), admin.getUsuario().getCpf());
 
-        Telefone telefone = new Telefone();
-        telefone.setDdd(dto.telefone().ddd());
-        telefone.setNumero(dto.telefone().numero());
+        if (dto.telefone() != null) {
+            Telefone telefone = new Telefone();
+            telefone.setDdd(dto.telefone().ddd());
+            telefone.setNumero(dto.telefone().numero());
+            admin.getUsuario().setTelefone(telefone);
+        } else {
+            admin.getUsuario().setTelefone(null);
+        }
             
         admin.getUsuario().setNome(dto.nome());
         admin.getUsuario().setSobrenome(dto.sobrenome());
         admin.getUsuario().setCpf(dto.cpf());
         admin.getUsuario().setDataNascimento(dto.dataNascimento());
-        admin.getUsuario().setTelefone(telefone);
 
         repository.persist(admin);
 
@@ -182,4 +196,32 @@ public class AdminServiceImpl implements AdminService{
             .map(e -> AdminResponseDTO.valueOf(e)).collect(Collectors.toList());
 
     }
+
+    @Override
+    public Long count() {
+        return repository.count();
+    }
+
+    @Override
+    @Transactional
+    public AdminResponseDTO insertExistingUser(EmailAvailableDTO dto) {
+        Usuario usuario = usuarioRepository.findByLogin(dto.email());
+        if (usuario == null) {
+            throw new NotFoundException();
+        }
+
+        Admin admin = repository.findByLogin(dto.email());
+        if (admin != null) {
+            throw new ValidationException("email", "Email já cadastrado.");
+        }
+
+        admin = new Admin();
+        admin.setUsuario(usuario);
+        admin.setTipoAdmin(TipoAdmin.EMPLOYEE);
+
+        repository.persist(admin);
+
+        return AdminResponseDTO.valueOf(admin);
+    }
+
 }

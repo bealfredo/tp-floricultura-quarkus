@@ -2,6 +2,7 @@ package br.unitins.topicos1.floricultura.service;
 
 import java.util.List;
 
+import br.unitins.topicos1.floricultura.dto.ClienteExistingUserDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteUpdateDTO;
@@ -20,5 +21,7 @@ public interface ClienteService {
     public List<ClienteResponseDTO> findByAll(int page, int pageSize); 
 
     public Long count();
+
+    public String insertExistingUser(@Valid ClienteExistingUserDTO dto);
 
 }

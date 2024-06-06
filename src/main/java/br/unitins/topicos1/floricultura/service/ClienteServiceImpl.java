@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.unitins.topicos1.floricultura.dto.ClienteExistingUserDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteUpdateDTO;
@@ -12,6 +13,7 @@ import br.unitins.topicos1.floricultura.model.Cidade;
 import br.unitins.topicos1.floricultura.model.Cliente;
 import br.unitins.topicos1.floricultura.model.Endereco;
 import br.unitins.topicos1.floricultura.model.Telefone;
+import br.unitins.topicos1.floricultura.model.TipoPerfil;
 import br.unitins.topicos1.floricultura.model.Usuario;
 import br.unitins.topicos1.floricultura.repository.CidadeRepository;
 import br.unitins.topicos1.floricultura.repository.ClienteRepository;
@@ -29,6 +31,10 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Inject
     HashService hashService;
+
+    @Inject
+    JwtService jwtService;
+
 
     @Inject
     ClienteRepository repository;
@@ -173,4 +179,32 @@ public class ClienteServiceImpl implements ClienteService{
     public Long count() {
         return repository.count();
     }
+
+    @Override
+    @Transactional
+    public String insertExistingUser(ClienteExistingUserDTO dto) {
+        Cliente cliente = repository.findByLogin(dto.email());
+        if (cliente != null) {
+            throw new ValidationException("login", "Cliente já cadastrado.");
+        }
+
+        String hashSenha = hashService.getHashSenha(dto.passwordExisting());
+
+        Usuario usuario = usuarioRepository.findByLoginAndSenha(dto.email(), hashSenha);
+        if (usuario == null) {
+            throw new ValidationException("login", "Login ou senha inválidos");
+        }
+
+        cliente = new Cliente();
+        cliente.setUsuario(usuario);
+        cliente.setCarrinho(null);
+        cliente.setListaEndereco(new ArrayList<Endereco>());
+
+        repository.persist(cliente);
+
+        String token = jwtService.generateJwt(usuario, TipoPerfil.CUSTOMER);
+
+        return token;
+    }
+
 }

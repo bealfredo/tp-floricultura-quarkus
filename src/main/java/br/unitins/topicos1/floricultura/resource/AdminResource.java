@@ -3,6 +3,8 @@ import br.unitins.topicos1.floricultura.dto.AdminCreateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminResponseDTO;
 import br.unitins.topicos1.floricultura.dto.AdminSelfUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminUpdateDTO;
+import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
+import br.unitins.topicos1.floricultura.model.TipoAdmin;
 import br.unitins.topicos1.floricultura.service.AdminService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -67,6 +69,24 @@ public class AdminResource {
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         return Response.ok(service.findById(id)).build();
+    }
+
+    @GET
+    @Path("/count")
+    public Response count(){
+        return Response.ok(service.count()).build();
+    }
+
+    @GET
+    @Path("/tipoadmin")
+    public Response listAllStatusProduto() {
+        return Response.ok(TipoAdmin.listAll()).build();
+    }
+
+    @POST
+    @Path("/insertexistinguser")
+    public Response insertExistingUser(EmailAvailableDTO dto) {
+        return Response.ok(service.insertExistingUser(dto)).build();
     }
     
     // @GET

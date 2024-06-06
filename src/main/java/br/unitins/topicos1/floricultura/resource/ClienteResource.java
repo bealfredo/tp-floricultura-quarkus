@@ -1,4 +1,5 @@
 package br.unitins.topicos1.floricultura.resource;
+import br.unitins.topicos1.floricultura.dto.ClienteExistingUserDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteUpdateDTO;
@@ -65,6 +66,13 @@ public class ClienteResource {
     @Path("/count")
     public Response count(){
         return Response.ok(service.count()).build();
+    }
+
+    @POST
+    @Path("/insertexistinguser")
+    public Response insertExistingUser(ClienteExistingUserDTO dto) {
+        String token = service.insertExistingUser(dto);
+        return Response.ok().header("Authorization", token).build();
     }
     
     // @GET
