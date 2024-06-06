@@ -60,6 +60,12 @@ public class ClienteResource {
     public Response findById(@PathParam("id") Long id) {
         return Response.ok(service.findById(id)).build();
     }
+
+    @GET
+    @Path("/count")
+    public Response count(){
+        return Response.ok(service.count()).build();
+    }
     
     // @GET
     // @Path("/search/nome/{nome}")

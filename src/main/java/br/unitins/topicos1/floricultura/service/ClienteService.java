@@ -19,4 +19,6 @@ public interface ClienteService {
 
     public List<ClienteResponseDTO> findByAll(int page, int pageSize); 
 
+    public Long count();
+
 }

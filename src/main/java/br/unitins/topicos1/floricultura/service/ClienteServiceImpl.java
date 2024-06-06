@@ -102,9 +102,14 @@ public class ClienteServiceImpl implements ClienteService{
             enderecoRepository.deleteById(endereco.getId());
         }
 
-        Telefone telefone = new Telefone();
-        telefone.setDdd(dto.telefone().ddd());
-        telefone.setNumero(dto.telefone().numero());
+        if (dto.telefone() != null) {
+            Telefone telefone = new Telefone();
+            telefone.setDdd(dto.telefone().ddd());
+            telefone.setNumero(dto.telefone().numero());
+            cliente.getUsuario().setTelefone(telefone);
+        } else {
+            cliente.getUsuario().setTelefone(null);
+        }
 
         List<Endereco> listaEndereco = dto.listaEndereco().stream()
             .map(e -> {
@@ -119,14 +124,13 @@ public class ClienteServiceImpl implements ClienteService{
                 return endereco;
             }).collect(Collectors.toList());
             
-        cliente.setCarrinho(dto.carrinho());
+        // cliente.setCarrinho(dto.carrinho());
         cliente.setListaEndereco(listaEndereco);
 
         cliente.getUsuario().setNome(dto.nome());
         cliente.getUsuario().setSobrenome(dto.sobrenome());
         cliente.getUsuario().setCpf(dto.cpf());
         cliente.getUsuario().setDataNascimento(dto.dataNascimento());
-        cliente.getUsuario().setTelefone(telefone);
 
 
         repository.persist(cliente);
@@ -163,5 +167,10 @@ public class ClienteServiceImpl implements ClienteService{
         return list.stream()
             .map(e -> ClienteResponseDTO.valueOf(e)).collect(Collectors.toList());
 
+    }
+
+    @Override
+    public Long count() {
+        return repository.count();
     }
 }
