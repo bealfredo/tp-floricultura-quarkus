@@ -8,6 +8,7 @@ import br.unitins.topicos1.floricultura.dto.PlantaCriarRascunhoDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaUpdateAddRemoveQuantidadeDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaUpdateStatusPlantaDTO;
+import br.unitins.topicos1.floricultura.dto.PlantasDoCarrinhoDTO;
 import br.unitins.topicos1.floricultura.form.PlantaImageForm;
 import br.unitins.topicos1.floricultura.model.NivelDificuldade;
 import br.unitins.topicos1.floricultura.model.NivelToxidade;
@@ -15,6 +16,7 @@ import br.unitins.topicos1.floricultura.model.PortePlanta;
 import br.unitins.topicos1.floricultura.model.StatusPlanta;
 import br.unitins.topicos1.floricultura.model.TipoCategoria;
 import br.unitins.topicos1.floricultura.service.PlantaService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -189,4 +191,17 @@ public class PlantaResource {
     public Response findAtivo() {
         return Response.ok(service.findByStatusPlanta(StatusPlanta.ATIVO.getId())).build();
     }
+
+    @POST
+    @RolesAllowed({"CUSTOMER"})
+    @Path("/plantasdocarrinho")
+    public Response getPlantasDoCarrinho(PlantasDoCarrinhoDTO dto) {
+        // String carrinho = service.getCarrinho();
+        return Response.ok(service.getPlantasDoCarrinho(dto)).build();
+    }
+
+    // @POST
+    // public Response criarRascunho(PlantaCriarRascunhoDTO dto) {
+    //     return Response.status(Status.CREATED).entity(service.criarRascunho(dto)).build();
+    // }
 }

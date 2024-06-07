@@ -10,14 +10,17 @@ import java.util.stream.Collectors;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import br.unitins.topicos1.floricultura.dto.ItemVendaDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaCriarRascunhoDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaResponseDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaUpdateAddRemoveQuantidadeDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaUpdateStatusPlantaDTO;
+import br.unitins.topicos1.floricultura.dto.PlantasDoCarrinhoDTO;
 import br.unitins.topicos1.floricultura.form.PlantaImageForm;
 import br.unitins.topicos1.floricultura.model.CategoriaPlanta;
 import br.unitins.topicos1.floricultura.model.Fornecedor;
+import br.unitins.topicos1.floricultura.model.ItemVenda;
 import br.unitins.topicos1.floricultura.model.NivelDificuldade;
 import br.unitins.topicos1.floricultura.model.NivelToxidade;
 import br.unitins.topicos1.floricultura.model.Planta;
@@ -454,6 +457,24 @@ public class PlantaServiceImpl implements PlantaService {
         .toList();
     }
 
+    @Override
+    public List<PlantaResponseDTO> getPlantasDoCarrinho(PlantasDoCarrinhoDTO dto) {
+        
+        List<Planta> plantasDoCarrinho = new ArrayList<>();
 
+        for (ItemVendaDTO idPlanta : dto.carrinho()) {
+            Planta planta = repository.findById(idPlanta.planta());
+            if (planta == null) {
+                throw new NotFoundException("Planta não encontrada.");
+            }
+
+            plantasDoCarrinho.add(planta);
+        }
+
+        return plantasDoCarrinho.stream().map(e -> PlantaResponseDTO.valueOf(e)).toList();
+    }
     
 }
+
+// return repository.listAll().stream()
+// .map(planta -> PlantaResponseDTO.valueOf(planta)).toList();

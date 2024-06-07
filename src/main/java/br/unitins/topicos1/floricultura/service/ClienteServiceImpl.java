@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import br.unitins.topicos1.floricultura.dto.ClienteExistingUserDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
+import br.unitins.topicos1.floricultura.dto.ClienteUpdateCarrinhoDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.EnderecoDTO;
 import br.unitins.topicos1.floricultura.model.Cidade;
@@ -34,6 +37,9 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Inject
     JwtService jwtService;
+
+    @Inject
+    JsonWebToken jwt;
 
 
     @Inject
@@ -69,7 +75,7 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     @Transactional
-    public ClienteResponseDTO insert(@Valid ClienteFastCreateDTO dto) {
+    public String insert(@Valid ClienteFastCreateDTO dto) {
 
         Usuario usuario = usuarioRepository.findByLogin(dto.email());
         if (usuario != null) {
@@ -90,7 +96,9 @@ public class ClienteServiceImpl implements ClienteService{
 
         repository.persist(cliente);
 
-        return ClienteResponseDTO.valueOf(cliente);
+        String token = jwtService.generateJwt(usuario, TipoPerfil.CUSTOMER);
+
+        return token;
     }
 
     @Override
@@ -164,6 +172,26 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
+    public ClienteResponseDTO findByToken() {
+        // Cliente cliente = repository.findById(id);
+
+        // if (cliente == null) {
+        //     throw new NotFoundException();
+        // }
+
+        // return ClienteResponseDTO.valueOf(cliente);
+
+        String login = jwt.getSubject();
+        Cliente cliente = repository.findByLogin(login);
+
+        if (cliente == null) {
+            throw new NotFoundException();
+        }
+
+        return ClienteResponseDTO.valueOf(cliente);
+    }
+
+    @Override
     public List<ClienteResponseDTO> findByAll(int page, int pageSize) {
         List<Cliente> list = repository
                                 .findAll()
@@ -206,5 +234,49 @@ public class ClienteServiceImpl implements ClienteService{
 
         return token;
     }
+
+    @Override
+    @Transactional
+    public void updateCarrinho(ClienteUpdateCarrinhoDTO dto) {
+        String login = jwt.getSubject();
+        Cliente cliente = repository.findByLogin(login);
+
+        if (cliente == null) {
+            throw new NotFoundException();
+        }
+
+        cliente.setCarrinho(dto.carrinho());
+
+        repository.persist(cliente);
+    }
+
+    @Override
+    public String getCarrinho() {
+        String login = jwt.getSubject();
+        Cliente cliente = repository.findByLogin(login);
+
+        if (cliente == null) {
+            throw new NotFoundException();
+        }
+
+        return cliente.getCarrinho();
+    }
+
+    // @Override
+    // public List<EnderecoDTO> getListaEndereco() {
+    //     String login = jwt.getSubject();
+    //     Cliente cliente = repository.findByLogin(login);
+
+    //     if (cliente == null) {
+    //         throw new NotFoundException();
+    //     }
+
+    //     return cliente.getListaEndereco().stream()
+    //         .map(e -> EnderecoDTO.valueOf(e)).collect(Collectors.toList());
+    // }
+
+    // return list.stream()
+    // .map(e -> ClienteResponseDTO.valueOf(e)).collect(Collectors.toList());
+
 
 }
