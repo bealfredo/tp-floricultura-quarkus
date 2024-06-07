@@ -3,7 +3,10 @@ import br.unitins.topicos1.floricultura.dto.AdminCreateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminResponseDTO;
 import br.unitins.topicos1.floricultura.dto.AdminSelfUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.AdminUpdateDTO;
+import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
+import br.unitins.topicos1.floricultura.model.TipoAdmin;
 import br.unitins.topicos1.floricultura.service.AdminService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -28,19 +31,22 @@ public class AdminResource {
     AdminService service;
 
     @POST
+    @RolesAllowed({ "OWNER"})
     public Response insert(AdminCreateDTO dto) {
         AdminResponseDTO retorno = service.insert(dto);
         return Response.status(Status.CREATED).entity(retorno).build();
     }
 
     @PATCH 
+    @RolesAllowed({"OWNER"})
     @Path("/{id}")
     public Response update(AdminUpdateDTO dto, @PathParam("id") Long id) {
         service.update(dto, id);
         return Response.status(Status.NO_CONTENT).build();
     }
 
-    @PATCH 
+    @PATCH
+    @RolesAllowed({"EMPLOYEE", "OWNER"})
     @Path("/self/{id}")
     public Response selfUpdate(AdminSelfUpdateDTO dto, @PathParam("id") Long id) {
         service.selfUpdate(dto, id);
@@ -48,6 +54,7 @@ public class AdminResource {
     }
 
     @DELETE
+    @RolesAllowed({"OWNER"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
         service.delete(id);
@@ -55,6 +62,7 @@ public class AdminResource {
     }
 
     @GET
+    @RolesAllowed({"OWNER"})
     public Response findAll(
         @QueryParam("page") @DefaultValue("0") int page,
         @QueryParam("pageSize") @DefaultValue("100") int pageSize
@@ -64,9 +72,29 @@ public class AdminResource {
 
 
     @GET
+    @RolesAllowed({"OWNER"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         return Response.ok(service.findById(id)).build();
+    }
+
+    @GET
+    @RolesAllowed({"OWNER"})
+    @Path("/count")
+    public Response count(){
+        return Response.ok(service.count()).build();
+    }
+
+    @GET
+    @Path("/tipoadmin")
+    public Response listAllStatusProduto() {
+        return Response.ok(TipoAdmin.listAll()).build();
+    }
+
+    @POST
+    @Path("/insertexistinguser")
+    public Response insertExistingUser(EmailAvailableDTO dto) {
+        return Response.ok(service.insertExistingUser(dto)).build();
     }
     
     // @GET

@@ -3,6 +3,8 @@ package br.unitins.topicos1.floricultura.resource;
 import br.unitins.topicos1.floricultura.dto.AuthUsuarioDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
+import br.unitins.topicos1.floricultura.dto.EmailTakenClienteResponseDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioTiposPerfilByEmailResponseDTO;
 import br.unitins.topicos1.floricultura.service.HashService;
 import br.unitins.topicos1.floricultura.service.JwtService;
 import br.unitins.topicos1.floricultura.service.UsuarioService;
@@ -36,8 +38,22 @@ public class AuthResource {
     //check email availability
     @POST
     @Path("/emailavailable")
-    public Response checkEmailAvailable(EmailAvailableDTO dto) {
+    public Response checkEmailAvailable(@Valid EmailAvailableDTO dto) {
         EmailAvailableResponseDTO retorno = service.checkEmailAvailable(dto);
+        return Response.status(200).entity(retorno).build();
+    }
+
+    @POST
+    @Path("/emailtakencliente")
+    public Response checkEmailTakenCliente(@Valid EmailAvailableDTO dto) {
+        EmailTakenClienteResponseDTO retorno = service.checkEmailTakenCliente(dto);
+        return Response.status(200).entity(retorno).build();
+    }
+
+    @POST
+    @Path("/usuariotiposperfilbyemail")
+    public Response suarioTiposPerfilByEmail(@Valid EmailAvailableDTO dto) {
+        UsuarioTiposPerfilByEmailResponseDTO retorno = service.usuarioTiposPerfilByEmail(dto);
         return Response.status(200).entity(retorno).build();
     }
 

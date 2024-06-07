@@ -10,6 +10,7 @@ import br.unitins.topicos1.floricultura.dto.PlantaDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaResponseDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaUpdateAddRemoveQuantidadeDTO;
 import br.unitins.topicos1.floricultura.dto.PlantaUpdateStatusPlantaDTO;
+import br.unitins.topicos1.floricultura.dto.PlantasDoCarrinhoDTO;
 import br.unitins.topicos1.floricultura.dto.PortePlantaResponseDTO;
 import br.unitins.topicos1.floricultura.dto.StatusPlantaResponseDTO;
 import br.unitins.topicos1.floricultura.form.PlantaImageForm;
@@ -45,7 +46,7 @@ public interface PlantaService {
 
     // public List<PlantaResponseDTO> findByFornecedor(Long id);
 
-    // public List<PlantaResponseDTO> findByStatusPlanta(Integer id);
+    public List<PlantaResponseDTO> findByStatusPlanta(Integer idStatusPlanta);
 
     // public List<PlantaResponseDTO> findByNivelDificuldade(Long id);
 
@@ -65,5 +66,6 @@ public interface PlantaService {
 
     public void updateAddRemoveQuantidade(@Valid PlantaUpdateAddRemoveQuantidadeDTO dto, Long id);
 
+    public List<PlantaResponseDTO> getPlantasDoCarrinho(PlantasDoCarrinhoDTO dto);
 
 }

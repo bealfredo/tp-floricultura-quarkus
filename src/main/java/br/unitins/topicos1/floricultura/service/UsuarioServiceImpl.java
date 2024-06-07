@@ -7,7 +7,9 @@ import br.unitins.topicos1.floricultura.dto.AuthUsuarioDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
+import br.unitins.topicos1.floricultura.dto.EmailTakenClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorResponseDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioTiposPerfilByEmailResponseDTO;
 import br.unitins.topicos1.floricultura.model.Admin;
 import br.unitins.topicos1.floricultura.model.Cliente;
 import br.unitins.topicos1.floricultura.model.Entregador;
@@ -94,6 +96,42 @@ public class UsuarioServiceImpl implements UsuarioService {
         } else {
             return new EmailAvailableResponseDTO(dto.email(), false);
         }
+    }
+
+    @Override
+    public EmailTakenClienteResponseDTO checkEmailTakenCliente(EmailAvailableDTO dto) {
+        Usuario usuario = usuarioRepository.findByLogin(dto.email());
+
+        Cliente cliente = null;
+        if (usuario != null) {
+            cliente = clienteRepository.findByLogin(dto.email());
+        }
+
+        return EmailTakenClienteResponseDTO.valueOf(dto.email(), usuario == null, cliente != null);
+    }
+
+
+    @Override
+    public UsuarioTiposPerfilByEmailResponseDTO usuarioTiposPerfilByEmail(EmailAvailableDTO dto) {
+        Usuario usuario = usuarioRepository.findByLogin(dto.email());
+
+        if (usuario == null) {
+            // return new UsuarioTiposPerfilByEmailResponseDTO(dto.email(),  false, false, false, false);
+            return UsuarioTiposPerfilByEmailResponseDTO.valueOf(dto.email(), null, null, null, null);
+        }
+
+        Admin admin = adminRepository.findByLogin(dto.email());
+        // TipoAdmin tipoAdmin = (admin != null) ? admin.getTipoAdmin() : null;
+        Cliente cliente = clienteRepository.findByLogin(dto.email());
+        Entregador entregador = entregadorRepository.findByLogin(dto.email());
+
+        return UsuarioTiposPerfilByEmailResponseDTO.valueOf(
+            dto.email(),
+            (admin != null && admin.getTipoAdmin() == TipoAdmin.OWNER) ? admin.getId() : null,
+            (admin != null && admin.getTipoAdmin() == TipoAdmin.EMPLOYEE) ? admin.getId() : null,
+            (cliente != null) ? cliente.getId() : null,
+            (entregador != null) ? entregador.getId() : null
+        );
     }
 
     @Override

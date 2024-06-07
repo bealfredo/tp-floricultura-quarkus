@@ -88,9 +88,9 @@ INSERT INTO usuario (id_telefone, nome, sobrenome, cpf, datanascimento, login, s
   (null, 'Nelma', 'Souza', '55555555555', '1992-03-25', 'nelma@gmail.com', '+mGQCWJmGiS/rEiEsXa789phw6PrdwKC7JGOviEalw8PlEvyC0VHGJC5VCVRylgVPyH5EgsNfE8+SMqFqjPjrg==');
 
 INSERT INTO endereco (id_cidade, nome, cep, rua, bairro, numeroLote, complemento) VALUES
-  (1, 'Casa 1', '77022-001', 'Rua Castelo Branco', 'Plano Diretor Norte', '1', 'Perto da maria'),
-  (1, 'Casa do pai', '77022-002', 'Rua Pinheiros', 'Arno', '2', 'Segundo Bairro'),
-  (1, 'Empresa', '77022-003', 'Rua Arnodista', 'Arno 2', '3', 'Segundo Bairro 2');
+  (1, 'Casa 1', '77022001', 'Rua Castelo Branco', 'Plano Diretor Norte', '1', 'Perto da maria'),
+  (1, 'Casa do pai', '77022002', 'Rua Pinheiros', 'Arno', '2', 'Segundo Bairro'),
+  (2, 'Empresa', '77022003', 'Rua Arnodista', 'Arno 2', '3', 'Segundo Bairro 2');
 
 INSERT INTO cliente (id_usuario, carrinho) VALUES
   (1, '[]'),

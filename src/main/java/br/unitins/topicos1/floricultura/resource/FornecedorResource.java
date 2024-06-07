@@ -3,6 +3,7 @@ package br.unitins.topicos1.floricultura.resource;
 import br.unitins.topicos1.floricultura.dto.FornecedorDTO;
 import br.unitins.topicos1.floricultura.dto.FornecedorResponseDTO;
 import br.unitins.topicos1.floricultura.service.FornecedorService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -26,12 +27,14 @@ public class FornecedorResource {
   FornecedorService service;
 
   @POST
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   public Response insert(@Valid FornecedorDTO dto) {
     FornecedorResponseDTO retorno = service.insert(dto);
     return Response.status(Status.CREATED).entity(retorno).build();
   }
 
   @PUT
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/{id}")
   public Response update(FornecedorDTO dto, @PathParam("id") Long id) {
     service.update(dto, id);
@@ -39,6 +42,7 @@ public class FornecedorResource {
   }
 
   @DELETE
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/{id}")
   public Response delete(@PathParam("id") Long id) {
     service.delete(id);
@@ -46,29 +50,34 @@ public class FornecedorResource {
   }
 
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   public Response findAll() {
     return Response.ok(service.findAll()).build();
   }
 
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/{id}") 
   public Response findById(@PathParam("id") Long id) {
     return Response.ok(service.findById(id)).build();
   }
 
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/search/nome/{nome}")
   public Response findByNome(@PathParam("nome") String nome) {
     return Response.ok(service.findByNome(nome)).build();
   }
 
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/search/cnpj/{cnpj}")
   public Response findByCnpj(@PathParam("cnpj") String cnpj) {
     return Response.ok(service.findByCnpj(cnpj)).build();
   }
 
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/search/email/{email}")
   public Response findByEmail(@PathParam("email") String email) {
     return Response.ok(service.findByEmail(email)).build();

@@ -31,7 +31,7 @@ public class FornecedorServiceImpl implements FornecedorService {
         }
       }
 
-      if (!dto.cnpj().equals(obj2Update.getCnpj())) {
+      if (!dto.cnpj().equals(obj2Update.getCnpj()) && !dto.cnpj().equals("")) {
         List<Fornecedor> fornecedores = repository.findByCnpj(dto.cnpj());
         if (!fornecedores.isEmpty()) {
           throw new ValidationException("cnpj", "CNPJ já cadastrado.");
@@ -45,7 +45,7 @@ public class FornecedorServiceImpl implements FornecedorService {
       }
 
       fornecedores = repository.findByCnpj(dto.cnpj());
-      if (!fornecedores.isEmpty()) {
+      if (!fornecedores.isEmpty() && !dto.cnpj().equals("")) {
         throw new ValidationException("cnpj", "CNPJ já cadastrado.");
       }
     }
@@ -87,13 +87,18 @@ public class FornecedorServiceImpl implements FornecedorService {
 
     valid(dto, fornecedor);
 
-    Telefone telefone = new Telefone();
-    telefone.setDdd(dto.telefone().ddd());
-    telefone.setNumero(dto.telefone().numero());
+    if (dto.telefone() != null) {
+      Telefone telefone = new Telefone();
+      telefone.setDdd(dto.telefone().ddd());
+      telefone.setNumero(dto.telefone().numero());
+      fornecedor.setTelefone(telefone);
+      fornecedor.setTelefone(telefone);
+    } else {
+      fornecedor.setTelefone(null);
+    }
 
     fornecedor.setNome(dto.nome());
     fornecedor.setEmail(dto.email());
-    fornecedor.setTelefone(telefone);
     fornecedor.setCnpj(dto.cnpj());
 
     return FornecedorResponseDTO.valueOf(fornecedor);

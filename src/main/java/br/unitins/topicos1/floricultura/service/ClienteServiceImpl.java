@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
+import br.unitins.topicos1.floricultura.dto.ClienteExistingUserDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
+import br.unitins.topicos1.floricultura.dto.ClienteUpdateCarrinhoDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.EnderecoDTO;
 import br.unitins.topicos1.floricultura.model.Cidade;
 import br.unitins.topicos1.floricultura.model.Cliente;
 import br.unitins.topicos1.floricultura.model.Endereco;
 import br.unitins.topicos1.floricultura.model.Telefone;
+import br.unitins.topicos1.floricultura.model.TipoPerfil;
 import br.unitins.topicos1.floricultura.model.Usuario;
 import br.unitins.topicos1.floricultura.repository.CidadeRepository;
 import br.unitins.topicos1.floricultura.repository.ClienteRepository;
@@ -29,6 +34,13 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Inject
     HashService hashService;
+
+    @Inject
+    JwtService jwtService;
+
+    @Inject
+    JsonWebToken jwt;
+
 
     @Inject
     ClienteRepository repository;
@@ -63,7 +75,7 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     @Transactional
-    public ClienteResponseDTO insert(@Valid ClienteFastCreateDTO dto) {
+    public String insert(@Valid ClienteFastCreateDTO dto) {
 
         Usuario usuario = usuarioRepository.findByLogin(dto.email());
         if (usuario != null) {
@@ -84,7 +96,9 @@ public class ClienteServiceImpl implements ClienteService{
 
         repository.persist(cliente);
 
-        return ClienteResponseDTO.valueOf(cliente);
+        String token = jwtService.generateJwt(usuario, TipoPerfil.CUSTOMER);
+
+        return token;
     }
 
     @Override
@@ -102,9 +116,14 @@ public class ClienteServiceImpl implements ClienteService{
             enderecoRepository.deleteById(endereco.getId());
         }
 
-        Telefone telefone = new Telefone();
-        telefone.setDdd(dto.telefone().ddd());
-        telefone.setNumero(dto.telefone().numero());
+        if (dto.telefone() != null) {
+            Telefone telefone = new Telefone();
+            telefone.setDdd(dto.telefone().ddd());
+            telefone.setNumero(dto.telefone().numero());
+            cliente.getUsuario().setTelefone(telefone);
+        } else {
+            cliente.getUsuario().setTelefone(null);
+        }
 
         List<Endereco> listaEndereco = dto.listaEndereco().stream()
             .map(e -> {
@@ -119,14 +138,13 @@ public class ClienteServiceImpl implements ClienteService{
                 return endereco;
             }).collect(Collectors.toList());
             
-        cliente.setCarrinho(dto.carrinho());
+        // cliente.setCarrinho(dto.carrinho());
         cliente.setListaEndereco(listaEndereco);
 
         cliente.getUsuario().setNome(dto.nome());
         cliente.getUsuario().setSobrenome(dto.sobrenome());
         cliente.getUsuario().setCpf(dto.cpf());
         cliente.getUsuario().setDataNascimento(dto.dataNascimento());
-        cliente.getUsuario().setTelefone(telefone);
 
 
         repository.persist(cliente);
@@ -154,6 +172,26 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
+    public ClienteResponseDTO findByToken() {
+        // Cliente cliente = repository.findById(id);
+
+        // if (cliente == null) {
+        //     throw new NotFoundException();
+        // }
+
+        // return ClienteResponseDTO.valueOf(cliente);
+
+        String login = jwt.getSubject();
+        Cliente cliente = repository.findByLogin(login);
+
+        if (cliente == null) {
+            throw new NotFoundException();
+        }
+
+        return ClienteResponseDTO.valueOf(cliente);
+    }
+
+    @Override
     public List<ClienteResponseDTO> findByAll(int page, int pageSize) {
         List<Cliente> list = repository
                                 .findAll()
@@ -164,4 +202,81 @@ public class ClienteServiceImpl implements ClienteService{
             .map(e -> ClienteResponseDTO.valueOf(e)).collect(Collectors.toList());
 
     }
+
+    @Override
+    public Long count() {
+        return repository.count();
+    }
+
+    @Override
+    @Transactional
+    public String insertExistingUser(ClienteExistingUserDTO dto) {
+        Cliente cliente = repository.findByLogin(dto.email());
+        if (cliente != null) {
+            throw new ValidationException("login", "Cliente já cadastrado.");
+        }
+
+        String hashSenha = hashService.getHashSenha(dto.passwordExisting());
+
+        Usuario usuario = usuarioRepository.findByLoginAndSenha(dto.email(), hashSenha);
+        if (usuario == null) {
+            throw new ValidationException("login", "Login ou senha inválidos");
+        }
+
+        cliente = new Cliente();
+        cliente.setUsuario(usuario);
+        cliente.setCarrinho(null);
+        cliente.setListaEndereco(new ArrayList<Endereco>());
+
+        repository.persist(cliente);
+
+        String token = jwtService.generateJwt(usuario, TipoPerfil.CUSTOMER);
+
+        return token;
+    }
+
+    @Override
+    @Transactional
+    public void updateCarrinho(ClienteUpdateCarrinhoDTO dto) {
+        String login = jwt.getSubject();
+        Cliente cliente = repository.findByLogin(login);
+
+        if (cliente == null) {
+            throw new NotFoundException();
+        }
+
+        cliente.setCarrinho(dto.carrinho());
+
+        repository.persist(cliente);
+    }
+
+    @Override
+    public String getCarrinho() {
+        String login = jwt.getSubject();
+        Cliente cliente = repository.findByLogin(login);
+
+        if (cliente == null) {
+            throw new NotFoundException();
+        }
+
+        return cliente.getCarrinho();
+    }
+
+    // @Override
+    // public List<EnderecoDTO> getListaEndereco() {
+    //     String login = jwt.getSubject();
+    //     Cliente cliente = repository.findByLogin(login);
+
+    //     if (cliente == null) {
+    //         throw new NotFoundException();
+    //     }
+
+    //     return cliente.getListaEndereco().stream()
+    //         .map(e -> EnderecoDTO.valueOf(e)).collect(Collectors.toList());
+    // }
+
+    // return list.stream()
+    // .map(e -> ClienteResponseDTO.valueOf(e)).collect(Collectors.toList());
+
+
 }

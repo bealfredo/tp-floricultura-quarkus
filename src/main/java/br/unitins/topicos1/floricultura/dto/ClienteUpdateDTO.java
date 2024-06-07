@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record ClienteUpdateDTO(
-    String carrinho,
+    @NotNull(message = "A lista de endereços não pode ser nula")
     @Valid
     List<EnderecoDTO> listaEndereco,
 

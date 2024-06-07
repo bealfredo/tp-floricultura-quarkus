@@ -1,8 +1,11 @@
 package br.unitins.topicos1.floricultura.resource;
+import br.unitins.topicos1.floricultura.dto.ClienteExistingUserDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
+import br.unitins.topicos1.floricultura.dto.ClienteUpdateCarrinhoDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteUpdateDTO;
 import br.unitins.topicos1.floricultura.service.ClienteService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -28,11 +31,12 @@ public class ClienteResource {
 
     @POST
     public Response insert(ClienteFastCreateDTO dto) {
-        ClienteResponseDTO retorno = service.insert(dto);
-        return Response.status(Status.CREATED).entity(retorno).build();
+        String token = service.insert(dto);
+        return Response.ok().header("Authorization", token).build();
     }
 
     @PATCH 
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}")
     public Response update(ClienteUpdateDTO dto, @PathParam("id") Long id) {
         service.update(dto, id);
@@ -40,6 +44,7 @@ public class ClienteResource {
     }
 
     @DELETE
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
         service.delete(id);
@@ -47,6 +52,7 @@ public class ClienteResource {
     }
 
     @GET
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response findAll(
         @QueryParam("page") @DefaultValue("0") int page,
         @QueryParam("pageSize") @DefaultValue("100") int pageSize
@@ -56,10 +62,57 @@ public class ClienteResource {
 
 
     @GET
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         return Response.ok(service.findById(id)).build();
     }
+
+    @GET
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
+    @Path("/count")
+    public Response count(){
+        return Response.ok(service.count()).build();
+    }
+
+    @POST
+    @Path("/insertexistinguser")
+    public Response insertExistingUser(ClienteExistingUserDTO dto) {
+        String token = service.insertExistingUser(dto);
+        return Response.ok().header("Authorization", token).build();
+    }
+
+    @PATCH
+    @RolesAllowed({"CUSTOMER"})
+    @Path("/updatecarrinho")
+    public Response updateCarrinho(ClienteUpdateCarrinhoDTO dto) {
+        service.updateCarrinho(dto);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @GET
+    @RolesAllowed({"CUSTOMER"})
+    @Path("/carrinho")
+    public Response getCarrinho() {
+        String carrinho = service.getCarrinho();
+        return Response.ok(carrinho).build();
+    }
+
+    @GET
+    @RolesAllowed({"CUSTOMER"})
+    @Path("/findbytoken")
+    public Response findByToken() {
+        ClienteResponseDTO cliente = service.findByToken();
+        return Response.ok(cliente).build();
+    }
+
+    // @GET
+    // @RolesAllowed({"CUSTOMER"})
+    // @Path("/carrinhoplantas")
+    // public Response getCarrinhoPlantas() {
+    //     String carrinho = service.getCarrinho();
+    //     return Response.ok(carrinho).build();
+    // }
     
     // @GET
     // @Path("/search/nome/{nome}")
