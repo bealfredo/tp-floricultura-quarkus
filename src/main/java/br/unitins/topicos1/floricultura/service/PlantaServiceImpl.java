@@ -440,6 +440,20 @@ public class PlantaServiceImpl implements PlantaService {
         planta.setQuantidadeDisponivel(dto.quantidade() + planta.getQuantidadeDisponivel());
     }
 
+    @Override
+    public List<PlantaResponseDTO> findByStatusPlanta(Integer idStatusPlanta) {
+        
+        StatusPlanta statusPlanta = StatusPlanta.valueOf(idStatusPlanta);
+        if (statusPlanta == null) {
+        throw new NotFoundException("Id para status planta inválido.");
+        }
+
+        return repository.findByStatusPlanta(statusPlanta)
+        .stream()
+        .map(e -> PlantaResponseDTO.valueOf(e))
+        .toList();
+    }
+
 
     
 }

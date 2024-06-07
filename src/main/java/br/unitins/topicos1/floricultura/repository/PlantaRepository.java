@@ -10,7 +10,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.NoResultException;
 
-@ApplicationScoped
+@ApplicationScoped 
 public class PlantaRepository implements PanacheRepository<Planta>{
     public List<Planta> findByNome(String nome) {
         if (nome == null) {

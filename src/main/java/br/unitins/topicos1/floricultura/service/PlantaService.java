@@ -45,7 +45,7 @@ public interface PlantaService {
 
     // public List<PlantaResponseDTO> findByFornecedor(Long id);
 
-    // public List<PlantaResponseDTO> findByStatusPlanta(Integer id);
+    public List<PlantaResponseDTO> findByStatusPlanta(Integer idStatusPlanta);
 
     // public List<PlantaResponseDTO> findByNivelDificuldade(Long id);
 

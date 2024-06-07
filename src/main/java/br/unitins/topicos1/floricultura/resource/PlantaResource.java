@@ -184,4 +184,9 @@ public class PlantaResource {
     //     return Response.ok(service.findByStatusProduto(statusproduto)).build();
     // }
 
+    @GET
+    @Path("/ativo")
+    public Response findAtivo() {
+        return Response.ok(service.findByStatusPlanta(StatusPlanta.ATIVO.getId())).build();
+    }
 }
