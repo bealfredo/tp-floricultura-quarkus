@@ -3,6 +3,7 @@ package br.unitins.topicos1.floricultura.resource;
 import br.unitins.topicos1.floricultura.dto.CidadeDTO;
 import br.unitins.topicos1.floricultura.dto.CidadeResponseDTO;
 import br.unitins.topicos1.floricultura.service.CidadeService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -27,12 +28,14 @@ public class CidadeResource {
     CidadeService service;
 
     @POST
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response insert(@Valid CidadeDTO dto) {
         CidadeResponseDTO retorno = service.insert(dto);
         return Response.status(Status.CREATED).entity(retorno).build();
     }
 
     @PUT
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Transactional
     @Path("/{id}")
     public Response update(CidadeDTO dto, @PathParam("id") Long id) {
@@ -41,6 +44,7 @@ public class CidadeResource {
     }
 
     @DELETE
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {

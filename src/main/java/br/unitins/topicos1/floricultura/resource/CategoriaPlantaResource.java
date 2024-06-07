@@ -39,12 +39,14 @@ public class CategoriaPlantaResource {
 
   @PUT
   @Path("/{id}")
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   public Response update(CategoriaPlantaDTO dto, @PathParam("id") Long id) {
     service.update(dto, id);
     return Response.status(Status.NO_CONTENT).build();
   }
 
   @PATCH
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/{id}/update/ativa")
   public Response updateAtiva(CategoriaPlantaUpdateAtivaDTO dto, @PathParam("id") Long id) {
     service.updateAtiva(dto, id);
@@ -52,6 +54,7 @@ public class CategoriaPlantaResource {
   }
 
   @DELETE
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/{id}")
   public Response delete(@PathParam("id") Long id) {
     try {

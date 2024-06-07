@@ -36,6 +36,7 @@ public class ClienteResource {
     }
 
     @PATCH 
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}")
     public Response update(ClienteUpdateDTO dto, @PathParam("id") Long id) {
         service.update(dto, id);
@@ -43,6 +44,7 @@ public class ClienteResource {
     }
 
     @DELETE
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
         service.delete(id);
@@ -50,6 +52,7 @@ public class ClienteResource {
     }
 
     @GET
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response findAll(
         @QueryParam("page") @DefaultValue("0") int page,
         @QueryParam("pageSize") @DefaultValue("100") int pageSize
@@ -59,12 +62,14 @@ public class ClienteResource {
 
 
     @GET
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         return Response.ok(service.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/count")
     public Response count(){
         return Response.ok(service.count()).build();

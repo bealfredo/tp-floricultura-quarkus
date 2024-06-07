@@ -4,6 +4,7 @@ import br.unitins.topicos1.floricultura.dto.CategoriaPlantaUpdateAtivaDTO;
 import br.unitins.topicos1.floricultura.dto.TagDTO;
 import br.unitins.topicos1.floricultura.dto.TagResponseDTO;
 import br.unitins.topicos1.floricultura.service.TagService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -29,12 +30,14 @@ public class TagResource {
   TagService service;
 
   @POST
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   public Response insert(@Valid TagDTO dto) {
     TagResponseDTO retorno = service.insert(dto);
     return Response.status(Status.CREATED).entity(retorno).build();
   }
 
   @PUT
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/{id}")
   public Response update(TagDTO dto, @PathParam("id") Long id) {
     service.update(dto, id);
@@ -42,6 +45,7 @@ public class TagResource {
   }
 
   @PATCH
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/{id}/update/ativa")
   public Response updateAtiva(CategoriaPlantaUpdateAtivaDTO dto, @PathParam("id") Long id) {
     service.updateAtiva(dto, id);
@@ -50,6 +54,7 @@ public class TagResource {
 
 
   @DELETE
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/{id}")
   public Response delete(@PathParam("id") Long id) {
     try {
@@ -63,29 +68,34 @@ public class TagResource {
   }
   
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   public Response findAll() {
     return Response.ok(service.findAll()).build();
   }
 
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/{id}") 
   public Response findById(@PathParam("id") Long id) {
     return Response.ok(service.findById(id)).build();
   }
 
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/search/nome/{nome}")
   public Response findByNome(@PathParam("nome") String nome) {
     return Response.ok(service.findByNome(nome)).build();
   }
 
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/search/ativa/{ativa}")
   public Response findByAtiva(@PathParam("ativa") Boolean ativa) {
     return Response.ok(service.findByAtiva(ativa)).build();
   }
 
   @GET
+  @RolesAllowed({"OWNER", "EMPLOYEE"})
   @Path("/search/categoriaplanta/{categoriaplanta}")
   public Response findByCategoriaPlanta(@PathParam("categoriaplanta") Long categoriaplanta) {
     return Response.ok(service.findByCategoriaPlanta(categoriaplanta)).build();

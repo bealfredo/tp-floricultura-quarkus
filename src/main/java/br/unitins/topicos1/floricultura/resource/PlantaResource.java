@@ -43,6 +43,7 @@ public class PlantaResource {
     PlantaService service;
 
     @POST
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response criarRascunho(PlantaCriarRascunhoDTO dto) {
         return Response.status(Status.CREATED).entity(service.criarRascunho(dto)).build();
     }
@@ -53,6 +54,7 @@ public class PlantaResource {
     // }
 
     @PUT
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Transactional
     @Path("/{id}")
     public Response update(PlantaDTO dto, @PathParam("id") Long id) {
@@ -61,6 +63,7 @@ public class PlantaResource {
     }
 
     @DELETE
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
@@ -70,6 +73,7 @@ public class PlantaResource {
 
     // @RolesAllowed({"Admin"})
     @PATCH
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}/upload/imagem")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response adicionarImagem(@MultipartForm PlantaImageForm form, @PathParam("id") Long id) {
@@ -89,6 +93,7 @@ public class PlantaResource {
 
     // @RolesAllowed({"Test", "Cliente", "Admin"})
     @PATCH
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}/delete/imagem/{nomeImagem}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response deleteImagem(@PathParam("id") Long id, @PathParam("nomeImagem") String nomeImagem) {
@@ -97,6 +102,7 @@ public class PlantaResource {
     }
 
     @PATCH
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}/update/imagemprincipal/{nomeImagem}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response definirImagemPrincipal(@PathParam("id") Long id, @PathParam("nomeImagem") String nomeImagem) {
@@ -107,6 +113,7 @@ public class PlantaResource {
 
     // @RolesAllowed({"Test", "Cliente", "Admin"})
     @PATCH
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}/update/statusplanta")
     public Response updateStatusplanta(PlantaUpdateStatusPlantaDTO dto, @PathParam("id") Long id) {
         service.updateStatusPlanta(dto, id);
@@ -114,6 +121,7 @@ public class PlantaResource {
     }
 
     @PATCH
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}/update/addremovequantidade")
     public Response updateQuantidade(PlantaUpdateAddRemoveQuantidadeDTO dto, @PathParam("id") Long id) {
         service.updateAddRemoveQuantidade(dto, id);
@@ -145,18 +153,21 @@ public class PlantaResource {
     }
 
     @GET
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response findAll() {
         return Response.ok(service.findAll()).build();
     }
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     public Response findById(@PathParam("id") Long id) {
         return Response.ok(service.findById(id)).build();
     }
 
     // both nomeComum and nomeCientifico
     @GET
+    @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome) {
         return Response.ok(service.findByNome(nome)).build();
