@@ -43,6 +43,14 @@ public class ClienteResource {
         return Response.status(Status.NO_CONTENT).build();
     }
 
+    @PATCH
+    @RolesAllowed({"CUSTOMER"})
+    @Path("/selfupdate")
+    public Response selfUpdate(ClienteUpdateDTO dto) {
+        service.selfUpdate(dto);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
     @DELETE
     @RolesAllowed({"OWNER", "EMPLOYEE"})
     @Path("/{id}")

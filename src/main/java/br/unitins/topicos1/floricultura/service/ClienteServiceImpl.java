@@ -154,6 +154,22 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     @Transactional
+    public ClienteResponseDTO selfUpdate(@Valid ClienteUpdateDTO dto) {
+        String login = jwt.getSubject();
+        Cliente cliente = repository.findByLogin(login);
+
+        if (cliente == null) {
+            throw new NotFoundException();
+        }
+
+        ClienteResponseDTO clienteUpdated =  this.update(dto, cliente.getId());
+
+        return clienteUpdated;
+    }
+
+
+    @Override
+    @Transactional
     public void delete(Long id) {
         if (!repository.deleteById(id)) {
             throw new NotFoundException();

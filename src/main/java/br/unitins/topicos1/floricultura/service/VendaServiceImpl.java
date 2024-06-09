@@ -148,6 +148,9 @@ public class VendaServiceImpl implements VendaService {
             LOG.infof("Atualizando estoque do planta. Planta: %s, ID: %d", planta.getNomeComum(), item.planta());
             planta.setQuantidadeDisponivel(planta.getQuantidadeDisponivel() - item.quantidade());
 
+            Integer qtVendido = planta.getQuantidadeVendido() == null ? 0 : planta.getQuantidadeVendido();
+            planta.setQuantidadeVendido(qtVendido + item.quantidade());
+
             ItemVenda itemVenda = new ItemVenda();
             itemVenda.setQuantidade(item.quantidade());
             itemVenda.setVenda(venda);
