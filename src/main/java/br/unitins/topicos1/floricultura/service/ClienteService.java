@@ -17,6 +17,8 @@ public interface ClienteService {
 
     public ClienteResponseDTO update(@Valid ClienteUpdateDTO dto, Long id);
 
+    public ClienteResponseDTO selfUpdate(@Valid ClienteUpdateDTO dto);
+
     public void delete(Long id);
 
     public ClienteResponseDTO findById(Long id);
