@@ -34,4 +34,15 @@ public class JwtServiceImpl implements JwtService {
             .expiresAt(expiryDate)
             .sign();
     }
+
+    public String getTokenForTest() {
+        Set<String> roles = new HashSet<>();
+        roles.add(TipoPerfil.OWNER.name());
+
+        return Jwt.issuer("unitins-jwt")
+            .subject("test")
+            .groups(roles)
+            .expiresAt(Instant.now().plus(EXPIRATION_TIME))
+            .sign();
+    }
 }
