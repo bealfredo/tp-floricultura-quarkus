@@ -1,0 +1,138 @@
+@startuml TrabalhoTopicos
+
+class Usuario {
+  - nome : String
+  - sobrenome : String
+  - login : String
+  - cpf : String
+  - senha : String
+  - dataNascimento : String
+  - tipoUsuario : TipoUsuario
+}
+
+Usuario " * " --> " 1 " TipoUsuario
+Usuario " 1 " o--> " * " Endereco
+
+
+enum TipoUsuario{
+  + CLIENTE
+  + ADMIN
+  + TEST
+}
+
+class Endereco {
+  - codigo : String
+  - rua : String
+  - bairro : String
+  - numeroLote : String
+  - complemento : string
+}
+
+Endereco " * " --> " 1 " Cidade
+
+class Cidade {
+  - nome : String
+}
+
+Cidade " * " --> " 1 " Estado
+
+class Estado {
+  - nome : String
+  - sigla : String
+}
+
+class CategoriaProduto {
+  - nome : String
+  - descricao : String
+}
+
+class TipoProduto {
+  - nome : String
+  - descricao : String
+}
+
+TipoProduto " * " *--> " 1 " CategoriaProduto
+
+class Fornecedor {
+  - nome : String
+  - email : String
+  - telefone : String
+  - cnpj : String
+
+}
+
+class Produto {
+  - nome : String
+  - precoVenda : Double
+  - precoCusto : Double
+  - desconto : Double
+  - quantidadeDisponivel : Integer
+  - descricao : String
+  - dataDisponivel : LocalDateTime
+  - codigo : String
+  - imagem : String
+}
+
+Produto " * " --> " * " TipoProduto
+Produto " * " --> " 1 " StatusProduto
+Produto " * " --> " 1 " Fornecedor
+
+enum StatusProduto {
+  + Ativo
+  + Inativo
+  + Arquivado
+}
+
+
+class ItemVenda {
+  - preco : Double
+  - quantidade : Integer
+}
+
+ItemVenda " * " o--> " 1" Produto
+
+
+class HistoricoStatus {
+  - data : LocalDateTime
+}
+
+enum StatusVenda {
+  + AGUARDANDO_PAGAMENTO
+  + PAGAMENTO_CONFIRMADO
+  + PREPARANDO_ENVIO
+  + ENVIADO
+  + ENTREGUE
+  + CANCELADO
+}
+
+HistoricoStatus " 1 " --> " 1 " StatusVenda
+
+class Venda {
+  - dataHora : LocalDateTime
+  - codigo : String
+  - chavePix : String
+  - totalVenda : Double
+  - lastStatus : HistoricoStatus
+}
+
+Venda " 1 " *--> " *" ItemVenda
+Venda " 1 " *--> " * " HistoricoStatus
+Venda " 1 " --> " 1 " Usuario
+Venda " 1 " *--> " 1 " Endereco
+
+
+' class Avaliacao {
+'   - data : LocalDate
+'   - estrelas : Integer
+'   - descricao : String
+' }
+
+' enum QuantidadeEstrelas  {
+'   + UMA : int
+'   + DUAS : int
+'   + TRES : int
+'   + QUATRO : int
+'   + CINCO : int
+' }
+
+@enduml

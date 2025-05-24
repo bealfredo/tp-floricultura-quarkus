@@ -1,0 +1,231 @@
+@startuml TrabalhoTopicos
+
+class Usuario {
+  - nome : String
+  - sobrenome : String
+  - login : String
+  - cpf : String
+  - senha : String
+  - dataNascimento : String
+}
+
+Usuario " 1 " *--> " 1 " Telefone
+
+class Cliente {
+  - carrinho : String
+}
+
+class Entregador {
+  - cnh : String
+  - cnpj : String
+}
+
+Entregador " 1 " --> " 1 " Usuario
+
+class Admin {
+} 
+
+Admin " 1 " --> " 1 " Usuario
+Admin " * " --> " 1 " TipoAdmin
+
+enum TipoAdmin {
+  + OWNER
+  + EMPLOYEE
+}
+
+Cliente " 1 " --> " 1 " Usuario
+Cliente " 1 " *--> " * " Endereco
+
+class Endereco {
+  - nome : String
+  - cep : String
+  - rua : String
+  - bairro : String
+  - numeroLote : String
+  - complemento : String
+}
+
+Endereco " * " --> " 1 " Cidade
+
+class Cidade {
+  - nome : String
+  - frete : Double
+}
+
+Cidade " * " --> " 1 " Estado
+
+class Estado {
+  - nome : String
+  - sigla : String
+}
+
+class Fornecedor {
+  - nome : String
+  - email : String
+  - telefone : String
+  - cnpj : String
+}
+
+Fornecedor " 1 " *--> " 1" Telefone
+
+class CategoriaPlanta {
+  - nome : String
+  - descricao : String
+  - prioridade : Integer
+  - ativa : Boolean
+}
+
+enum TipoCategoria {
+  + BIOLOGICA
+  + VIEW
+}
+
+CategoriaPlanta " * " --> " 1 " TipoCategoria
+
+' "biológica" para categorias que descrevem características naturais das plantas,
+' "view" para categorias de apresentação/navegação no site
+
+
+' enum TipoCategoria {
+'   + ORNAMENTAL
+'   + FRUTIFERA
+'   + MEDICINAL
+'   + AROMATICA
+'   + CACTO
+'   + SUCULENTA
+'   + BONSAI
+'   + AQUATICA
+'   + TAPETE
+'   + GRAMA
+'   + ARVORE
+'   + PALMEIRA
+'   + SAMAMBAIA
+'   + CEREAIS
+'   + LEGUMINOSA
+'   + TUBEROSA
+'   + RAIZ
+'   + BULBO
+'   + TREPADEIRA
+'   + TREPADEIRA
+'   + CIPÓ
+'   + PLANTA
+'   + ERVA
+' }
+
+class Tag {
+  - nome : String
+  - descricao : String
+  - prioridade : Integer
+  - ativa : Boolean
+}
+
+Tag " * " --> " 1 " CategoriaPlanta
+
+class Planta {
+  - nomeComum : String
+  - nomeCientifico : String
+  - precoVenda : Double
+  - precoCusto : Double
+  - desconto : Double
+  - quantidadeDisponivel : Integer
+  - quantidadeVendido : Integer
+  - descricao : String
+  - dataDisponivel : LocalDateTime
+  - codigo : String
+  - imagemPrincipal : String
+  - imagens : String[]
+  - origem : String
+  - tempoCrescimento : String
+}
+
+Planta " * " --> " 1 " PortePlanta
+Planta " * " --> " 1 " NivelToxicidade
+Planta " * " --> " 1 " NivelDificuldade
+Planta " * " --> " * " Tag
+Planta " * " --> " 1 " StatusPlanta
+Planta " * " --> " 1 " Fornecedor
+Planta " * " --> " 1 " CategoriaPlanta : categoriaBiologica
+
+enum NivelToxicidade {
+  + NAOTOXICA
+  + LEVEMENTETOXICA
+  + MODERADAMENTETOXICA
+  + ALTAMENTETOXICA
+  + EXTREMAMENTETOXICA
+}
+
+enum NivelDificuldade {
+  + FACIL
+  + MODERADO
+  + DIFICIL
+  + ESPECIALISTA 
+}
+
+enum PortePlanta {
+  + PEQUENO
+  + MEDIO
+  + GRANDE
+}
+
+enum StatusPlanta {
+  + RASCUNHO
+  + ATIVA
+  + INATIVA
+  + ARQUIVADA
+}
+
+
+class ItemVenda {
+  - preco : Double
+  - quantidade : Integer
+}
+
+ItemVenda " * " o--> " 1" Planta
+
+
+class HistoricoStatus {
+  - data : LocalDateTime
+}
+
+enum StatusVenda {
+  + AGUARDANDO_PAGAMENTO
+  + PAGAMENTO_CONFIRMADO
+  + PREPARANDO_ENVIO
+  + ENVIADO
+  + ENTREGUE
+  + CANCELADO
+}
+
+HistoricoStatus " 1 " --> " 1 " StatusVenda
+
+class Venda {
+  - dataHora : LocalDateTime
+  - codigo : String
+  - chavePix : String
+  - totalVenda : Double
+  - lastStatus : HistoricoStatus
+}
+
+Venda " 1 " *--> " *" ItemVenda
+Venda " 1 " *--> " * " HistoricoStatus
+Venda " 1 " --> " 1 " Cliente
+Venda " 1 " *--> " 1 " Endereco
+Venda " 1 " --> " 1 " Entregador
+
+class Avaliacao {
+   - data : LocalDate
+   - estrelas : Integer
+   - descricao : String
+}
+
+Avaliacao " * " --> " 1 " Cliente
+' Planta " 1 " *--> " * " Avaliacao
+Avaliacao " * " --> " 1 " ItemVenda
+
+class Telefone {
+  - ddd: String
+  - numero : String
+}
+
+
+@enduml
