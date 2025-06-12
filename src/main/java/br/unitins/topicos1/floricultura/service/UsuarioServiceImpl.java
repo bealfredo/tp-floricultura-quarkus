@@ -1,5 +1,7 @@
 package br.unitins.topicos1.floricultura.service;
 
+import java.util.List;
+
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import br.unitins.topicos1.floricultura.dto.AdminResponseDTO;
@@ -10,16 +12,26 @@ import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EmailTakenClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorResponseDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioTiposPerfilByEmailResponseDTO;
+import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoResponseDTO;
+import br.unitins.topicos1.floricultura.dto.academico.aluno.CursoResponseDTO;
+import br.unitins.topicos1.floricultura.dto.academico.aluno.DisciplinaResponseDTO;
+import br.unitins.topicos1.floricultura.dto.academico.aluno.MatriculaDisciplinaAlunoResponseDTO;
 import br.unitins.topicos1.floricultura.model.Admin;
 import br.unitins.topicos1.floricultura.model.Cliente;
 import br.unitins.topicos1.floricultura.model.Entregador;
 import br.unitins.topicos1.floricultura.model.TipoAdmin;
 import br.unitins.topicos1.floricultura.model.TipoPerfil;
 import br.unitins.topicos1.floricultura.model.Usuario;
+import br.unitins.topicos1.floricultura.model.academico.Aluno;
+import br.unitins.topicos1.floricultura.model.academico.Curso;
+import br.unitins.topicos1.floricultura.model.academico.MatriculaDisciplinaAluno;
 import br.unitins.topicos1.floricultura.repository.AdminRepository;
 import br.unitins.topicos1.floricultura.repository.ClienteRepository;
 import br.unitins.topicos1.floricultura.repository.EntregadorRepository;
 import br.unitins.topicos1.floricultura.repository.UsuarioRepository;
+import br.unitins.topicos1.floricultura.repository.academico.AlunoRepository;
+import br.unitins.topicos1.floricultura.repository.academico.CursoRepository;
+import br.unitins.topicos1.floricultura.repository.academico.MatriculaDisciplinaAlunoRepository;
 import br.unitins.topicos1.floricultura.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -41,6 +53,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Inject
     EntregadorRepository entregadorRepository;
+
+    @Inject
+    AlunoRepository alunoRepository;
+
+    @Inject
+    MatriculaDisciplinaAlunoRepository matriculaDisciplinaAlunoRepository;
+
+    @Inject
+    CursoRepository cursoRepository;
 
     @Inject
     JwtService jwtService;
@@ -79,6 +100,10 @@ public class UsuarioServiceImpl implements UsuarioService {
                 break;
             case DELIVERYMAN:
                 if (entregadorRepository.findByLogin(usuario.getLogin()) == null)
+                    throwTipoPerfilInvalido();
+                break;
+            case STUDENT:
+                if (alunoRepository.findByLogin(usuario.getLogin()) == null)
                     throwTipoPerfilInvalido();
                 break;
             default:
@@ -136,7 +161,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public String login(AuthUsuarioDTO dto) {
-        String hashSenha = hashService.getHashSenha(dto.senha());
+        // String hashSenha = hashService.getHashSenha(dto.senha());
+        String hashSenha = dto.senha(); // Assuming the password is already hashed in the DTO
 
         Usuario usuario = usuarioRepository.findByLoginAndSenha(dto.login(), hashSenha);
         if (usuario == null)
@@ -168,6 +194,40 @@ public class UsuarioServiceImpl implements UsuarioService {
         String login = jwt.getSubject();
         Entregador entregador = entregadorRepository.findByLogin(login);
         return EntregadorResponseDTO.valueOf(entregador);
+    }
+
+    @Override
+    public AlunoResponseDTO userInfoAluno() {
+        String login = jwt.getSubject();
+        Aluno aluno = alunoRepository.findByLogin(login);
+
+        // Buscar cursos que o aluno tem MatriculaCursoAluno
+        List<Curso> cursos = cursoRepository.findByAlunoWithMatriculaCurso(aluno.getId());
+
+        // Filtrar disciplinas dentro de cada curso
+        List<CursoResponseDTO> cursosResponse = cursos.stream()
+            .map(curso -> {
+                List<DisciplinaResponseDTO> disciplinas = curso.getDisciplinas().stream()
+                    .filter(disciplina -> disciplina.getMatriculasDisciplinaAluno().stream()
+                        .anyMatch(matricula -> matricula.getAluno().getId().equals(aluno.getId()))) // Filtrar disciplinas com matrículas do aluno
+                    .map(disciplina -> {
+                        List<MatriculaDisciplinaAlunoResponseDTO> matriculas = disciplina.getMatriculasDisciplinaAluno().stream()
+                            .filter(matricula -> matricula.getAluno().getId().equals(aluno.getId()))
+                            .map(MatriculaDisciplinaAlunoResponseDTO::valueOf)
+                            .toList();
+
+                        return new DisciplinaResponseDTO(disciplina.getId(), disciplina.getNome(), disciplina.getCodigo(), matriculas);
+                    })
+                    .toList();
+
+                return new CursoResponseDTO(curso.getId(), curso.getNome(), curso.getCodigo(), disciplinas);
+            })
+            .toList();
+
+        List<MatriculaDisciplinaAluno> matriculaDisciplinaAluno = matriculaDisciplinaAlunoRepository.findByAluno(aluno.getId());
+
+        return AlunoResponseDTO.valueOf(aluno,  cursosResponse);
+
     }
     
 

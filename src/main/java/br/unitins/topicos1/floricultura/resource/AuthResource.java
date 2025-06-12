@@ -65,7 +65,7 @@ public class AuthResource {
     }
 
     @GET
-    @RolesAllowed({ "OWNER", "EMPLOYEE", "CUSTOMER", "DELIVERY"})
+    // @RolesAllowed({ "OWNER", "EMPLOYEE", "CUSTOMER", "DELIVERY"})
     @Path("/userinfo")
     public Response userInfo(@Context SecurityContext securityContext) {
         if (securityContext.isUserInRole("OWNER")) {
@@ -76,6 +76,8 @@ public class AuthResource {
             return Response.ok(service.userInfoCliente()).build();
         } else if (securityContext.isUserInRole("DELIVERY")) {
             return Response.ok(service.userInfoEntregador()).build();
+        } else if (securityContext.isUserInRole("STUDENT")) {
+            return Response.ok(service.userInfoAluno()).build();
         } else {
             return Response.status(Response.Status.FORBIDDEN).entity("Access denied").build();
         }

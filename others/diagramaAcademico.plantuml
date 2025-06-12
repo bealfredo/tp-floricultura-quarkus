@@ -1,0 +1,67 @@
+@startuml TrabalhoTopicos
+
+class Usuario {
+  - nome : String
+  - sobrenome : String
+  - login : String
+  - cpf : String
+  - senha : String
+  - dataNascimento : String
+}
+
+class Aluno {
+  - matricula : String
+}
+
+Aluno " 1 " --> " 1 " Usuario
+
+class Curso {
+  - nome : String
+  - codigo : String
+}
+
+Curso " 1 " --> " * " Disciplina
+Curso " 1 " --> " * " MatriculaCursoAluno 
+
+class Disciplina {
+  - periodoLetivo : String
+  - codigo : String
+  - nome : String
+  - faltasPermitidas : Integer
+  - cargaHoraria : Double
+  - creditos : Integer
+  - periodoCurso : Integer
+}
+
+Disciplina " 1 " --> " * " MatriculaDisciplinaAluno 
+
+
+class MatriculaCursoAluno {
+  - turma : String
+  - modalidade : String
+  - tipoDeIngresso : String
+  - matriz : String
+}
+
+MatriculaCursoAluno " * " --> " 1 " Aluno
+
+class MatriculaDisciplinaAluno {
+  - a1 : Double
+  - a2 : Double
+  - exameFinal : Double
+  - frequencia : Double
+  - mediaFinal : Double
+}
+
+MatriculaDisciplinaAluno " * " --> " 1 " Aluno
+MatriculaDisciplinaAluno " * " --> " 1 " StatusMatriculaDisciplina
+
+Enum StatusMatriculaDisciplina {
+  + APROVADO
+  + REPROVADO
+  + MATRICULADO
+  + TRANCADO
+  + PENDENTE
+}
+
+@enduml

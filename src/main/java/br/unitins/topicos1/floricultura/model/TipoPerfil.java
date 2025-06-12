@@ -14,7 +14,8 @@ public enum TipoPerfil {
   OWNER(1, "Owner", "Administrador com permissão total."),
   EMPLOYEE(2, "Employee", "Administrador com permissão limitada."),
   CUSTOMER(3, "Customer", "Cliente no sistema"),
-  DELIVERYMAN(4, "Deliveryman", "Entregador no sistema");
+  DELIVERYMAN(4, "Deliveryman", "Entregador no sistema"),
+  STUDENT(5, "Student", "Aluno no sistema");
 
   private final Integer id;
   private final String label;

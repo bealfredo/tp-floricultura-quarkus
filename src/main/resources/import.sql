@@ -81,12 +81,12 @@ INSERT INTO cidade(nome, id_estado, frete) VALUES
 -- nelma - entregador
 
 INSERT INTO usuario (id_telefone, nome, sobrenome, cpf, datanascimento, login, senha ) VALUES
-  (3, 'Maria', 'Doe', '11111111111', '2000-03-25', 'maria@gmail.com', 'mGIC/uOHQno3SxCLDKTkWePyuE+8xA13SJCxqKQT8E1N+4GFy3424nwH1ymot2+0ozp9GnnicUmwZs09Fi5HRw=='),
-  (null, 'Joao', null, null, null, 'joao@gmail.com', 'uBxMhKJ50d1Kfb+2nN7me98lms/n+1ZVvkzhx7Tx2GRJqqp3TdqgND8RIJALSjrPlg7an9iy+Pt5tOobv9gDMw=='),
-  (4, 'Pedro', 'Silva', '22222222222', '1990-03-25', 'pedro@gmail.com', 'PR5BsRIwJ01eCrmZOf2I1w7cz+doyKG85dHk3fvfzTJxx+Xz2nqiWGWumXwGimgOogyj2HTQL1cHnLYLb6Z9xQ=='),
-  (null, 'Ana', 'Silva', '33333333333', '1995-03-25', 'ana@gmail.com', 'N+ISheiw0YxOt/9cdGwdjB8zPz1ZCXYKTkrVCUJdFsRmHCnS2UclVL8dK73w1ifv8d1IYXPwZVhqSUfqbuia4A=='),
-  (5, 'Lucas', 'Silva', '44444444444', '1998-03-25', 'lucas@gmail.com', 'kj50ILdtWmUUh5DdVYp+wAz8yl8vnU3ZwCkJIigUu75e9M3vuMypKIFbESQ3Z07B7a0Ki8e5csQb09EEH2yBFA=='),
-  (null, 'Nelma', 'Souza', '55555555555', '1992-03-25', 'nelma@gmail.com', '+mGQCWJmGiS/rEiEsXa789phw6PrdwKC7JGOviEalw8PlEvyC0VHGJC5VCVRylgVPyH5EgsNfE8+SMqFqjPjrg==');
+  (3, 'Maria', 'Doe', '11111111111', '2000-03-25', 'maria@gmail.com', 'maria'),
+  (null, 'Joao', null, null, null, 'joao@gmail.com', 'joao'),
+  (4, 'Pedro', 'Silva', '22222222222', '1990-03-25', 'pedro@gmail.com', 'pedro'),
+  (null, 'Ana', 'Silva', '33333333333', '1995-03-25', 'ana@gmail.com', 'ana'),
+  (5, 'Lucas', 'Silva', '44444444444', '1998-03-25', 'lucas@gmail.com', 'lucas'),
+  (null, 'Nelma', 'Souza', '55555555555', '1992-03-25', 'nelma@gmail.com', 'nelma');
 
 INSERT INTO endereco (id_cidade, nome, cep, rua, bairro, numeroLote, complemento) VALUES
   (1, 'Casa 1', '77022001', 'Rua Castelo Branco', 'Plano Diretor Norte', '1', 'Perto da maria'),
@@ -113,3 +113,29 @@ insert into admin (tipoadmin, id_usuario) values
 insert into entregador (id_usuario, cnh, cnpj) values
   (5, '123456789', '12345678901234'),
   (6, '223456789', '22345678901234');
+
+
+// aluno
+insert into aluno (id_usuario, matricula) values
+  (1, '20230001'),
+  (3, '20230002');
+
+insert into curso (nome, codigo) values
+  ('Sistemas de Informação', 'SI2025');
+  -- ('Engenharia de Software', 'ES2025');
+
+insert into disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) values
+  ('2023.1', 'SI101', 'Programação I', 16, 60, 4, 1, 1),
+  ('2023.1', 'SI102', 'Banco de Dados I', 16, 60, 4, 1,  1),
+  ('2023.1', 'ES101', 'Engenharia de Software I', 16, 60, 4, 1, 1);
+  
+insert into matriculacursoaluno (turma, modalidade, tipodeingresso, matriz, aluno_id, curso_id) values
+  ('2023.1', 'CÂMPUS PALMAS', 'PROCESSO SELETIVO - VESTIBULAS', '2ª MATRIZ CURRICULAR SISTEMAS DE INFORMAÇÃO', 1, 1),
+  ('2023.1', 'CÂMPUS PALMAS', 'PROCESSO SELETIVO - VESTIBULAS', '2ª MATRIZ CURRICULAR SISTEMAS DE INFORMAÇÃO', 2, 1);
+
+insert into matriculadisciplinaaluno (a1, a2, examefinal, frequencia, mediafinal, aluno_id, disciplina_id, statusMatriculaDisciplina) values
+  (8, 9, 0, 12, 7.5, 1, 1, 'Aprovado'),
+  (6, 7, 0, 10, 5.5, 1, 2, 'Reprovado'),
+  (9, 10, 0, 15, 8.5, 2, 1, 'Aprovado'),
+  (6, 7, 0, 13, 5.5, 2, 2, 'Reprovado');
+

@@ -8,6 +8,7 @@ import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EmailTakenClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EntregadorResponseDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioTiposPerfilByEmailResponseDTO;
+import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoResponseDTO;
 
 public interface UsuarioService {
     // public List<UsuarioResponseDTO> findAll();
@@ -26,6 +27,8 @@ public interface UsuarioService {
 
     public String login(AuthUsuarioDTO dto);
 
+
+    public AlunoResponseDTO userInfoAluno();
     public AdminResponseDTO userInfoAdmin();
     public ClienteResponseDTO userInfoCliente();
     public EntregadorResponseDTO userInfoEntregador();
