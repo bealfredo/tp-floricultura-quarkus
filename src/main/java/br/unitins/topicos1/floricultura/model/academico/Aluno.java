@@ -15,6 +15,8 @@ import jakarta.persistence.OneToOne;
 public class Aluno extends DefaultEntity {
 
     private String matricula;
+    private Integer periodoAtual;
+    private Boolean matriculaPendente;
 
     @OneToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id", unique = true)
@@ -56,5 +58,21 @@ public class Aluno extends DefaultEntity {
 
     public void setMatriculasDisciplinaAluno(List<MatriculaDisciplinaAluno> matriculasDisciplinaAluno) {
         this.matriculasDisciplinaAluno = matriculasDisciplinaAluno;
+    }
+
+    public Integer getPeriodoAtual() {
+        return periodoAtual;
+    }
+
+    public void setPeriodoAtual(Integer periodoAtual) {
+        this.periodoAtual = periodoAtual;
+    }
+
+    public Boolean getMatriculaPendente() {
+        return matriculaPendente;
+    }
+
+    public void setMatriculaPendente(Boolean matriculaPendente) {
+        this.matriculaPendente = matriculaPendente;
     }
 }

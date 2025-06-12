@@ -10,6 +10,12 @@ public record AlunoFastCreateDTO(
     @NotBlank(message = "O campo matrícula não pode ser nulo")
     String matricula,
 
+    @NotBlank(message = "O campo periodoAtual não pode ser nulo")
+    Integer periodoAtual,
+
+    @NotBlank(message = "O campo matriculaPendente não pode ser nulo")
+    Boolean matriculaPendente,
+
     @NotBlank(message = "O campo primeiroNome não pode ser nulo")
     String primeiroNome,
 

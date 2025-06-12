@@ -116,6 +116,8 @@ public class AlunoServiceImpl implements AlunoService{
         Aluno aluno = new Aluno();
         aluno.setMatricula(dto.matricula());
         aluno.setUsuario(usuario);
+        aluno.setPeriodoAtual(dto.periodoAtual());
+        aluno.setMatriculaPendente(dto.matriculaPendente());
 
         repository.persist(aluno);
 
@@ -383,6 +385,10 @@ public AlunoResponseDTO findById(Long id) {
                 return new CursoResponseDTO(curso.getId(), curso.getNome(), curso.getCodigo(), disciplinas);
             })
             .toList();
+
+        // update aluno information
+        aluno.setPeriodoAtual(aluno.getPeriodoAtual() + 1);
+        aluno.setMatriculaPendente(false);
 
         return AlunoResponseDTO.valueOf(aluno, cursosResponse);
     }

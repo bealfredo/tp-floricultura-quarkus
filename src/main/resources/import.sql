@@ -116,9 +116,9 @@ insert into entregador (id_usuario, cnh, cnpj) values
 
 
 // aluno
-insert into aluno (id_usuario, matricula) values
-  (1, '20230001'),
-  (3, '20230002');
+insert into aluno (id_usuario, matricula, periodoatual, matriculapendente) values
+  (1, '20230001', 1, true),
+  (3, '20230002', 1, true);
 
 insert into curso (nome, codigo) values
   ('Sistemas de Informação', 'SI2025');

@@ -8,6 +8,8 @@ import br.unitins.topicos1.floricultura.model.academico.Aluno;
 public record AlunoResponseDTO(
     Long id,
     String matricula,
+    Integer periodoAtual,
+    Boolean matriculaPendente,
     String nome,
     String sobrenome,
     String login,
@@ -34,6 +36,8 @@ public record AlunoResponseDTO(
         return new AlunoResponseDTO(
             aluno.getId(),
             aluno.getMatricula(),
+            aluno.getPeriodoAtual(),
+            aluno.getMatriculaPendente(),
             aluno.getUsuario().getNome(),
             aluno.getUsuario().getSobrenome(),
             aluno.getUsuario().getLogin(),

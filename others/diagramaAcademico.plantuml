@@ -10,7 +10,9 @@ class Usuario {
 }
 
 class Aluno {
+  - periodoAtual : Integer
   - matricula : String
+  - matriculaPendente : Boolean
 }
 
 Aluno " 1 " --> " 1 " Usuario
