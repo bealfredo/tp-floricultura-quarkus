@@ -1,4 +1,8 @@
 package br.unitins.topicos1.floricultura.resource.academico;
+import java.io.File;
+
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+
 import br.unitins.topicos1.floricultura.dto.ClienteExistingUserDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteResponseDTO;
 import br.unitins.topicos1.floricultura.dto.ClienteUpdateCarrinhoDTO;
@@ -7,6 +11,8 @@ import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoResponseDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoUpdateDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.RematriculaDTO;
+import br.unitins.topicos1.floricultura.dto.academico.form.AlunoImageForm;
+import br.unitins.topicos1.floricultura.form.PlantaImageForm;
 import br.unitins.topicos1.floricultura.service.academico.aluno.AlunoService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -24,6 +30,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.Response.Status;
 
 @Path("/alunos")
@@ -87,6 +94,50 @@ public class AlunoResource {
     public Response count(){
         return Response.ok(service.count()).build();
     }
+
+    @PATCH
+    // @RolesAllowed({"OWNER", "EMPLOYEE"})
+    @Path("/{id}/upload/imagem")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response adicionarImagem(@MultipartForm AlunoImageForm form, @PathParam("id") Long id) {
+        return Response.ok(service.adicionarImagem(form, id)).build();
+    }
+
+    @GET
+    @Path("/{id}/download/imagem/{nomeImagem}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadImagem(@PathParam("id") Long id, @PathParam("nomeImagem") String nomeImagem){
+        File imageFile = service.downloadImagem(nomeImagem ,id);
+        ResponseBuilder response = Response.ok(imageFile);
+        response.header("Content-Disposition", "attachment;filename=" + imageFile.getName());
+        return response.build();
+    }
+
+    // @RolesAllowed({"Test", "Cliente", "Admin"})
+    @PATCH
+    // @RolesAllowed({"OWNER", "EMPLOYEE"})
+    @Path("/{id}/delete/imagem/{nomeImagem}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response deleteImagem(@PathParam("id") Long id, @PathParam("nomeImagem") String nomeImagem) {
+        service.deleteImagem(nomeImagem, id);
+        return Response.noContent().build();
+    }
+
+    @PATCH
+    // @RolesAllowed({"OWNER", "EMPLOYEE"})
+    @Path("/{id}/update/imagemprincipal/{nomeImagem}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response definirImagemPrincipal(@PathParam("id") Long id, @PathParam("nomeImagem") String nomeImagem) {
+        service.definirImagemPrincipal(nomeImagem, id);
+        return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/disciplinas/findByCurso/{idCurso}")
+    public Response findDisciplinasByCurso(@PathParam("idCurso") Long idCurso) {
+        return Response.ok(service.findDisciplinasByCurso(idCurso)).build();
+    }
+    
 
     // @POST
     // @Path("/insertexistinguser")

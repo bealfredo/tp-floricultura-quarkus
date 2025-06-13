@@ -5,6 +5,9 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+import io.smallrye.jwt.auth.principal.ParseException;
+
 import br.unitins.topicos1.floricultura.model.TipoPerfil;
 import br.unitins.topicos1.floricultura.model.Usuario;
 import io.smallrye.jwt.auth.principal.JWTParser;
@@ -44,5 +47,16 @@ public class JwtServiceImpl implements JwtService {
             .groups(roles)
             .expiresAt(Instant.now().plus(EXPIRATION_TIME))
             .sign();
+    }
+
+    
+
+    public String getLoginFromToken(String token) {
+        try {
+            JsonWebToken jwt = jwtParser.parse(token);
+            return jwt.getSubject();
+        } catch (ParseException e) {
+            throw new RuntimeException("Erro ao decodificar o token JWT", e);
+        }
     }
 }

@@ -13,6 +13,8 @@ class Aluno {
   - periodoAtual : Integer
   - matricula : String
   - matriculaPendente : Boolean
+  - imagens : List<String>
+  - imagemPrincipal : String
 }
 
 Aluno " 1 " --> " 1 " Usuario

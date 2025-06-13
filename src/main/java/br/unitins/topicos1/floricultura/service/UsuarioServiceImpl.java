@@ -197,8 +197,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public AlunoResponseDTO userInfoAluno() {
-        String login = jwt.getSubject();
+    public AlunoResponseDTO userInfoAluno(String token) {
+        // String login = jwt.getSubject();
+        String login = jwtService.getLoginFromToken(token);
         Aluno aluno = alunoRepository.findByLogin(login);
 
         // Buscar cursos que o aluno tem MatriculaCursoAluno
@@ -216,7 +217,16 @@ public class UsuarioServiceImpl implements UsuarioService {
                             .map(MatriculaDisciplinaAlunoResponseDTO::valueOf)
                             .toList();
 
-                        return new DisciplinaResponseDTO(disciplina.getId(), disciplina.getNome(), disciplina.getCodigo(), matriculas);
+                        return new DisciplinaResponseDTO(
+                            disciplina.getId(),
+                            disciplina.getPeriodoLetivo(),
+                            disciplina.getCodigo(),
+                            disciplina.getNome(),
+                            disciplina.getCargaHoraria(),
+                            disciplina.getCreditos(),
+                            disciplina.getPeriodoCurso(),
+                            matriculas
+                        );
                     })
                     .toList();
 

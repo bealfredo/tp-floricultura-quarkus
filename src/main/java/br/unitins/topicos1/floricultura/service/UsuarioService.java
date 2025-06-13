@@ -28,7 +28,7 @@ public interface UsuarioService {
     public String login(AuthUsuarioDTO dto);
 
 
-    public AlunoResponseDTO userInfoAluno();
+    public AlunoResponseDTO userInfoAluno(String token);
     public AdminResponseDTO userInfoAdmin();
     public ClienteResponseDTO userInfoCliente();
     public EntregadorResponseDTO userInfoEntregador();

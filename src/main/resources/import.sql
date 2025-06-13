@@ -116,26 +116,122 @@ insert into entregador (id_usuario, cnh, cnpj) values
 
 
 // aluno
-insert into aluno (id_usuario, matricula, periodoatual, matriculapendente) values
-  (1, '20230001', 1, true),
-  (3, '20230002', 1, true);
+insert into aluno (id_usuario, matricula, periodoatual, matriculapendente, corraca, uf, cidade, bairro, cep, logradouro, numero, complemento, emailpessoal, telefonecelular1, telefonecelular2, telefonefixo) values
+  (1, '20230001', 1, true, 'Parda', 'TO', 'Palmas', 'Plano Diretor Norte', '77022001', 'Rua Castelo Branco', '1', 'Perto da maria', 'mariapessoal@gmail.com', '(63) 91234-5678', '(63) 98765-4321', '(63) 3222-1234'),
+  (3, '20230002', 1, true, 'Branca', 'TO', 'Palmas', 'Arno 2', '77022003', 'Av. Principal', '305', 'Bloco B, Apto 201', 'pedro.silva@email.com', '(63) 98888-7777', '(63) 99999-8888', '(63) 3211-2222');
 
 insert into curso (nome, codigo) values
   ('Sistemas de Informação', 'SI2025');
   -- ('Engenharia de Software', 'ES2025');
 
-insert into disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) values
-  ('2023.1', 'SI101', 'Programação I', 16, 60, 4, 1, 1),
-  ('2023.1', 'SI102', 'Banco de Dados I', 16, 60, 4, 1,  1),
-  ('2023.1', 'ES101', 'Engenharia de Software I', 16, 60, 4, 1, 1);
-  
+-- 1º Período
+INSERT INTO disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) VALUES
+  ('2025/01', '011001131', 'ALGORITMOS E PROGRAMAÇÃO I', 16, 60, 4, 1, 1),
+  ('2025/01', '011001132', 'ARQUITETURA E ORGANIZAÇÃO DE COMPUTADORES I', 16, 60, 4, 1, 1),
+  ('2025/01', '011001133', 'DESENVOLVIMENTO FRONT-END', 16, 60, 4, 1, 1),
+  ('2025/01', '011001134', 'INGLÊS INSTRUMENTAL', 16, 60, 4, 1, 1),
+  ('2025/01', '011001135', 'LEITURA E PRÁTICA DE PRODUÇÃO TEXTUAL', 16, 60, 4, 1, 1);
+
+-- 2º Período
+INSERT INTO disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) VALUES
+  ('2025/01', '011001136', 'PRÉ-CÁLCULO', 16, 60, 4, 2, 1),
+  ('2025/01', '011001137', 'GESTÃO DE PROCESSOS EMPRESARIAIS', 8, 30, 2, 2, 1),
+  ('2025/01', '011001138', 'LÓGICA MATEMÁTICA', 8, 30, 2, 2, 1),
+  ('2025/01', '011001139', 'ARQUITETURA E ORGANIZAÇÃO DE COMPUTADORES II', 16, 60, 4, 2, 1),
+  ('2025/01', '011001140', 'BANCO DE DADOS I', 16, 60, 4, 2, 1),
+  ('2025/01', '011001141', 'ALGORITMOS E PROGRAMAÇÃO II', 16, 60, 4, 2, 1);
+
+-- 3º Período
+INSERT INTO disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) VALUES
+  ('2025/01', '011001142', 'CÁLCULO DIFERENCIAL E INTEGRAL', 16, 60, 4, 3, 1),
+  ('2025/01', '011001143', 'METODOLOGIA CIENTÍFICA E DA PESQUISA', 8, 30, 2, 3, 1),
+  ('2025/01', '011001144', 'SOCIEDADE E TECNOLOGIA', 8, 30, 2, 3, 1),
+  ('2025/01', '011001145', 'ESTRUTURAS DE DADOS', 16, 60, 4, 3, 1),
+  ('2025/01', '011001146', 'TÓPICOS EM PROGRAMAÇÃO I', 16, 60, 4, 3, 1),
+  ('2025/01', '011001147', 'BANCO DE DADOS II', 16, 60, 4, 3, 1),
+  ('2025/01', '011001148', 'EMPREENDEDORISMO E INOVAÇÃO', 16, 60, 4, 3, 1);
+
+-- 4º Período
+INSERT INTO disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) VALUES
+  ('2025/01', '011001149', 'PROJETO INTEGRADOR I', 16, 60, 4, 4, 1),
+  ('2025/01', '011001150', 'FUNDAMENTOS DE SISTEMAS DE INFORMAÇÃO', 8, 30, 2, 4, 1),
+  ('2025/01', '011001151', 'ENGENHARIA DE REQUISITOS', 8, 30, 2, 4, 1),
+  ('2025/01', '011001152', 'ENGENHARIA DE SOFTWARE I', 16, 60, 4, 4, 1),
+  ('2025/01', '011001153', 'TÓPICOS EM PROGRAMAÇÃO II', 16, 60, 4, 4, 1),
+  ('2025/01', '011001154', 'SISTEMAS OPERACIONAIS', 16, 60, 4, 4, 1),
+  ('2025/01', '011001155', 'ASPECTOS TEÓRICOS DE COMPUTAÇÃO', 16, 60, 4, 4, 1);
+
+-- 5º Período
+INSERT INTO disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) VALUES
+  ('2025/01', '011001156', 'PROJETO INTEGRADOR II', 16, 60, 4, 5, 1),
+  ('2025/01', '011001157', 'GESTÃO ESTRATÉGICA DA INFORMAÇÃO', 8, 30, 2, 5, 1),
+  ('2025/01', '011001158', 'OTIMIZAÇÃO PARA SISTEMAS', 8, 30, 2, 5, 1),
+  ('2025/01', '011001159', 'ENGENHARIA DE SOFTWARE II', 16, 60, 4, 5, 1),
+  ('2025/01', '011001160', 'COMPUTAÇÃO ORIENTADA A SERVIÇOS', 16, 60, 4, 5, 1),
+  ('2025/01', '011001161', 'REDES DE COMPUTADORES I', 16, 60, 4, 5, 1),
+  ('2025/01', '011001162', 'TÓPICOS EM PROGRAMAÇÃO III', 16, 60, 4, 5, 1);
+
+-- 6º Período
+INSERT INTO disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) VALUES
+  ('2025/01', '011001163', 'ESTÁGIO SUPERVISIONADO', 16, 60, 4, 6, 1),
+  ('2025/01', '011001164', 'INTERFACE HUMANO-COMPUTADOR', 16, 60, 4, 6, 1),
+  ('2025/01', '011001165', 'GOVERNANÇA DE TI', 8, 30, 2, 6, 1),
+  ('2025/01', '011001166', 'ENGENHARIA DE QUALIDADE', 8, 30, 2, 6, 1),
+  ('2025/01', '011001167', 'ESTATÍSTICA COMPUTACIONAL', 16, 60, 4, 6, 1),
+  ('2025/01', '011001168', 'INTELIGÊNCIA ARTIFICIAL', 16, 60, 4, 6, 1),
+  ('2025/01', '011001169', 'REDES DE COMPUTADORES II', 16, 60, 4, 6, 1),
+  ('2025/01', '011001170', 'PROGRAMAÇÃO PARA DISPOSITIVOS MÓVEIS I', 16, 60, 4, 6, 1);
+
+-- 7º Período
+INSERT INTO disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) VALUES
+  ('2025/01', '011001171', 'ELABORAÇÃO E GESTÃO DE PROJETOS', 16, 60, 4, 7, 1),
+  ('2025/01', '011001172', 'SISTEMAS DISTRIBUÍDOS', 16, 60, 4, 7, 1),
+  ('2025/01', '011001173', 'MINERAÇÃO DE DADOS', 16, 60, 4, 7, 1),
+  ('2025/01', '011001174', 'PROGRAMAÇÃO PARA DISPOSITIVOS MÓVEIS II', 16, 60, 4, 7, 1),
+  ('2025/01', '011001175', 'TRABALHO DE CONCLUSÃO DE CURSO I', 16, 60, 4, 7, 1);
+
+-- 8º Período
+INSERT INTO disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) VALUES
+  ('2025/01', '011001176', 'SEGURANÇA E AUDITORIA DE SISTEMAS', 16, 60, 4, 8, 1),
+  ('2025/01', '011001177', 'DIREITO E LEGISLAÇÃO EM INFORMÁTICA', 16, 60, 4, 8, 1),
+  ('2025/01', '011001178', 'SIMULAÇÃO DE SISTEMAS DE INFORMAÇÃO', 16, 60, 4, 8, 1),
+  ('2025/01', '011001179', 'INFRAESTRUTURA DE REDES COMO SERVIÇOS', 16, 60, 4, 8, 1),
+  ('2025/01', '011001180', 'TRABALHO DE CONCLUSÃO DE CURSO II', 16, 60, 4, 8, 1);
+
+-- Disciplinas Optativas
+INSERT INTO disciplina (periodoLetivo, codigo, nome, faltaspermitidas, cargahoraria, creditos, periodocurso, id_curso) VALUES
+  ('2025/01', '011001181', 'TÓPICOS ESPECIAIS EM METODOLOGIA DE PROJETO DE PESQUISA', 16, 60, 4, 0, 1),
+  ('2025/01', '011001182', 'TÓPICOS ESPECIAIS EM ACESSIBILIDADE E USABILIDADE', 16, 60, 4, 0, 1),
+  ('2025/01', '011001183', 'LIBRAS', 16, 60, 4, 0, 1),
+  ('2025/01', '011001184', 'TÓPICOS ESPECIAIS EM SISTEMAS DE RECOMENDAÇÃO', 16, 60, 4, 0, 1),
+  ('2025/01', '011001185', 'TÓPICOS ESPECIAIS EM SISTEMAS DE INFORMAÇÃO', 16, 60, 4, 0, 1),
+  ('2025/01', '011001186', 'TÓPICOS ESPECIAIS EM COMPUTAÇÃO', 16, 60, 4, 0, 1),
+  ('2025/01', '011001187', 'TÓPICOS ESPECIAIS EM ENGENHARIA DE SOFTWARE', 16, 60, 4, 0, 1),
+  ('2025/01', '011001188', 'TÓPICOS ESPECIAIS EM PROGRAMAÇÃO', 16, 60, 4, 0, 1),
+  ('2025/01', '011001189', 'TÓPICOS ESPECIAIS EM REDES DE COMPUTADORES', 16, 60, 4, 0, 1),
+  ('2025/01', '011001190', 'TÓPICOS ESPECIAIS EM COMPUTAÇÃO GRÁFICA', 16, 60, 4, 0, 1),
+  ('2025/01', '011001191', 'TÓPICOS ESPECIAIS EM BANCO DE DADOS', 16, 60, 4, 0, 1),
+  ('2025/01', '011001192', 'TÓPICOS ESPECIAIS EM AMBIENTES WEB', 16, 60, 4, 0, 1),
+  ('2025/01', '011001193', 'TÓPICOS ESPECIAIS EM INTELIGÊNCIA ARTIFICIAL', 16, 60, 4, 0, 1),
+  ('2025/01', '011001195', 'PSICOLOGIA APLICADA A SISTEMAS DE INFORMAÇÃO', 16, 60, 4, 0, 1),
+  ('2025/01', '011001196', 'INGLÊS PARA FINS ACADÊMICOS', 16, 60, 4, 0, 1),
+  ('2025/01', '011001197', 'POLÍTICAS DE EDUCAÇÃO EM DIREITOS HUMANOS', 16, 60, 4, 0, 1);
+
 insert into matriculacursoaluno (turma, modalidade, tipodeingresso, matriz, aluno_id, curso_id) values
   ('2023.1', 'CÂMPUS PALMAS', 'PROCESSO SELETIVO - VESTIBULAS', '2ª MATRIZ CURRICULAR SISTEMAS DE INFORMAÇÃO', 1, 1),
   ('2023.1', 'CÂMPUS PALMAS', 'PROCESSO SELETIVO - VESTIBULAS', '2ª MATRIZ CURRICULAR SISTEMAS DE INFORMAÇÃO', 2, 1);
 
 insert into matriculadisciplinaaluno (a1, a2, examefinal, frequencia, mediafinal, aluno_id, disciplina_id, statusMatriculaDisciplina) values
-  (8, 9, 0, 12, 7.5, 1, 1, 'Aprovado'),
-  (6, 7, 0, 10, 5.5, 1, 2, 'Reprovado'),
+  (8, 9, 0, 12, 7.5, 2, 1, 'Aprovado'),
+  (6, 7, 0, 10, 5.5, 2, 2, 'Reprovado'),
   (9, 10, 0, 15, 8.5, 2, 1, 'Aprovado'),
-  (6, 7, 0, 13, 5.5, 2, 2, 'Reprovado');
+  (6, 7, 0, 13, 5.5, 2, 2, 'Reprovado'),
+  (9.2, 7.0, 0, 2, 8.10, 1, (SELECT id FROM disciplina WHERE codigo = '011001166'), 'Aprovado'),
+  (7.4, 6.6, 0, 2, 7.00, 1, (SELECT id FROM disciplina WHERE codigo = '011001165'), 'Aprovado'),
+  (9.5, 8.5, 0, 0, 9.00, 1, (SELECT id FROM disciplina WHERE codigo = '011001169'), 'Aprovado'),
+  (8.8, NULL, NULL, 4, NULL, 1, (SELECT id FROM disciplina WHERE codigo = '011001163'), 'Matriculado'),
+  (9.5, NULL, NULL, 0, NULL, 1, (SELECT id FROM disciplina WHERE codigo = '011001167'), 'Matriculado'),
+  (9.0, NULL, NULL, 0, NULL, 1, (SELECT id FROM disciplina WHERE codigo = '011001168'), 'Matriculado'),
+  (9.5, NULL, NULL, 0, NULL, 1, (SELECT id FROM disciplina WHERE codigo = '011001164'), 'Matriculado'),
+  (NULL, NULL, NULL, 4, NULL, 1, (SELECT id FROM disciplina WHERE codigo = '011001170'), 'Matriculado');
 

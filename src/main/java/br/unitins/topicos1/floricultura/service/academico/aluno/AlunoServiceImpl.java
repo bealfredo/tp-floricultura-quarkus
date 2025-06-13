@@ -1,10 +1,14 @@
 package br.unitins.topicos1.floricultura.service.academico.aluno;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import br.unitins.topicos1.floricultura.dto.PlantaResponseDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoResponseDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoUpdateDTO;
@@ -12,6 +16,9 @@ import br.unitins.topicos1.floricultura.dto.academico.aluno.CursoResponseDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.DisciplinaResponseDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.MatriculaDisciplinaAlunoResponseDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.RematriculaDTO;
+import br.unitins.topicos1.floricultura.dto.academico.form.AlunoImageForm;
+import br.unitins.topicos1.floricultura.form.PlantaImageForm;
+import br.unitins.topicos1.floricultura.model.Planta;
 import br.unitins.topicos1.floricultura.model.TipoPerfil;
 import br.unitins.topicos1.floricultura.model.Usuario;
 import br.unitins.topicos1.floricultura.model.academico.Aluno;
@@ -28,6 +35,8 @@ import br.unitins.topicos1.floricultura.repository.academico.DisciplinaRepositor
 import br.unitins.topicos1.floricultura.repository.academico.MatriculaDisciplinaAlunoRepository;
 import br.unitins.topicos1.floricultura.service.HashService;
 import br.unitins.topicos1.floricultura.service.JwtService;
+import br.unitins.topicos1.floricultura.service.PlantaFileService;
+import br.unitins.topicos1.floricultura.validation.GeneralValidationException;
 import br.unitins.topicos1.floricultura.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -69,23 +78,26 @@ public class AlunoServiceImpl implements AlunoService{
     @Inject
     UsuarioRepository usuarioRepository;
 
-    private void validUpdate(AlunoUpdateDTO dto, Aluno obj2Update) {
-        // for (EnderecoDTO endereco : dto.listaEndereco()) {
-        //     if (endereco != null) {
-        //         Cidade cidade = cidadeRepository.findById(endereco.cidade());
-        //         if (cidade == null) {
-        //             throw new ValidationException("cidade", "Cidade não encontrada.");
-        //         }
-        //     }
-        // }
+    @Inject
+    AlunoFileService alunoFileService;
 
-        if (!dto.cpf().equals(obj2Update.getUsuario().getCpf())) {
-            Usuario usuario = usuarioRepository.findByCpf(dto.cpf());
-            if (usuario != null) {
-                throw new ValidationException("cpf", "CPF já cadastrado.");
-            }
-        }
-    }
+    // private void validUpdate(AlunoUpdateDTO dto, Aluno obj2Update) {
+    //     // for (EnderecoDTO endereco : dto.listaEndereco()) {
+    //     //     if (endereco != null) {
+    //     //         Cidade cidade = cidadeRepository.findById(endereco.cidade());
+    //     //         if (cidade == null) {
+    //     //             throw new ValidationException("cidade", "Cidade não encontrada.");
+    //     //         }
+    //     //     }
+    //     // }
+
+    //     if (!dto.cpf().equals(obj2Update.getUsuario().getCpf())) {
+    //         Usuario usuario = usuarioRepository.findByCpf(dto.cpf());
+    //         if (usuario != null) {
+    //             throw new ValidationException("cpf", "CPF já cadastrado.");
+    //         }
+    //     }
+    // }
 
 
     @Override
@@ -111,13 +123,17 @@ public class AlunoServiceImpl implements AlunoService{
         usuario.setSenha(dto.senha());
         usuario.setDataNascimento(dto.dataNascimento());
 
+        
+        
         usuarioRepository.persist(usuario);
-
+        
         Aluno aluno = new Aluno();
         aluno.setMatricula(dto.matricula());
         aluno.setUsuario(usuario);
         aluno.setPeriodoAtual(dto.periodoAtual());
         aluno.setMatriculaPendente(dto.matriculaPendente());
+        aluno.setImagemPrincipal(null);
+        aluno.setImagens(new String[0]);
 
         repository.persist(aluno);
 
@@ -134,12 +150,20 @@ public class AlunoServiceImpl implements AlunoService{
             throw new NotFoundException();
         }
 
-        validUpdate(dto, aluno);
+        // validUpdate(dto, aluno);
 
-        aluno.getUsuario().setNome(dto.nome());
-        aluno.getUsuario().setSobrenome(dto.sobrenome());
-        aluno.getUsuario().setCpf(dto.cpf());
-        aluno.getUsuario().setDataNascimento(dto.dataNascimento());
+        aluno.setCorRaca(dto.corRaca());
+        aluno.setUf(dto.uf());
+        aluno.setCidade(dto.cidade());
+        aluno.setBairro(dto.bairro());
+        aluno.setCep(dto.cep());
+        aluno.setLogradouro(dto.logradouro());
+        aluno.setNumero(dto.numero());
+        aluno.setComplemento(dto.complemento());
+        aluno.setEmailPessoal(dto.emailPessoal());
+        aluno.setTelefoneCelular1(dto.telefoneCelular1());
+        aluno.setTelefoneCelular2(dto.telefoneCelular2());
+        aluno.setTelefoneFixo(dto.telefoneFixo());
 
         // Buscar cursos que o aluno tem MatriculaCursoAluno
         List<Curso> cursos = cursoRepository.findByAlunoWithMatriculaCurso(id);
@@ -156,7 +180,16 @@ public class AlunoServiceImpl implements AlunoService{
                             .map(MatriculaDisciplinaAlunoResponseDTO::valueOf)
                             .toList();
 
-                        return new DisciplinaResponseDTO(disciplina.getId(), disciplina.getNome(), disciplina.getCodigo(), matriculas);
+                        return new DisciplinaResponseDTO(
+                            disciplina.getId(),
+                            disciplina.getPeriodoLetivo(),
+                            disciplina.getCodigo(),
+                            disciplina.getNome(),
+                            disciplina.getCargaHoraria(),
+                            disciplina.getCreditos(),
+                            disciplina.getPeriodoCurso(),
+                            matriculas
+                        );
                     })
                     .toList();
 
@@ -218,8 +251,17 @@ public AlunoResponseDTO findById(Long id) {
                         .map(MatriculaDisciplinaAlunoResponseDTO::valueOf)
                         .toList();
 
-                    return new DisciplinaResponseDTO(disciplina.getId(), disciplina.getNome(), disciplina.getCodigo(), matriculas);
-                })
+                    return new DisciplinaResponseDTO(
+                        disciplina.getId(),
+                        disciplina.getPeriodoLetivo(),
+                        disciplina.getCodigo(),
+                        disciplina.getNome(),
+                        disciplina.getCargaHoraria(),
+                        disciplina.getCreditos(),
+                        disciplina.getPeriodoCurso(),
+                        matriculas
+                    );                
+              })
                 .toList();
 
             return new CursoResponseDTO(curso.getId(), curso.getNome(), curso.getCodigo(), disciplinas);
@@ -264,7 +306,16 @@ public AlunoResponseDTO findById(Long id) {
                             .map(MatriculaDisciplinaAlunoResponseDTO::valueOf)
                             .toList();
 
-                        return new DisciplinaResponseDTO(disciplina.getId(), disciplina.getNome(), disciplina.getCodigo(), matriculas);
+                        return new DisciplinaResponseDTO(
+                            disciplina.getId(),
+                            disciplina.getPeriodoLetivo(),
+                            disciplina.getCodigo(),
+                            disciplina.getNome(),
+                            disciplina.getCargaHoraria(),
+                            disciplina.getCreditos(),
+                            disciplina.getPeriodoCurso(),
+                            matriculas
+                        );
                     })
                     .toList();
 
@@ -307,7 +358,16 @@ public AlunoResponseDTO findById(Long id) {
                                     .map(MatriculaDisciplinaAlunoResponseDTO::valueOf)
                                     .toList();
 
-                                return new DisciplinaResponseDTO(disciplina.getId(), disciplina.getNome(), disciplina.getCodigo(), matriculas);
+                                return new DisciplinaResponseDTO(
+                                  disciplina.getId(),
+                                  disciplina.getPeriodoLetivo(),
+                                  disciplina.getCodigo(),
+                                  disciplina.getNome(),
+                                  disciplina.getCargaHoraria(),
+                                  disciplina.getCreditos(),
+                                  disciplina.getPeriodoCurso(),
+                                  matriculas
+                              );
                             })
                             .toList();
 
@@ -378,7 +438,16 @@ public AlunoResponseDTO findById(Long id) {
                             .map(MatriculaDisciplinaAlunoResponseDTO::valueOf)
                             .toList();
 
-                        return new DisciplinaResponseDTO(disciplina.getId(), disciplina.getNome(), disciplina.getCodigo(), matriculas);
+                        return new DisciplinaResponseDTO(
+                            disciplina.getId(),
+                            disciplina.getPeriodoLetivo(),
+                            disciplina.getCodigo(),
+                            disciplina.getNome(),
+                            disciplina.getCargaHoraria(),
+                            disciplina.getCreditos(),
+                            disciplina.getPeriodoCurso(),
+                            matriculas
+                        );
                     })
                     .toList();
 
@@ -392,6 +461,181 @@ public AlunoResponseDTO findById(Long id) {
 
         return AlunoResponseDTO.valueOf(aluno, cursosResponse);
     }
+
+
+
+
+
+
+
+
+    @Override
+    @Transactional
+    public AlunoResponseDTO adicionarImagem(AlunoImageForm form, Long id) {
+        Aluno aluno = repository.findById(id);
+        if (aluno == null) {
+            throw new NotFoundException();
+        }
+
+        String nomeImagem = "";
+
+        try {
+            nomeImagem = alunoFileService.salvar(aluno.getId(), form.getImagem());
+        } catch (Exception e) {
+            throw new GeneralValidationException("Imagem aluno", "Erro ao adicionar a imagem: " + e.getMessage());
+        }
+
+        System.out.println("Nome da imagem salva: " + nomeImagem);
+        List<String> imagens;
+        if (aluno.getImagens() != null) {
+            imagens = new ArrayList<>(Arrays.asList(aluno.getImagens()));
+        } else {
+            imagens = new ArrayList<>();
+        }
+        imagens.add(nomeImagem);
+
+        aluno.setImagens(imagens.toArray(new String[0]));
+
+        if (aluno.getImagemPrincipal() == null && imagens.size() == 1) {
+            aluno.setImagemPrincipal(nomeImagem);
+        }
+
+        // Buscar cursos que o aluno tem MatriculaCursoAluno
+        List<Curso> cursos = cursoRepository.findByAlunoWithMatriculaCurso(aluno.getId());
+
+
+        // // Filtrar disciplinas dentro de cada curso
+        //         List<CursoResponseDTO> cursosResponse = cursos.stream()
+        //             .map(curso -> {
+        //                 List<DisciplinaResponseDTO> disciplinas = curso.getDisciplinas().stream()
+        //                     .filter(disciplina -> disciplina.getMatriculasDisciplinaAluno().stream()
+        //                         .anyMatch(matricula -> matricula.getAluno().getId().equals(aluno.getId()))) // Filtrar disciplinas com matrículas do aluno
+        //                     .map(disciplina -> {
+        //                         List<MatriculaDisciplinaAlunoResponseDTO> matriculas = disciplina.getMatriculasDisciplinaAluno().stream()
+        //                             .filter(matricula -> matricula.getAluno().getId().equals(aluno.getId()))
+        //                             .map(MatriculaDisciplinaAlunoResponseDTO::valueOf)
+        //                             .toList();
+
+        //                         return new DisciplinaResponseDTO(disciplina.getId(), disciplina.getNome(), disciplina.getCodigo(), matriculas);
+        //                     })
+        //                     .toList();
+
+        //                 return new CursoResponseDTO(curso.getId(), curso.getNome(), curso.getCodigo(), disciplinas);
+        //             })
+        //             .toList();
+
+        List<CursoResponseDTO> cursosResponse = null;
+        return AlunoResponseDTO.valueOf(aluno, cursosResponse);
+    }
+
+    @Override
+    public File downloadImagem(String nomeImagem, Long id) {
+        Aluno aluno = repository.findById(id);
+        if (aluno == null) {
+            throw new NotFoundException();
+        }
+
+        // String login = jwt.getSubject();
+        // UsuarioResponseDTO usuarioResponseDTO = usuarioService.fin(id);
+
+        // if (usuarioResponseDTO.tipoUsuario() == TipoUsuario.CLIENTE) {
+            // if (!(planta.getStatusProduto() == StatusProduto.ATIVO)) {
+            //     throw new GeneralValidationException("Imagem produto", "O produto não está ativo");
+            // }
+        // }
+
+        if (aluno.getImagens() == null || aluno.getImagens().length == 0) {
+            throw new GeneralValidationException("Imagem aluno", "O aluno não possui imagem");
+        }
+
+        for (String imagem : aluno.getImagens()) {
+            if (imagem.equals(nomeImagem)) {
+                return alunoFileService.obter(aluno.getId(), nomeImagem);
+            }
+        }
+
+        throw new GeneralValidationException("Imagem aluno", "A imagem não foi encontrada");
+    }
+
+    @Override
+    @Transactional
+    public void deleteImagem(String nomeImagem, Long id) {
+        Aluno aluno = repository.findById(id);
+        if (aluno == null) {
+            throw new NotFoundException();
+        }
+
+        List<String> imagens = new ArrayList<>(Arrays.asList(aluno.getImagens()));
+        Boolean imagemEncontrada = false;
+        for (String imagem : imagens) {
+            if (imagem.equals(nomeImagem)) {
+                imagemEncontrada = true;
+                break;
+            }
+        }
+        if (!imagemEncontrada) {
+            throw new GeneralValidationException("Imagem aluno", "A imagem não foi encontrada");
+        }
+
+        alunoFileService.apagar(aluno.getId(), nomeImagem);
+        imagens.remove(nomeImagem);
+        aluno.setImagens(imagens.toArray(new String[0]));
+        
+        if (aluno.getImagemPrincipal().equals(nomeImagem)) {
+            aluno.setImagemPrincipal(null);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void definirImagemPrincipal(String nomeImagem, Long id) {
+        Aluno aluno = repository.findById(id);
+        if (aluno == null) {
+            throw new NotFoundException();
+        }
+
+        List<String> imagens = new ArrayList<>(Arrays.asList(aluno.getImagens()));
+        Boolean imagemEncontrada = false;
+        for (String imagem : imagens) {
+            if (imagem.equals(nomeImagem)) {
+                imagemEncontrada = true;
+                break;
+            }
+        }
+        if (!imagemEncontrada) {
+            throw new GeneralValidationException("Imagem aluno", "A imagem não foi encontrada");
+        }
+
+        aluno.setImagemPrincipal(nomeImagem);
+    }
+
+    
+    @Override
+    public List<DisciplinaResponseDTO> findDisciplinasByCurso(Long cursoId) {
+      Curso curso = cursoRepository.findById(cursoId);
+      if (curso == null) {
+        throw new NotFoundException("Curso não encontrado");
+      }
+      
+      return curso.getDisciplinas().stream()
+        .map(disciplina -> {
+          // Creating empty list for matriculas since we're not filtering by student
+          List<MatriculaDisciplinaAlunoResponseDTO> matriculas = new ArrayList<>();
+          
+          return new DisciplinaResponseDTO(
+            disciplina.getId(),
+            disciplina.getPeriodoLetivo(),
+            disciplina.getCodigo(),
+            disciplina.getNome(),
+            disciplina.getCargaHoraria(),
+            disciplina.getCreditos(),
+            disciplina.getPeriodoCurso(),
+            matriculas
+          );
+        })
+        .toList();
+    }
+
 
     // @Override
     // @Transactional

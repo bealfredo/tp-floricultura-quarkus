@@ -1,11 +1,14 @@
 package br.unitins.topicos1.floricultura.service.academico.aluno;
 
+import java.io.File;
 import java.util.List;
 
 import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoFastCreateDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoResponseDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoUpdateDTO;
+import br.unitins.topicos1.floricultura.dto.academico.aluno.DisciplinaResponseDTO;
 import br.unitins.topicos1.floricultura.dto.academico.aluno.RematriculaDTO;
+import br.unitins.topicos1.floricultura.dto.academico.form.AlunoImageForm;
 import jakarta.validation.Valid;
 
 public interface AlunoService {
@@ -27,6 +30,18 @@ public interface AlunoService {
     public Long count();
 
     public AlunoResponseDTO rematricula(@Valid RematriculaDTO dto, Long id);
+
+    
+
+    public AlunoResponseDTO adicionarImagem(AlunoImageForm form, Long id);
+
+    public File downloadImagem(String nomeImagem, Long id);
+
+    public void deleteImagem(String nomeImagem, Long id);
+
+    public void definirImagemPrincipal(String nomeImagem, Long id);
+
+    public List<DisciplinaResponseDTO> findDisciplinasByCurso(Long cursoId);
 
     // public String insertExistingUser(@Valid AlunoExistingUserDTO dto);
 

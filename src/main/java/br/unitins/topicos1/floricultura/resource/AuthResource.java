@@ -4,7 +4,10 @@ import br.unitins.topicos1.floricultura.dto.AuthUsuarioDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableDTO;
 import br.unitins.topicos1.floricultura.dto.EmailAvailableResponseDTO;
 import br.unitins.topicos1.floricultura.dto.EmailTakenClienteResponseDTO;
+import br.unitins.topicos1.floricultura.dto.UsuarioResponseDTO;
 import br.unitins.topicos1.floricultura.dto.UsuarioTiposPerfilByEmailResponseDTO;
+import br.unitins.topicos1.floricultura.dto.academico.aluno.AlunoResponseDTO;
+import br.unitins.topicos1.floricultura.model.academico.Aluno;
 import br.unitins.topicos1.floricultura.service.HashService;
 import br.unitins.topicos1.floricultura.service.JwtService;
 import br.unitins.topicos1.floricultura.service.UsuarioService;
@@ -59,9 +62,21 @@ public class AuthResource {
 
     @POST
     public Response login(@Valid AuthUsuarioDTO dto) {
-
         String token = service.login(dto);
-        return Response.ok().header("Authorization", token).build();
+        
+        if (dto.idTipoPerfil() == 5) { // 5 é o id do aluno
+            AlunoResponseDTO alunoResponse = null;
+            alunoResponse = service.userInfoAluno(token);
+
+            // pegue o usuario pelo token e envie o usuario no body da resposta
+            if (alunoResponse != null) {
+                return Response.ok(alunoResponse).header("Authorization", token).build();
+            } else {
+                return Response.ok().header("Authorization", token).build();
+            }
+        } else {
+            return Response.ok().header("Authorization", token).build();
+        }
     }
 
     @GET
@@ -76,8 +91,8 @@ public class AuthResource {
             return Response.ok(service.userInfoCliente()).build();
         } else if (securityContext.isUserInRole("DELIVERY")) {
             return Response.ok(service.userInfoEntregador()).build();
-        } else if (securityContext.isUserInRole("STUDENT")) {
-            return Response.ok(service.userInfoAluno()).build();
+        // } else if (securityContext.isUserInRole("STUDENT")) {
+            // return Response.ok(service.userInfoAluno()).build();
         } else {
             return Response.status(Response.Status.FORBIDDEN).entity("Access denied").build();
         }

@@ -8,5 +8,7 @@ public interface JwtService {
     public String generateJwt(Usuario dto, TipoPerfil tipoPerfil);
 
     public String getTokenForTest();
+
+    public String getLoginFromToken(String token);
     
 }

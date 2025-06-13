@@ -12,11 +12,28 @@ public record AlunoResponseDTO(
     Boolean matriculaPendente,
     String nome,
     String sobrenome,
+    String imagemPrincipal,
+    String[] imagens,
     String login,
     String cpf,
     LocalDate dataNascimento,
+
+    String corRaca,
+    String uf,
+    String cidade,
+    String bairro,
+    String cep,
+    String logradouro,
+    String numero,
+    String complemento,
+    String emailPessoal,
+    String telefoneCelular1,
+    String telefoneCelular2,
+    String telefoneFixo,
+
     // List<MatriculaDisciplinaAlunoResponseDTO> matriculaDisciplinaAlunoResponseDTO,
-    List<CursoResponseDTO> cursoResponseDTO
+    List<CursoResponseDTO> cursos
+
 ) {
     public static AlunoResponseDTO valueOf(Aluno aluno,  List<CursoResponseDTO> cursosResponseDTO) {
         // TelefoneResponseDTO telefoneResponseDTO = (cliente.getUsuario().getTelefone() == null) 
@@ -40,9 +57,24 @@ public record AlunoResponseDTO(
             aluno.getMatriculaPendente(),
             aluno.getUsuario().getNome(),
             aluno.getUsuario().getSobrenome(),
+            aluno.getImagemPrincipal(),
+            aluno.getImagens() != null ? aluno.getImagens() : new String[0],
             aluno.getUsuario().getLogin(),
             aluno.getUsuario().getCpf(),
             aluno.getUsuario().getDataNascimento(),
+
+            aluno.getCorRaca(),
+            aluno.getUf(),
+            aluno.getCidade(),
+            aluno.getBairro(),
+            aluno.getCep(),
+            aluno.getLogradouro(),
+            aluno.getNumero(),
+            aluno.getComplemento(),
+            aluno.getEmailPessoal(),
+            aluno.getTelefoneCelular1(),
+            aluno.getTelefoneCelular2(),
+            aluno.getTelefoneFixo(),
             // matriculaDisciplinaAlunoResponseDTO,
             cursosResponseDTO
         );
