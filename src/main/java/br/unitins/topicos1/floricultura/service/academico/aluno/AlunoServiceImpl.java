@@ -284,6 +284,13 @@ public AlunoResponseDTO findById(Long id) {
         // return ClienteResponseDTO.valueOf(cliente);
 
         String login = jwt.getSubject();
+
+        // checar se tem tem login no token
+        System.out.println("Login from token: " + login);
+        if (login == null || login.isEmpty()) {
+            throw new NotFoundException("Login não encontrado no token.");
+        }
+
         Aluno aluno = repository.findByLogin(login);
 
         if (aluno == null) {
@@ -496,9 +503,8 @@ public AlunoResponseDTO findById(Long id) {
 
         aluno.setImagens(imagens.toArray(new String[0]));
 
-        if (aluno.getImagemPrincipal() == null && imagens.size() == 1) {
-            aluno.setImagemPrincipal(nomeImagem);
-        }
+        // Sempre define a última imagem enviada como principal
+        aluno.setImagemPrincipal(nomeImagem);
 
         // Buscar cursos que o aluno tem MatriculaCursoAluno
         List<Curso> cursos = cursoRepository.findByAlunoWithMatriculaCurso(aluno.getId());
